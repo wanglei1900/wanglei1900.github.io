@@ -1,8 +1,9 @@
-call pnpm docs:build
-cd docs/.vitepress/dist
+@echo off
+REM 仅用于快速提交和推送代码，触发GitHub Actions
+echo 正在提交所有更改...
+git add .
+git commit -m "自动提交以触发部署" || echo 无更改可提交
+git push origin master
 
-git init
-git add -A
-git commit -m "auto construct blog"
-
-git push -f https://github.com/wanglei1900/wanglei1900.github.io.git master:gh-pages
+echo 代码已推送，GitHub Actions将自动构建和部署
+timeout /t 5

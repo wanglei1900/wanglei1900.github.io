@@ -26,11 +26,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # 自动检出代码
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 # 如果未启用 lastUpdated，则不需要
-      # 关键修复：添加 pnpm 安装步骤
+      # 设置一致的构建环境
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
         with:
@@ -43,10 +44,13 @@ jobs:
           registry-url: https://registry.npmmirror.com/
       - name: Setup Pages
         uses: actions/configure-pages@v4
+      # 安装依赖
       - name: Install dependencies
         run: pnpm install # 是否使用--frozen-lockfile待定 --frozen-lockfile 确保 CI 环境与本地 lockfile 完全一致
+      # 构建项目
       - name: Build with VitePress
         run: pnpm run docs:build
+      # 部署到 GitHub Pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
