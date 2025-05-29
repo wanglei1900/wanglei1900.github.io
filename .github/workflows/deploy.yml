@@ -44,7 +44,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile # 使用 --frozen-lockfile 确保 CI 环境与本地 lockfile 完全一致
+        run: pnpm install # 是否使用--frozen-lockfile待定 --frozen-lockfile 确保 CI 环境与本地 lockfile 完全一致
       - name: Build with VitePress
         run: pnpm run docs:build
       - name: Upload artifact
