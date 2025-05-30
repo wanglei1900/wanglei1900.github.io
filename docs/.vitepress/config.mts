@@ -8,20 +8,6 @@ import { MermaidMarkdown, MermaidPlugin } from 'vitepress-plugin-mermaid';
 export default defineConfig({
   title: "wanglei1900 Blog",
   description: "Blog",
-  // head: [
-  //   [
-  //     'script',
-  //     { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-GSYFDQ9B4V' }
-  //   ],
-  //   [
-  //     'script',
-  //     {},
-  //     `window.dataLayer = window.dataLayer || [];
-  //     function gtag(){dataLayer.push(arguments);}
-  //     gtag('js', new Date());
-  //     gtag('config', 'G-GSYFDQ9B4V');`
-  //   ]
-  // ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [

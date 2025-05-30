@@ -15,7 +15,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "busuanzi.pure.js": "^1.0.3",
     "markdown-it-anchor": "^9.2.0",
+    "medium-zoom": "^1.1.0",
     "mermaid": "^11.6.0",
     "vitepress": "^1.6.3",
     "vitepress-markdown-timeline": "^1.2.2",

@@ -8,9 +8,15 @@ importers:
 
   .:
     devDependencies:
+      busuanzi.pure.js:
+        specifier: ^1.0.3
+        version: 1.0.3
       markdown-it-anchor:
         specifier: ^9.2.0
         version: 9.2.0(@types/markdown-it@14.1.2)(markdown-it@14.1.0)
+      medium-zoom:
+        specifier: ^1.1.0
+        version: 1.1.0
       mermaid:
         specifier: ^11.6.0
         version: 11.6.0
@@ -695,6 +701,9 @@ packages:
   birpc@2.3.0:
     resolution: {integrity: sha512-ijbtkn/F3Pvzb6jHypHRyve2QApOCZDR25D/VnkY2G/lBNcXCTsnsCxgY4k4PkVB7zfwzYbY3O9Lcqe3xufS5g==}
 
+  busuanzi.pure.js@1.0.3:
+    resolution: {integrity: sha512-tPULdyx+8NNb9geZYDpktKmHAYx9f2LEOBaHyWCaM7iPEMIa/43KgYAUluuU7YG9UFSOFpj4dO7Nj2Vlu3V9Rg==}
+
   ccount@2.0.1:
     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
 
@@ -1039,6 +1048,9 @@ packages:
 
   mdurl@2.0.0:
     resolution: {integrity: sha512-Lf+9+2r+Tdp5wXDXC4PcIBjTDtq4UKjCPMQhKIuzpJNW0b96kVqSwW0bT7FhRSfmAiFYgP+SCRvdrDozfh0U5w==}
+
+  medium-zoom@1.1.0:
+    resolution: {integrity: sha512-ewyDsp7k4InCUp3jRmwHBRFGyjBimKps/AJLjRSox+2q/2H4p/PNpQf+pwONWlJiOudkBXtbdmVbFjqyybfTmQ==}
 
   mermaid@11.6.0:
     resolution: {integrity: sha512-PE8hGUy1LDlWIHWBP05SFdqUHGmRcCcK4IzpOKPE35eOw+G9zZgcnMpyunJVUEOgb//KBORPjysKndw8bFLuRg==}
@@ -1962,6 +1974,8 @@ snapshots:
 
   birpc@2.3.0: {}
 
+  busuanzi.pure.js@1.0.3: {}
+
   ccount@2.0.1: {}
 
   character-entities-html4@2.1.0: {}
@@ -2354,6 +2368,8 @@ snapshots:
       vfile: 6.0.3
 
   mdurl@2.0.0: {}
+
+  medium-zoom@1.1.0: {}
 
   mermaid@11.6.0:
     dependencies:
