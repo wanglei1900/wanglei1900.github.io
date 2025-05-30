@@ -11,7 +11,7 @@ on:
 
 # 设置 GITHUB_TOKEN 的权限，以允许部署到 GitHub Pages
 permissions:
-  contents: read
+  contents: write  # 跨仓库推送
   pages: write
   id-token: write
 
@@ -26,28 +26,28 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # 自动检出代码
-      - name: Checkout
+      # 步骤1: 检出当前私有仓库
+      - name: Checkout source
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 # 如果未启用 lastUpdated，则不需要
-      # 设置一致的构建环境
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: latest
+      # 步骤2: 设置环境
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
           registry-url: https://registry.npmmirror.com/
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: latest
       - name: Setup Pages
         uses: actions/configure-pages@v4
-      # 安装依赖
+      # 步骤3: 安装依赖
       - name: Install dependencies
         run: pnpm install # 是否使用--frozen-lockfile待定 --frozen-lockfile 确保 CI 环境与本地 lockfile 完全一致
-      # 构建项目
+      # 步骤4: 构建项目
       - name: Build with VitePress
         run: pnpm run docs:build
       # 部署到 GitHub Pages

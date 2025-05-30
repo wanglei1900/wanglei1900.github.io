@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 import markdownItAnchor from 'markdown-it-anchor'
 import timeline from "vitepress-markdown-timeline"; 
 import { MermaidMarkdown, MermaidPlugin } from 'vitepress-plugin-mermaid';
+import vitepressProtectPlugin from "vitepress-protect-plugin"
 
 
 // https://vitepress.dev/reference/site-config
@@ -18,21 +19,23 @@ export default defineConfig({
 
     sidebar: [
       {
+        text: '网站搭建',
+        items: [
+          { text: '构建教程', link: '/website/init' },
+        ]
+      },
+      {
         text: 'Examples',
         items: [
           { text: 'Markdown Examples', link: '/markdown-examples' },
           { text: 'Runtime API Examples', link: '/api-examples' }
         ]
-      },
-      {
-        text: '网站搭建',
-        items: [
-          { text: '构建教程', link: '/website/init' },
-        ]
       }
     ],
 
     socialLinks: [
+      { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
+      { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
     ],
     search: {
@@ -76,7 +79,14 @@ export default defineConfig({
     }
   },
   vite: {
-    plugins: [MermaidPlugin()],
+    plugins: [
+      MermaidPlugin(),  // markdown图形化插件
+      vitepressProtectPlugin({
+        disableF12: true, // 禁用F12开发者模式
+        disableCopy: false, // 禁用文本复制
+        disableSelect: false, // 禁用文本选择
+      }),
+    ],
     optimizeDeps: {
       include: ['mermaid'],
     },

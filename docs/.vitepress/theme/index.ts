@@ -18,12 +18,14 @@ import './style.css'
 
 export default {
   extends: DefaultTheme,
+
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
-      'layout-bottom': () => h(bsz), //不蒜子layout-bottom插槽
+      'layout-bottom': () => h(bsz), //不蒜子layout-bottom插槽 显示浏览量
     })
   },
+
   enhanceApp({ app, router, siteData }) {
     googleAnalytics({
       id: 'G-GSYFDQ9B4V', //跟踪ID，在analytics.google.com注册即可
@@ -35,6 +37,7 @@ export default {
       }
     }
   },
+
   // 图片缩放
   setup() {
     const route = useRoute();
@@ -50,4 +53,5 @@ export default {
       () => nextTick(() => initZoom())
     );
   },
+
 } satisfies Theme
