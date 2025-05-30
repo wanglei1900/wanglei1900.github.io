@@ -11,7 +11,7 @@ on:
 
 # 设置 GITHUB_TOKEN 的权限，以允许部署到 GitHub Pages
 permissions:
-  contents: write  # 跨仓库推送
+  contents: write  # 跨仓库推送，原先是read
   pages: write
   id-token: write
 
