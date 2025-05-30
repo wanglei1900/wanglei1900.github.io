@@ -32,16 +32,16 @@ jobs:
         with:
           fetch-depth: 0 # 如果未启用 lastUpdated，则不需要
       # 步骤2: 设置环境
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: latest
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
           registry-url: https://registry.npmmirror.com/
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: latest
       - name: Setup Pages
         uses: actions/configure-pages@v4
       # 步骤3: 安装依赖
