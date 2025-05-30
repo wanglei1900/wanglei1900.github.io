@@ -1,4 +1,10 @@
-```flow
+## 环境
+  - node -v 18以上
+  - node -v 18以上
+
+## mermaid集成图表
+
+```mermaid
 sequenceDiagram
     participant Local as 本地开发
     participant GitHub as GitHub
@@ -14,7 +20,7 @@ sequenceDiagram
     Pages-->>用户: 服务更新完成
 ```
 
-```flow
+```mermaid
 graph LR
     A[本地开发] --> B[运行 autoDeploy.bat]
     B --> C[提交并推送代码]
@@ -22,3 +28,18 @@ graph LR
     D --> E[自动构建]
     E --> F[自动部署到 GitHub Pages]
 ```
+
+
+
+## 时间先
+
+::: timeline 2023-04-24
+- 一个非常棒的开源项目 H5-Dooring 目前 star 3.1k
+  - 开源地址 https://github.com/MrXujiang/h5-Dooring
+  - 基本介绍 http://h5.dooring.cn/doc/zh/guide/
+- 《深入浅出webpack》 http://webpack.wuhaolin.cn/
+:::
+
+::: timeline 2023-04-23
+:::
+
