@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="zh-Hans" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Runtime API Examples | wanglei1900 Blog</title>
+    <meta name="description" content="Blog">
+    <meta name="generator" content="VitePress v1.6.3">
+    <link rel="preload stylesheet" href="/assets/style.Dwb_Kqho.css" as="style">
+    <link rel="preload stylesheet" href="/vp-icons.css" as="style">
+    
+    <script type="module" src="/assets/app.CnFbfhzf.js"></script>
+    <link rel="preload" href="/assets/inter-roman-latin.Di8DUHzh.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="modulepreload" href="/assets/chunks/framework.HwITzfHN.js">
+    <link rel="modulepreload" href="/assets/chunks/theme.DdZzuhDE.js">
+    <link rel="modulepreload" href="/assets/chunks/katex.ChWnQ-fc.js">
+    <link rel="modulepreload" href="/assets/chunks/dagre-OKDRZEBW.DfUPmocg.js">
+    <link rel="modulepreload" href="/assets/chunks/c4Diagram-VJAJSXHY.CBD_5oSB.js">
+    <link rel="modulepreload" href="/assets/chunks/flowDiagram-4HSFHLVR.BHPKBKuM.js">
+    <link rel="modulepreload" href="/assets/chunks/erDiagram-Q7BY3M3F.B4TjlO_f.js">
+    <link rel="modulepreload" href="/assets/chunks/gitGraphDiagram-7IBYFJ6S.v4oI8AxD.js">
+    <link rel="modulepreload" href="/assets/chunks/ganttDiagram-APWFNJXF.DMz1jWMv.js">
+    <link rel="modulepreload" href="/assets/chunks/infoDiagram-PH2N3AL5.I1zegRNj.js">
+    <link rel="modulepreload" href="/assets/chunks/pieDiagram-IB7DONF6.DFc6FhqO.js">
+    <link rel="modulepreload" href="/assets/chunks/quadrantDiagram-7GDLP6J5.CJEkW8dh.js">
+    <link rel="modulepreload" href="/assets/chunks/xychartDiagram-VJFVF3MP.LvJQbyQo.js">
+    <link rel="modulepreload" href="/assets/chunks/requirementDiagram-KVF5MWMF.BIpnGjx_.js">
+    <link rel="modulepreload" href="/assets/chunks/sequenceDiagram-X6HHIX6F.BmKmUxbd.js">
+    <link rel="modulepreload" href="/assets/chunks/classDiagram-GIVACNV2.8gB-DEcB.js">
+    <link rel="modulepreload" href="/assets/chunks/classDiagram-v2-COTLJTTW.8gB-DEcB.js">
+    <link rel="modulepreload" href="/assets/chunks/stateDiagram-DGXRK772.CMszowXc.js">
+    <link rel="modulepreload" href="/assets/chunks/stateDiagram-v2-YXO3MK2T.BYhrDfzu.js">
+    <link rel="modulepreload" href="/assets/chunks/journeyDiagram-U35MCT3I.BsW-mE4P.js">
+    <link rel="modulepreload" href="/assets/chunks/timeline-definition-BDJGKUSR.Cuj1wZYe.js">
+    <link rel="modulepreload" href="/assets/chunks/mindmap-definition-ALO5MXBD.DlsqEKO3.js">
+    <link rel="modulepreload" href="/assets/chunks/kanban-definition-NDS4AKOZ.BWIR4-KA.js">
+    <link rel="modulepreload" href="/assets/chunks/sankeyDiagram-QLVOVGJD.nl_O7mYT.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-VNBRO52H.CKXm4e7I.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-SSKATNLV.WZTepcKT.js">
+    <link rel="modulepreload" href="/assets/chunks/blockDiagram-JOT3LUYC.CzPQLYGT.js">
+    <link rel="modulepreload" href="/assets/chunks/architectureDiagram-IEHRJDOE.DFRp2LDF.js">
+    <link rel="modulepreload" href="/assets/chunks/virtual_mermaid-config.DDnGl6nM.js">
+    <link rel="modulepreload" href="/assets/api-examples.md.BEGTfcC4.lean.js">
+    <link rel="icon" href="/favicon.ico">
+    <script id="check-dark-mode">(()=>{const e=localStorage.getItem("vitepress-theme-appearance")||"auto",a=window.matchMedia("(prefers-color-scheme: dark)").matches;(!e||e==="auto"?a:e==="dark")&&document.documentElement.classList.add("dark")})();</script>
+    <script id="check-mac-os">document.documentElement.classList.toggle("mac",/Mac|iPhone|iPod|iPad/i.test(navigator.platform));</script>
+  </head>
+  <body>
+    <div id="app"><div class="Layout" data-v-e6a7cc9a><!--[--><!--]--><!--[--><span tabindex="-1" data-v-bf204e96></span><a href="#VPContent" class="VPSkipLink visually-hidden" data-v-bf204e96>跳转到内容</a><!--]--><!----><header class="VPNav" data-v-e6a7cc9a data-v-bebdd5e3><div class="VPNavBar" data-v-bebdd5e3 data-v-b947a84d><div class="wrapper" data-v-b947a84d><div class="container" data-v-b947a84d><div class="title" data-v-b947a84d><div class="VPNavBarTitle" data-v-b947a84d data-v-1c235172><a class="title" href="/" data-v-1c235172><!--[--><!--]--><!--[--><img class="VPImage logo" src="/favicon.ico" alt data-v-d64cc87b><!--]--><span data-v-1c235172>wanglei1900 Blog</span><!--[--><!--]--></a></div></div><div class="content" data-v-b947a84d><div class="content-body" data-v-b947a84d><!--[--><!--]--><div class="VPNavBarSearch search" data-v-b947a84d><!--[--><!----><div id="local-search"><button type="button" class="DocSearch DocSearch-Button" aria-label="搜索文档"><span class="DocSearch-Button-Container"><span class="vp-icon DocSearch-Search-Icon"></span><span class="DocSearch-Button-Placeholder">搜索文档</span></span><span class="DocSearch-Button-Keys"><kbd class="DocSearch-Button-Key"></kbd><kbd class="DocSearch-Button-Key">K</kbd></span></button></div><!--]--></div><nav aria-labelledby="main-nav-aria-label" class="VPNavBarMenu menu" data-v-b947a84d data-v-1e0c52c7><span id="main-nav-aria-label" class="visually-hidden" data-v-1e0c52c7> Main Navigation </span><!--[--><!--[--><a class="VPLink link VPNavBarMenuLink" href="/" tabindex="0" data-v-1e0c52c7 data-v-4afc9899><!--[--><span data-v-4afc9899>Home</span><!--]--></a><!--]--><!--[--><a class="VPLink link VPNavBarMenuLink" href="/frontend/" tabindex="0" data-v-1e0c52c7 data-v-4afc9899><!--[--><span data-v-4afc9899>前端工程化</span><!--]--></a><!--]--><!--[--><a class="VPLink link VPNavBarMenuLink" href="/backend/" tabindex="0" data-v-1e0c52c7 data-v-4afc9899><!--[--><span data-v-4afc9899>服务端与架构</span><!--]--></a><!--]--><!--[--><a class="VPLink link VPNavBarMenuLink" href="/data/" tabindex="0" data-v-1e0c52c7 data-v-4afc9899><!--[--><span data-v-4afc9899>数据层开发</span><!--]--></a><!--]--><!--[--><a class="VPLink link VPNavBarMenuLink" href="/devops/" tabindex="0" data-v-1e0c52c7 data-v-4afc9899><!--[--><span data-v-4afc9899>部署与运维</span><!--]--></a><!--]--><!--[--><a class="VPLink link VPNavBarMenuLink" href="/algorithms/" tabindex="0" data-v-1e0c52c7 data-v-4afc9899><!--[--><span data-v-4afc9899>算法与优化</span><!--]--></a><!--]--><!--[--><a class="VPLink link VPNavBarMenuLink" href="/iot/" tabindex="0" data-v-1e0c52c7 data-v-4afc9899><!--[--><span data-v-4afc9899>物联网</span><!--]--></a><!--]--><!--[--><a class="VPLink link VPNavBarMenuLink" href="/thoughts/" tabindex="0" data-v-1e0c52c7 data-v-4afc9899><!--[--><span data-v-4afc9899>杂谈</span><!--]--></a><!--]--><!--]--></nav><!----><div class="VPNavBarAppearance appearance" data-v-b947a84d data-v-14de904d><button class="VPSwitch VPSwitchAppearance" type="button" role="switch" title aria-checked="false" data-v-14de904d data-v-a2dac252 data-v-7d2b6847><span class="check" data-v-7d2b6847><span class="icon" data-v-7d2b6847><!--[--><span class="vpi-sun sun" data-v-a2dac252></span><span class="vpi-moon moon" data-v-a2dac252></span><!--]--></span></span></button></div><div class="VPSocialLinks VPNavBarSocialLinks social-links" data-v-b947a84d data-v-01d9b135 data-v-68dde805><!--[--><a class="VPSocialLink no-icon" href="https://github.com/wanglei1900" aria-label="github" target="_blank" rel="noopener" data-v-68dde805 data-v-28313414><span class="vpi-social-github"></span></a><a class="VPSocialLink no-icon" href="https://www.cnblogs.com/wanglei1900" aria-label target="_blank" rel="noopener" data-v-68dde805 data-v-28313414><svg width="150" height="55" id="layer_1" data-name="layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 280 102.66"><defs><style>.cls-1{fill:url(#gradient);}.cls-2{fill:#8dcefc;}.cls-3,.cls-4{fill:none;stroke-miterlimit:10;stroke-width:2px;}.cls-3{stroke:#457ab5;}.cls-4{stroke:url(#gradient_3);}.cls-5{fill:url(#gradient_2);}.cls-6{fill:#2e7acc;}.cls-7{fill:#e33e06;}.cls-8{fill:#8c8c8c;}</style><radialGradient id="gradient" cx="49.22" cy="-6550.95" r="44.62" gradientTransform="matrix(1, 0, 0, -0.07, 0, -359.49)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#8c8c8c"/><stop offset="0.13" stop-color="#919191" stop-opacity="0.95"/><stop offset="0.32" stop-color="#a0a0a0" stop-opacity="0.83"/><stop offset="0.54" stop-color="#b8b8b8" stop-opacity="0.61"/><stop offset="0.78" stop-color="#dadada" stop-opacity="0.32"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><radialGradient id="gradient_3" cx="-147.55" cy="-262.27" r="23.26" gradientTransform="matrix(0.95, -0.32, -0.32, -0.95, 121.5, -275.63)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="0.21" stop-color="#fff" stop-opacity="0.99"/><stop offset="0.34" stop-color="#fff" stop-opacity="0.96"/><stop offset="0.46" stop-color="#fff" stop-opacity="0.9"/><stop offset="0.56" stop-color="#fff" stop-opacity="0.81"/><stop offset="0.66" stop-color="#fff" stop-opacity="0.71"/><stop offset="0.74" stop-color="#fff" stop-opacity="0.58"/><stop offset="0.83" stop-color="#fff" stop-opacity="0.42"/><stop offset="0.91" stop-color="#fff" stop-opacity="0.24"/><stop offset="0.99" stop-color="#fff" stop-opacity="0.04"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><radialGradient id="gradient_2" cx="61.19" cy="57.93" r="54.56" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7aacdf"/><stop offset="0.27" stop-color="#70a6dd"/><stop offset="0.73" stop-color="#5496d9"/><stop offset="1" stop-color="#408bd6"/></radialGradient></defs><title>博客园logo</title><g id="layer_2" data-name="layer 2"><g id="layer_1-2" data-name="layer 1-2"><ellipse class="cls-1" cx="49.22" cy="99.44" rx="44.62" ry="3.22"/><path class="cls-2" d="M49.22,1A48.22,48.22,0,1,0,97.44,49.22,48.22,48.22,0,0,0,49.22,1ZM34,77.06A10.46,10.46,0,1,1,44.43,66.6,10.46,10.46,0,0,1,34,77.06Zm25.11-4a6.5,6.5,0,0,1-6.5-6.5c0-9.81-8.51-18.1-18.58-18.1a6.5,6.5,0,0,1,0-13c17.12,0,31.58,14.24,31.58,31.1A6.5,6.5,0,0,1,59.08,73.1ZM79.72,67l-.56,0a6.5,6.5,0,0,1-6.47-6C71.35,45.29,59.57,28.5,40.4,28.5a6.5,6.5,0,0,1,0-13C64,15.5,83.48,34.63,85.65,60A6.51,6.51,0,0,1,79.72,67Z"/><circle class="cls-3" cx="49.22" cy="49.22" r="48.22"/><path class="cls-4" d="M35.2,5.89c23.88-7.78,50,5.36,57.41,29.05"/><path class="cls-5" d="M49.22,4.6A44.62,44.62,0,1,0,93.84,49.22,44.62,44.62,0,0,0,49.22,4.6ZM34,77.06A10.46,10.46,0,1,1,44.43,66.6,10.46,10.46,0,0,1,34,77.06Zm25.11-4a6.5,6.5,0,0,1-6.5-6.5c0-9.81-8.51-18.1-18.58-18.1a6.5,6.5,0,0,1,0-13c17.12,0,31.58,14.24,31.58,31.1A6.5,6.5,0,0,1,59.08,73.1ZM79.72,67l-.56,0a6.5,6.5,0,0,1-6.47-6C71.35,45.29,59.57,28.5,40.4,28.5a6.5,6.5,0,0,1,0-13C64,15.5,83.48,34.63,85.65,60A6.51,6.51,0,0,1,79.72,67Z"/><path class="cls-6" d="M79.72,67l-.56,0a6.5,6.5,0,0,1-6.47-6,39.24,39.24,0,0,0-4.45-15,56.64,56.64,0,0,0-37-13.58A57,57,0,0,0,5.93,38.39,44.61,44.61,0,0,0,85.62,75a51.4,51.4,0,0,0-2.86-9A6.55,6.55,0,0,1,79.72,67ZM34,77.06A10.46,10.46,0,1,1,44.43,66.6,10.46,10.46,0,0,1,34,77.06Zm25.11-4a6.5,6.5,0,0,1-6.5-6.5c0-9.81-8.51-18.1-18.58-18.1a6.5,6.5,0,0,1,0-13c17.12,0,31.58,14.24,31.58,31.1A6.5,6.5,0,0,1,59.08,73.1Z"/><path class="cls-7" d="M115.08,24.88V10.24h4.26V24.88h6.06v4.2h-6.06v36h-4.26v-36H108.6v-4.2ZM150.84,47.8v-3H155v3h7.86v3.84H155V60.4c0,3.12-1.56,4.68-4.62,4.68h-6.6l-.9-4c2.1.18,4.14.3,6.06.3,1.2,0,1.86-.66,1.86-2V51.64h-26V47.8Zm-9-33.36V10.3H146v4.14h7a34.08,34.08,0,0,0-1.74-3.6l3.72-.6a39.19,39.19,0,0,1,1.56,4.2h5.16V18.1H146v4.14h13.6V44h-4V39.82H146V43.6h-4.14V39.82H132.3V44h-4V22.24h13.56V18.1H126.18V14.44ZM142,59.38l-2.7,2.7A56.61,56.61,0,0,0,131,54.34l2.64-2.52A58.52,58.52,0,0,1,142,59.38Zm-.12-29.58V25.6H132.3v4.2Zm0,7.08V32.8H132.3v4.08ZM146,29.8h9.6V25.6H146Zm0,7.08h9.6V32.8H146Z"/><path class="cls-7" d="M192.06,20.68c-.9,1.38-1.8,2.7-2.76,4h22.14v3.48a32.73,32.73,0,0,1-10.62,9.06,74.75,74.75,0,0,0,22,4.74l-1,3.9a70,70,0,0,1-25.5-6.42c-7.08,3.24-16,5.76-26.82,7.62l-1.62-3.84c9.66-1.56,17.7-3.54,24.06-6.06A54.93,54.93,0,0,1,183.48,31a57.2,57.2,0,0,1-7.5,5.64l-2.76-3.36a44.52,44.52,0,0,0,14.64-13.5ZM219.78,26H215.4V18.52h-40V26H171V14.62h22a39.15,39.15,0,0,0-2.22-4.2l4.74-.72c.72,1.44,1.38,3.12,2.1,4.92h22.14Zm-6.72,39.36h-4.2V62.74h-25.8v2.58h-4.2V46.54h34.2Zm-4.2-6.48v-8.4h-25.8v8.4ZM206.28,28.3h-20.1l-.18.18a53.6,53.6,0,0,0,10.38,6.72A36,36,0,0,0,206.28,28.3Z"/><path class="cls-7" d="M280,65.14h-4.32v-2.4H235.2v2.4h-4.32V12.82H280Zm-4.32-6.24V16.78H235.2V58.9Zm-4.2-26.34V36.4h-9.6V48.7c0,1.44.6,2.16,1.92,2.16H266a3.05,3.05,0,0,0,1.92-.54c.72-.42,1.14-2.52,1.38-6.24l3.6,1.2c-.48,4.44-1.08,7.14-1.92,8s-2.16,1.08-4.14,1.14H262.5a4.46,4.46,0,0,1-3.42-1.32,5,5,0,0,1-1.2-3.48V36.4h-5.7c-.54,4.92-1.68,8.7-3.48,11.46-2,3.12-5.22,5.52-9.42,7.32l-2-3.48a16.49,16.49,0,0,0,8.16-6.12,22.43,22.43,0,0,0,2.88-9.18H239.4V32.56Zm-3.4-10.26v3.84H242.82V22.3Z"/><path class="cls-8" d="M123.37,79a6.18,6.18,0,0,1,5.31,2.52l-1.5,1.38a4.32,4.32,0,0,0-3.69-1.9c-3.09,0-5,2.37-5,5.58s1.92,5.61,5,5.61a4.37,4.37,0,0,0,3.69-1.89l1.5,1.38a6.18,6.18,0,0,1-5.31,2.52c-4.32,0-7.23-3.3-7.23-7.62S119.05,79,123.37,79Z"/><path class="cls-8" d="M141.61,84.36c0-2.55-1.29-3.36-3.24-3.36a5.59,5.59,0,0,0-4.29,2.25V93.84h-2.25V79.35h2.25v2.1A7.22,7.22,0,0,1,139.24,79c3,0,4.62,1.53,4.62,4.68V93.84h-2.25Z"/><path class="cls-8" d="M148.36,73.83h2.25v7.71A6,6,0,0,1,155.5,79c3.78,0,6.45,3,6.45,7.62s-2.67,7.59-6.45,7.59a6.11,6.11,0,0,1-4.89-2.52v2.16h-2.25Zm6.57,18.36c2.94,0,4.68-2.37,4.68-5.58S157.87,81,154.93,81a5.39,5.39,0,0,0-4.32,2.34v6.57a5.36,5.36,0,0,0,4.32,2.28Z"/><path class="cls-8" d="M165.61,73.83h2.25v20h-2.25Z"/><path class="cls-8" d="M171.52,86.58c0-4.2,2.76-7.59,7.17-7.59s7.17,3.39,7.17,7.59-2.76,7.62-7.17,7.62S171.52,90.78,171.52,86.58Zm12,0c0-2.94-1.71-5.58-4.8-5.58s-4.83,2.64-4.83,5.58,1.74,5.61,4.83,5.61,4.77-2.64,4.77-5.61Z"/><path class="cls-8" d="M190.63,95.88a5.53,5.53,0,0,0,4.71,2c2.4,0,4.65-1.17,4.65-4.35V91.44A6.06,6.06,0,0,1,195.13,94c-3.78,0-6.45-2.82-6.45-7.5s2.64-7.5,6.45-7.5A6,6,0,0,1,200,81.54V79.35h2.25V93.42c0,4.8-3.36,6.3-6.9,6.3a7.39,7.39,0,0,1-5.85-2.16ZM200,83.34A5.34,5.34,0,0,0,195.67,81c-2.91,0-4.65,2.31-4.65,5.52S192.76,92,195.67,92A5.36,5.36,0,0,0,200,89.67Z"/><path class="cls-8" d="M206.65,90.3a6.54,6.54,0,0,0,4.77,2.07c2.22,0,3.42-1,3.42-2.4,0-1.59-1.77-2.1-3.72-2.58-2.46-.57-5.25-1.23-5.25-4.23,0-2.25,1.95-4.17,5.4-4.17a7.36,7.36,0,0,1,5.37,2.1l-1,1.56a5.62,5.62,0,0,0-4.32-1.83c-2,0-3.21.9-3.21,2.19s1.65,1.86,3.54,2.31c2.52.57,5.43,1.29,5.43,4.5,0,2.43-2,4.38-5.7,4.38a7.71,7.71,0,0,1-5.85-2.28Z"/><path class="cls-8" d="M221.89,90.84a1.65,1.65,0,1,1-1.65,1.65h0A1.66,1.66,0,0,1,221.89,90.84Z"/><path class="cls-8" d="M233.77,79a6.18,6.18,0,0,1,5.31,2.52l-1.5,1.38a4.32,4.32,0,0,0-3.69-1.9c-3.09,0-5,2.37-5,5.58s1.92,5.61,5,5.61a4.37,4.37,0,0,0,3.69-1.89l1.5,1.38a6.18,6.18,0,0,1-5.31,2.52c-4.32,0-7.23-3.3-7.23-7.62S229.45,79,233.77,79Z"/><path class="cls-8" d="M241.39,86.58c0-4.2,2.76-7.59,7.17-7.59s7.17,3.39,7.17,7.59S253,94.2,248.56,94.2,241.39,90.78,241.39,86.58Zm12,0c0-2.94-1.71-5.58-4.8-5.58s-4.83,2.64-4.83,5.58,1.74,5.61,4.83,5.61,4.77-2.64,4.77-5.61Z"/><path class="cls-8" d="M276.88,84c0-1.83-.81-3-2.67-3a5.07,5.07,0,0,0-3.84,2.22V93.84h-2.25V84c0-1.83-.78-3-2.67-3a5.09,5.09,0,0,0-3.81,2.25V93.84h-2.25V79.35h2.25v2.1A6.25,6.25,0,0,1,266.32,79a3.72,3.72,0,0,1,3.9,2.7,6.1,6.1,0,0,1,4.86-2.7c2.64,0,4.05,1.47,4.05,4.38V93.84h-2.25Z"/></g></g></svg></a><a class="VPSocialLink no-icon" href="https://vitepress.dev/zh" aria-label="github" target="_blank" rel="noopener" data-v-68dde805 data-v-28313414><span class="vpi-social-github"></span></a><!--]--></div><div class="VPFlyout VPNavBarExtra extra" data-v-b947a84d data-v-0ac197a4 data-v-267248bc><button type="button" class="button" aria-haspopup="true" aria-expanded="false" aria-label="extra navigation" data-v-267248bc><span class="vpi-more-horizontal icon" data-v-267248bc></span></button><div class="menu" data-v-267248bc><div class="VPMenu" data-v-267248bc data-v-a597def0><!----><!--[--><!--[--><!----><div class="group" data-v-0ac197a4><div class="item appearance" data-v-0ac197a4><p class="label" data-v-0ac197a4>主题</p><div class="appearance-action" data-v-0ac197a4><button class="VPSwitch VPSwitchAppearance" type="button" role="switch" title aria-checked="false" data-v-0ac197a4 data-v-a2dac252 data-v-7d2b6847><span class="check" data-v-7d2b6847><span class="icon" data-v-7d2b6847><!--[--><span class="vpi-sun sun" data-v-a2dac252></span><span class="vpi-moon moon" data-v-a2dac252></span><!--]--></span></span></button></div></div></div><div class="group" data-v-0ac197a4><div class="item social-links" data-v-0ac197a4><div class="VPSocialLinks social-links-list" data-v-0ac197a4 data-v-68dde805><!--[--><a class="VPSocialLink no-icon" href="https://github.com/wanglei1900" aria-label="github" target="_blank" rel="noopener" data-v-68dde805 data-v-28313414><span class="vpi-social-github"></span></a><a class="VPSocialLink no-icon" href="https://www.cnblogs.com/wanglei1900" aria-label target="_blank" rel="noopener" data-v-68dde805 data-v-28313414><svg width="150" height="55" id="layer_1" data-name="layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 280 102.66"><defs><style>.cls-1{fill:url(#gradient);}.cls-2{fill:#8dcefc;}.cls-3,.cls-4{fill:none;stroke-miterlimit:10;stroke-width:2px;}.cls-3{stroke:#457ab5;}.cls-4{stroke:url(#gradient_3);}.cls-5{fill:url(#gradient_2);}.cls-6{fill:#2e7acc;}.cls-7{fill:#e33e06;}.cls-8{fill:#8c8c8c;}</style><radialGradient id="gradient" cx="49.22" cy="-6550.95" r="44.62" gradientTransform="matrix(1, 0, 0, -0.07, 0, -359.49)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#8c8c8c"/><stop offset="0.13" stop-color="#919191" stop-opacity="0.95"/><stop offset="0.32" stop-color="#a0a0a0" stop-opacity="0.83"/><stop offset="0.54" stop-color="#b8b8b8" stop-opacity="0.61"/><stop offset="0.78" stop-color="#dadada" stop-opacity="0.32"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><radialGradient id="gradient_3" cx="-147.55" cy="-262.27" r="23.26" gradientTransform="matrix(0.95, -0.32, -0.32, -0.95, 121.5, -275.63)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="0.21" stop-color="#fff" stop-opacity="0.99"/><stop offset="0.34" stop-color="#fff" stop-opacity="0.96"/><stop offset="0.46" stop-color="#fff" stop-opacity="0.9"/><stop offset="0.56" stop-color="#fff" stop-opacity="0.81"/><stop offset="0.66" stop-color="#fff" stop-opacity="0.71"/><stop offset="0.74" stop-color="#fff" stop-opacity="0.58"/><stop offset="0.83" stop-color="#fff" stop-opacity="0.42"/><stop offset="0.91" stop-color="#fff" stop-opacity="0.24"/><stop offset="0.99" stop-color="#fff" stop-opacity="0.04"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><radialGradient id="gradient_2" cx="61.19" cy="57.93" r="54.56" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7aacdf"/><stop offset="0.27" stop-color="#70a6dd"/><stop offset="0.73" stop-color="#5496d9"/><stop offset="1" stop-color="#408bd6"/></radialGradient></defs><title>博客园logo</title><g id="layer_2" data-name="layer 2"><g id="layer_1-2" data-name="layer 1-2"><ellipse class="cls-1" cx="49.22" cy="99.44" rx="44.62" ry="3.22"/><path class="cls-2" d="M49.22,1A48.22,48.22,0,1,0,97.44,49.22,48.22,48.22,0,0,0,49.22,1ZM34,77.06A10.46,10.46,0,1,1,44.43,66.6,10.46,10.46,0,0,1,34,77.06Zm25.11-4a6.5,6.5,0,0,1-6.5-6.5c0-9.81-8.51-18.1-18.58-18.1a6.5,6.5,0,0,1,0-13c17.12,0,31.58,14.24,31.58,31.1A6.5,6.5,0,0,1,59.08,73.1ZM79.72,67l-.56,0a6.5,6.5,0,0,1-6.47-6C71.35,45.29,59.57,28.5,40.4,28.5a6.5,6.5,0,0,1,0-13C64,15.5,83.48,34.63,85.65,60A6.51,6.51,0,0,1,79.72,67Z"/><circle class="cls-3" cx="49.22" cy="49.22" r="48.22"/><path class="cls-4" d="M35.2,5.89c23.88-7.78,50,5.36,57.41,29.05"/><path class="cls-5" d="M49.22,4.6A44.62,44.62,0,1,0,93.84,49.22,44.62,44.62,0,0,0,49.22,4.6ZM34,77.06A10.46,10.46,0,1,1,44.43,66.6,10.46,10.46,0,0,1,34,77.06Zm25.11-4a6.5,6.5,0,0,1-6.5-6.5c0-9.81-8.51-18.1-18.58-18.1a6.5,6.5,0,0,1,0-13c17.12,0,31.58,14.24,31.58,31.1A6.5,6.5,0,0,1,59.08,73.1ZM79.72,67l-.56,0a6.5,6.5,0,0,1-6.47-6C71.35,45.29,59.57,28.5,40.4,28.5a6.5,6.5,0,0,1,0-13C64,15.5,83.48,34.63,85.65,60A6.51,6.51,0,0,1,79.72,67Z"/><path class="cls-6" d="M79.72,67l-.56,0a6.5,6.5,0,0,1-6.47-6,39.24,39.24,0,0,0-4.45-15,56.64,56.64,0,0,0-37-13.58A57,57,0,0,0,5.93,38.39,44.61,44.61,0,0,0,85.62,75a51.4,51.4,0,0,0-2.86-9A6.55,6.55,0,0,1,79.72,67ZM34,77.06A10.46,10.46,0,1,1,44.43,66.6,10.46,10.46,0,0,1,34,77.06Zm25.11-4a6.5,6.5,0,0,1-6.5-6.5c0-9.81-8.51-18.1-18.58-18.1a6.5,6.5,0,0,1,0-13c17.12,0,31.58,14.24,31.58,31.1A6.5,6.5,0,0,1,59.08,73.1Z"/><path class="cls-7" d="M115.08,24.88V10.24h4.26V24.88h6.06v4.2h-6.06v36h-4.26v-36H108.6v-4.2ZM150.84,47.8v-3H155v3h7.86v3.84H155V60.4c0,3.12-1.56,4.68-4.62,4.68h-6.6l-.9-4c2.1.18,4.14.3,6.06.3,1.2,0,1.86-.66,1.86-2V51.64h-26V47.8Zm-9-33.36V10.3H146v4.14h7a34.08,34.08,0,0,0-1.74-3.6l3.72-.6a39.19,39.19,0,0,1,1.56,4.2h5.16V18.1H146v4.14h13.6V44h-4V39.82H146V43.6h-4.14V39.82H132.3V44h-4V22.24h13.56V18.1H126.18V14.44ZM142,59.38l-2.7,2.7A56.61,56.61,0,0,0,131,54.34l2.64-2.52A58.52,58.52,0,0,1,142,59.38Zm-.12-29.58V25.6H132.3v4.2Zm0,7.08V32.8H132.3v4.08ZM146,29.8h9.6V25.6H146Zm0,7.08h9.6V32.8H146Z"/><path class="cls-7" d="M192.06,20.68c-.9,1.38-1.8,2.7-2.76,4h22.14v3.48a32.73,32.73,0,0,1-10.62,9.06,74.75,74.75,0,0,0,22,4.74l-1,3.9a70,70,0,0,1-25.5-6.42c-7.08,3.24-16,5.76-26.82,7.62l-1.62-3.84c9.66-1.56,17.7-3.54,24.06-6.06A54.93,54.93,0,0,1,183.48,31a57.2,57.2,0,0,1-7.5,5.64l-2.76-3.36a44.52,44.52,0,0,0,14.64-13.5ZM219.78,26H215.4V18.52h-40V26H171V14.62h22a39.15,39.15,0,0,0-2.22-4.2l4.74-.72c.72,1.44,1.38,3.12,2.1,4.92h22.14Zm-6.72,39.36h-4.2V62.74h-25.8v2.58h-4.2V46.54h34.2Zm-4.2-6.48v-8.4h-25.8v8.4ZM206.28,28.3h-20.1l-.18.18a53.6,53.6,0,0,0,10.38,6.72A36,36,0,0,0,206.28,28.3Z"/><path class="cls-7" d="M280,65.14h-4.32v-2.4H235.2v2.4h-4.32V12.82H280Zm-4.32-6.24V16.78H235.2V58.9Zm-4.2-26.34V36.4h-9.6V48.7c0,1.44.6,2.16,1.92,2.16H266a3.05,3.05,0,0,0,1.92-.54c.72-.42,1.14-2.52,1.38-6.24l3.6,1.2c-.48,4.44-1.08,7.14-1.92,8s-2.16,1.08-4.14,1.14H262.5a4.46,4.46,0,0,1-3.42-1.32,5,5,0,0,1-1.2-3.48V36.4h-5.7c-.54,4.92-1.68,8.7-3.48,11.46-2,3.12-5.22,5.52-9.42,7.32l-2-3.48a16.49,16.49,0,0,0,8.16-6.12,22.43,22.43,0,0,0,2.88-9.18H239.4V32.56Zm-3.4-10.26v3.84H242.82V22.3Z"/><path class="cls-8" d="M123.37,79a6.18,6.18,0,0,1,5.31,2.52l-1.5,1.38a4.32,4.32,0,0,0-3.69-1.9c-3.09,0-5,2.37-5,5.58s1.92,5.61,5,5.61a4.37,4.37,0,0,0,3.69-1.89l1.5,1.38a6.18,6.18,0,0,1-5.31,2.52c-4.32,0-7.23-3.3-7.23-7.62S119.05,79,123.37,79Z"/><path class="cls-8" d="M141.61,84.36c0-2.55-1.29-3.36-3.24-3.36a5.59,5.59,0,0,0-4.29,2.25V93.84h-2.25V79.35h2.25v2.1A7.22,7.22,0,0,1,139.24,79c3,0,4.62,1.53,4.62,4.68V93.84h-2.25Z"/><path class="cls-8" d="M148.36,73.83h2.25v7.71A6,6,0,0,1,155.5,79c3.78,0,6.45,3,6.45,7.62s-2.67,7.59-6.45,7.59a6.11,6.11,0,0,1-4.89-2.52v2.16h-2.25Zm6.57,18.36c2.94,0,4.68-2.37,4.68-5.58S157.87,81,154.93,81a5.39,5.39,0,0,0-4.32,2.34v6.57a5.36,5.36,0,0,0,4.32,2.28Z"/><path class="cls-8" d="M165.61,73.83h2.25v20h-2.25Z"/><path class="cls-8" d="M171.52,86.58c0-4.2,2.76-7.59,7.17-7.59s7.17,3.39,7.17,7.59-2.76,7.62-7.17,7.62S171.52,90.78,171.52,86.58Zm12,0c0-2.94-1.71-5.58-4.8-5.58s-4.83,2.64-4.83,5.58,1.74,5.61,4.83,5.61,4.77-2.64,4.77-5.61Z"/><path class="cls-8" d="M190.63,95.88a5.53,5.53,0,0,0,4.71,2c2.4,0,4.65-1.17,4.65-4.35V91.44A6.06,6.06,0,0,1,195.13,94c-3.78,0-6.45-2.82-6.45-7.5s2.64-7.5,6.45-7.5A6,6,0,0,1,200,81.54V79.35h2.25V93.42c0,4.8-3.36,6.3-6.9,6.3a7.39,7.39,0,0,1-5.85-2.16ZM200,83.34A5.34,5.34,0,0,0,195.67,81c-2.91,0-4.65,2.31-4.65,5.52S192.76,92,195.67,92A5.36,5.36,0,0,0,200,89.67Z"/><path class="cls-8" d="M206.65,90.3a6.54,6.54,0,0,0,4.77,2.07c2.22,0,3.42-1,3.42-2.4,0-1.59-1.77-2.1-3.72-2.58-2.46-.57-5.25-1.23-5.25-4.23,0-2.25,1.95-4.17,5.4-4.17a7.36,7.36,0,0,1,5.37,2.1l-1,1.56a5.62,5.62,0,0,0-4.32-1.83c-2,0-3.21.9-3.21,2.19s1.65,1.86,3.54,2.31c2.52.57,5.43,1.29,5.43,4.5,0,2.43-2,4.38-5.7,4.38a7.71,7.71,0,0,1-5.85-2.28Z"/><path class="cls-8" d="M221.89,90.84a1.65,1.65,0,1,1-1.65,1.65h0A1.66,1.66,0,0,1,221.89,90.84Z"/><path class="cls-8" d="M233.77,79a6.18,6.18,0,0,1,5.31,2.52l-1.5,1.38a4.32,4.32,0,0,0-3.69-1.9c-3.09,0-5,2.37-5,5.58s1.92,5.61,5,5.61a4.37,4.37,0,0,0,3.69-1.89l1.5,1.38a6.18,6.18,0,0,1-5.31,2.52c-4.32,0-7.23-3.3-7.23-7.62S229.45,79,233.77,79Z"/><path class="cls-8" d="M241.39,86.58c0-4.2,2.76-7.59,7.17-7.59s7.17,3.39,7.17,7.59S253,94.2,248.56,94.2,241.39,90.78,241.39,86.58Zm12,0c0-2.94-1.71-5.58-4.8-5.58s-4.83,2.64-4.83,5.58,1.74,5.61,4.83,5.61,4.77-2.64,4.77-5.61Z"/><path class="cls-8" d="M276.88,84c0-1.83-.81-3-2.67-3a5.07,5.07,0,0,0-3.84,2.22V93.84h-2.25V84c0-1.83-.78-3-2.67-3a5.09,5.09,0,0,0-3.81,2.25V93.84h-2.25V79.35h2.25v2.1A6.25,6.25,0,0,1,266.32,79a3.72,3.72,0,0,1,3.9,2.7,6.1,6.1,0,0,1,4.86-2.7c2.64,0,4.05,1.47,4.05,4.38V93.84h-2.25Z"/></g></g></svg></a><a class="VPSocialLink no-icon" href="https://vitepress.dev/zh" aria-label="github" target="_blank" rel="noopener" data-v-68dde805 data-v-28313414><span class="vpi-social-github"></span></a><!--]--></div></div></div><!--]--><!--]--></div></div></div><!--[--><!--]--><button type="button" class="VPNavBarHamburger hamburger" aria-label="mobile navigation" aria-expanded="false" aria-controls="VPNavScreen" data-v-b947a84d data-v-9fb016b1><span class="container" data-v-9fb016b1><span class="top" data-v-9fb016b1></span><span class="middle" data-v-9fb016b1></span><span class="bottom" data-v-9fb016b1></span></span></button></div></div></div></div><div class="divider" data-v-b947a84d><div class="divider-line" data-v-b947a84d></div></div></div><!----></header><div class="VPLocalNav empty fixed" data-v-e6a7cc9a data-v-5bc5da00><div class="container" data-v-5bc5da00><!----><div class="VPLocalNavOutlineDropdown" style="--vp-vh:0px;" data-v-5bc5da00 data-v-30654f6f><button data-v-30654f6f>回到顶部</button><!----></div></div></div><!----><div class="VPContent" id="VPContent" data-v-e6a7cc9a data-v-e69ea8b2><div class="VPDoc has-aside" data-v-e69ea8b2 data-v-165a4414><!--[--><!--]--><div class="container" data-v-165a4414><div class="aside" data-v-165a4414><div class="aside-curtain" data-v-165a4414></div><div class="aside-container" data-v-165a4414><div class="aside-content" data-v-165a4414><div class="VPDocAside" data-v-165a4414 data-v-fed9f201><!--[--><!--]--><!--[--><!--]--><nav aria-labelledby="doc-outline-aria-label" class="VPDocAsideOutline" data-v-fed9f201 data-v-38e7f3e3><div class="content" data-v-38e7f3e3><div class="outline-marker" data-v-38e7f3e3></div><div aria-level="2" class="outline-title" id="doc-outline-aria-label" role="heading" data-v-38e7f3e3>本页导航</div><ul class="VPDocOutlineItem root" data-v-38e7f3e3 data-v-33c1d934><!--[--><!--]--></ul></div></nav><!--[--><!--]--><div class="spacer" data-v-fed9f201></div><!--[--><!--]--><!----><!--[--><!--]--><!--[--><!--]--></div></div></div></div><div class="content" data-v-165a4414><div class="content-container" data-v-165a4414><!--[--><!--]--><main class="main" data-v-165a4414><div style="position:relative;" class="vp-doc _api-examples" data-v-165a4414><div><h1 id="runtime-api-examples" tabindex="-1">Runtime API Examples <a class="header-anchor" href="#runtime-api-examples" aria-label="Permalink to &quot;Runtime API Examples&quot;">​</a></h1><p>This page demonstrates usage of some of the runtime APIs provided by VitePress.</p><p>The main <code>useData()</code> API can be used to access site, theme, and page data for the current page. It works in both <code>.md</code> and <code>.vue</code> files:</p><div class="language-md vp-adaptive-theme line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang">md</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;script setup&gt;</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">import { useData } from &#39;vitepress&#39;</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">const { theme, page, frontmatter } = useData()</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;/script&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;">## Results</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;">### Theme Data</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;pre&gt;{{ theme }}&lt;/pre&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;">### Page Data</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;pre&gt;{{ page }}&lt;/pre&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;">### Page Frontmatter</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;pre&gt;{{ frontmatter }}&lt;/pre&gt;</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><h2 id="results" tabindex="-1">Results <a class="header-anchor" href="#results" aria-label="Permalink to &quot;Results&quot;">​</a></h2><h3 id="theme-data" tabindex="-1">Theme Data <a class="header-anchor" href="#theme-data" aria-label="Permalink to &quot;Theme Data&quot;">​</a></h3><pre>{
+  &quot;logo&quot;: &quot;/favicon.ico&quot;,
+  &quot;nav&quot;: [
+    {
+      &quot;text&quot;: &quot;Home&quot;,
+      &quot;link&quot;: &quot;/&quot;
+    },
+    {
+      &quot;text&quot;: &quot;前端工程化&quot;,
+      &quot;link&quot;: &quot;/frontend/&quot;,
+      &quot;activeMatch&quot;: &quot;/frontend/&quot;
+    },
+    {
+      &quot;text&quot;: &quot;服务端与架构&quot;,
+      &quot;link&quot;: &quot;/backend/&quot;,
+      &quot;activeMatch&quot;: &quot;/backend/&quot;
+    },
+    {
+      &quot;text&quot;: &quot;数据层开发&quot;,
+      &quot;link&quot;: &quot;/data/&quot;,
+      &quot;activeMatch&quot;: &quot;/data/&quot;
+    },
+    {
+      &quot;text&quot;: &quot;部署与运维&quot;,
+      &quot;link&quot;: &quot;/devops/&quot;,
+      &quot;activeMatch&quot;: &quot;/devops/&quot;
+    },
+    {
+      &quot;text&quot;: &quot;算法与优化&quot;,
+      &quot;link&quot;: &quot;/algorithms/&quot;,
+      &quot;activeMatch&quot;: &quot;/algorithms/&quot;
+    },
+    {
+      &quot;text&quot;: &quot;物联网&quot;,
+      &quot;link&quot;: &quot;/iot/&quot;,
+      &quot;activeMatch&quot;: &quot;/iot/&quot;
+    },
+    {
+      &quot;text&quot;: &quot;杂谈&quot;,
+      &quot;link&quot;: &quot;/thoughts/&quot;,
+      &quot;activeMatch&quot;: &quot;/thoughts/&quot;
+    }
+  ],
+  &quot;search&quot;: {
+    &quot;provider&quot;: &quot;local&quot;,
+    &quot;options&quot;: {
+      &quot;placeholder&quot;: &quot;搜索文档&quot;,
+      &quot;translations&quot;: {
+        &quot;button&quot;: {
+          &quot;buttonText&quot;: &quot;搜索文档&quot;,
+          &quot;buttonAriaLabel&quot;: &quot;搜索文档&quot;
+        },
+        &quot;modal&quot;: {
+          &quot;searchBox&quot;: {
+            &quot;resetButtonTitle&quot;: &quot;清除查询条件&quot;,
+            &quot;resetButtonAriaLabel&quot;: &quot;清除查询条件&quot;,
+            &quot;cancelButtonText&quot;: &quot;取消&quot;,
+            &quot;cancelButtonAriaLabel&quot;: &quot;取消&quot;
+          },
+          &quot;startScreen&quot;: {
+            &quot;recentSearchesTitle&quot;: &quot;搜索历史&quot;,
+            &quot;noRecentSearchesText&quot;: &quot;没有搜索历史&quot;,
+            &quot;saveRecentSearchButtonTitle&quot;: &quot;保存至搜索历史&quot;,
+            &quot;removeRecentSearchButtonTitle&quot;: &quot;从搜索历史中移除&quot;,
+            &quot;favoriteSearchesTitle&quot;: &quot;收藏&quot;,
+            &quot;removeFavoriteSearchButtonTitle&quot;: &quot;从收藏中移除&quot;
+          },
+          &quot;errorScreen&quot;: {
+            &quot;titleText&quot;: &quot;无法获取结果&quot;,
+            &quot;helpText&quot;: &quot;你可能需要检查你的网络连接&quot;
+          },
+          &quot;footer&quot;: {
+            &quot;selectText&quot;: &quot;选择&quot;,
+            &quot;navigateText&quot;: &quot;切换&quot;,
+            &quot;closeText&quot;: &quot;关闭&quot;,
+            &quot;searchByText&quot;: &quot;搜索提供者&quot;
+          },
+          &quot;noResultsScreen&quot;: {
+            &quot;noResultsText&quot;: &quot;无法找到相关结果&quot;,
+            &quot;suggestedQueryText&quot;: &quot;你可以尝试查询&quot;,
+            &quot;reportMissingResultsText&quot;: &quot;你认为该查询应该有结果？&quot;,
+            &quot;reportMissingResultsLinkText&quot;: &quot;点击反馈&quot;
+          }
+        }
+      }
+    }
+  },
+  &quot;sidebar&quot;: {
+    &quot;/frontend/&quot;: {
+      &quot;base&quot;: &quot;/frontend/&quot;,
+      &quot;items&quot;: [
+        {
+          &quot;text&quot;: &quot;前端工程化&quot;,
+          &quot;items&quot;: [
+            {
+              &quot;text&quot;: &quot;web&quot;,
+              &quot;collapsed&quot;: true,
+              &quot;items&quot;: [
+                {
+                  &quot;text&quot;: &quot;上传&quot;,
+                  &quot;base&quot;: &quot;/frontend/web/upload/&quot;,
+                  &quot;collapsed&quot;: true,
+                  &quot;items&quot;: [
+                    {
+                      &quot;text&quot;: &quot;input上传相关必备知识点&quot;,
+                      &quot;link&quot;: &quot;input-file&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;大文件（分片）上传知识点&quot;,
+                      &quot;link&quot;: &quot;base&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;文件常见传输数据格式 Content-Type 与 MIME&quot;,
+                      &quot;link&quot;: &quot;contenttype-mime&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;【vue3+ts+elementplus】 大文件分片上传，断点续传，秒传 示例&quot;,
+                      &quot;link&quot;: &quot;vue3-sample&quot;
+                    }
+                  ]
+                },
+                {
+                  &quot;text&quot;: &quot;下载&quot;,
+                  &quot;base&quot;: &quot;/frontend/web/download/&quot;,
+                  &quot;collapsed&quot;: true,
+                  &quot;items&quot;: [
+                    {
+                      &quot;text&quot;: &quot;a标签下载&quot;,
+                      &quot;link&quot;: &quot;a-download&quot;
+                    }
+                  ]
+                },
+                {
+                  &quot;text&quot;: &quot;视频&quot;,
+                  &quot;base&quot;: &quot;/frontend/web/video/&quot;,
+                  &quot;collapsed&quot;: true,
+                  &quot;items&quot;: [
+                    {
+                      &quot;text&quot;: &quot;video 标签 缓存优化策略&quot;,
+                      &quot;link&quot;: &quot;video-cache&quot;
+                    }
+                  ]
+                },
+                {
+                  &quot;text&quot;: &quot;音频&quot;,
+                  &quot;base&quot;: &quot;/frontend/web/audio/&quot;,
+                  &quot;collapsed&quot;: true,
+                  &quot;items&quot;: []
+                },
+                {
+                  &quot;text&quot;: &quot;Web Worker&quot;,
+                  &quot;base&quot;: &quot;/frontend/web/web-worker/&quot;,
+                  &quot;collapsed&quot;: true,
+                  &quot;items&quot;: [
+                    {
+                      &quot;text&quot;: &quot;介绍&quot;,
+                      &quot;link&quot;: &quot;base&quot;
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              &quot;text&quot;: &quot;css&quot;,
+              &quot;base&quot;: &quot;/frontend/javascript/css/&quot;,
+              &quot;collapsed&quot;: true,
+              &quot;items&quot;: [
+                {
+                  &quot;text&quot;: &quot;init&quot;,
+                  &quot;link&quot;: &quot;init&quot;
+                },
+                {
+                  &quot;text&quot;: &quot;css-b&quot;,
+                  &quot;link&quot;: &quot;css-b&quot;
+                },
+                {
+                  &quot;text&quot;: &quot;css-c&quot;,
+                  &quot;link&quot;: &quot;css-c&quot;
+                }
+              ]
+            },
+            {
+              &quot;text&quot;: &quot;javascript&quot;,
+              &quot;collapsed&quot;: true,
+              &quot;items&quot;: [
+                {
+                  &quot;text&quot;: &quot;基础&quot;,
+                  &quot;base&quot;: &quot;/frontend/javascript/base/&quot;,
+                  &quot;collapsed&quot;: true,
+                  &quot;items&quot;: [
+                    {
+                      &quot;text&quot;: &quot;流程语句&quot;,
+                      &quot;link&quot;: &quot;control-flow-statements&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;操作符&quot;,
+                      &quot;link&quot;: &quot;operator&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;变量、作用域与内存&quot;,
+                      &quot;link&quot;: &quot;variable-scope-memory&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;数组Array&quot;,
+                      &quot;link&quot;: &quot;array&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;迭代器与生成器&quot;,
+                      &quot;link&quot;: &quot;iterable-generate&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;函数Function&quot;,
+                      &quot;link&quot;: &quot;function&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;字符串String&quot;,
+                      &quot;link&quot;: &quot;string&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;对象Object&quot;,
+                      &quot;link&quot;: &quot;object&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;Math&quot;,
+                      &quot;link&quot;: &quot;math&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;集合和映射&quot;,
+                      &quot;link&quot;: &quot;map-set&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;JSON&quot;,
+                      &quot;link&quot;: &quot;json&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;BOM&quot;,
+                      &quot;link&quot;: &quot;bom&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;期约与异步函数&quot;,
+                      &quot;link&quot;: &quot;promise&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;客户端存储&quot;,
+                      &quot;link&quot;: &quot;client-storage&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;模块&quot;,
+                      &quot;link&quot;: &quot;module&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;JavaScript Api&quot;,
+                      &quot;link&quot;: &quot;api&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;网络请求与远程资源&quot;,
+                      &quot;link&quot;: &quot;ajax-fetch&quot;
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              &quot;text&quot;: &quot;浏览器&quot;,
+              &quot;collapsed&quot;: true,
+              &quot;items&quot;: [
+                {
+                  &quot;text&quot;: &quot;javascript&quot;,
+                  &quot;link&quot;: &quot;/frontend/web&quot;
+                },
+                {
+                  &quot;text&quot;: &quot;typescript&quot;,
+                  &quot;link&quot;: &quot;/frontend/web&quot;
+                },
+                {
+                  &quot;text&quot;: &quot;css&quot;,
+                  &quot;link&quot;: &quot;/frontend/web&quot;
+                }
+              ]
+            },
+            {
+              &quot;text&quot;: &quot;框架&quot;,
+              &quot;collapsed&quot;: true,
+              &quot;items&quot;: [
+                {
+                  &quot;text&quot;: &quot;react&quot;,
+                  &quot;base&quot;: &quot;/frontend/framework/react/&quot;,
+                  &quot;collapsed&quot;: true,
+                  &quot;items&quot;: [
+                    {
+                      &quot;text&quot;: &quot;react源码&quot;,
+                      &quot;link&quot;: &quot;source-code&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;react源码&quot;,
+                      &quot;link&quot;: &quot;source-code&quot;
+                    }
+                  ]
+                },
+                {
+                  &quot;text&quot;: &quot;vue&quot;,
+                  &quot;base&quot;: &quot;/frontend/framework/vue/&quot;,
+                  &quot;collapsed&quot;: true,
+                  &quot;items&quot;: [
+                    {
+                      &quot;text&quot;: &quot;vue源码&quot;,
+                      &quot;link&quot;: &quot;source-code&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;vue源码&quot;,
+                      &quot;link&quot;: &quot;source-code&quot;
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              &quot;text&quot;: &quot;工程架构&quot;,
+              &quot;collapsed&quot;: true,
+              &quot;items&quot;: [
+                {
+                  &quot;text&quot;: &quot;性能优化&quot;,
+                  &quot;base&quot;: &quot;/frontend/engineering/&quot;,
+                  &quot;collapsed&quot;: true,
+                  &quot;items&quot;: [
+                    {
+                      &quot;text&quot;: &quot;工程架构1&quot;,
+                      &quot;link&quot;: &quot;source-code&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;工程架构2&quot;,
+                      &quot;link&quot;: &quot;source-code&quot;
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              &quot;text&quot;: &quot;移动端&quot;,
+              &quot;collapsed&quot;: true,
+              &quot;items&quot;: [
+                {
+                  &quot;text&quot;: &quot;移动端&quot;,
+                  &quot;base&quot;: &quot;/frontend/app/&quot;,
+                  &quot;collapsed&quot;: true,
+                  &quot;items&quot;: [
+                    {
+                      &quot;text&quot;: &quot;移动端1&quot;,
+                      &quot;link&quot;: &quot;source-code&quot;
+                    },
+                    {
+                      &quot;text&quot;: &quot;移动端2&quot;,
+                      &quot;link&quot;: &quot;source-code&quot;
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    &quot;/backend/&quot;: {
+      &quot;base&quot;: &quot;/backend/&quot;,
+      &quot;items&quot;: [
+        {
+          &quot;text&quot;: &quot;服务端与架构&quot;,
+          &quot;items&quot;: [
+            {
+              &quot;text&quot;: &quot;编程语言&quot;,
+              &quot;collapsed&quot;: false,
+              &quot;items&quot;: [
+                {
+                  &quot;text&quot;: &quot;sqlite&quot;,
+                  &quot;base&quot;: &quot;/backend/sql/sqlite/&quot;,
+                  &quot;collapsed&quot;: true,
+                  &quot;items&quot;: [
+                    {
+                      &quot;text&quot;: &quot;sqlite介绍&quot;,
+                      &quot;link&quot;: &quot;base&quot;
+                    }
+                  ]
+                },
+                {
+                  &quot;text&quot;: &quot;sql 查询优化&quot;,
+                  &quot;base&quot;: &quot;/backend/sql/optimization/&quot;,
+                  &quot;collapsed&quot;: true,
+                  &quot;items&quot;: [
+                    {
+                      &quot;text&quot;: &quot;索引优化&quot;,
+                      &quot;link&quot;: &quot;index-optimization&quot;
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    &quot;/data/&quot;: {
+      &quot;base&quot;: &quot;/data/&quot;,
+      &quot;items&quot;: [
+        {
+          &quot;text&quot;: &quot;数据层开发&quot;,
+          &quot;items&quot;: [
+            {
+              &quot;text&quot;: &quot;sql&quot;,
+              &quot;collapsed&quot;: false,
+              &quot;items&quot;: [
+                {
+                  &quot;text&quot;: &quot;sqlite&quot;,
+                  &quot;base&quot;: &quot;/data/sql/sqlite/&quot;,
+                  &quot;collapsed&quot;: true,
+                  &quot;items&quot;: [
+                    {
+                      &quot;text&quot;: &quot;sqlite介绍&quot;,
+                      &quot;link&quot;: &quot;base&quot;
+                    }
+                  ]
+                },
+                {
+                  &quot;text&quot;: &quot;sql 查询优化&quot;,
+                  &quot;base&quot;: &quot;/data/sql/optimization/&quot;,
+                  &quot;collapsed&quot;: true,
+                  &quot;items&quot;: [
+                    {
+                      &quot;text&quot;: &quot;索引优化&quot;,
+                      &quot;link&quot;: &quot;index-optimization&quot;
+                    }
+                  ]
+                },
+                {
+                  &quot;text&quot;: &quot;问题&quot;,
+                  &quot;base&quot;: &quot;/data/sql/bug/&quot;,
+                  &quot;collapsed&quot;: true,
+                  &quot;items&quot;: [
+                    {
+                      &quot;text&quot;: &quot;sql 视图查询 返回字段丢失&quot;,
+                      &quot;link&quot;: &quot;view-missing-field&quot;
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    &quot;/devops/&quot;: {
+      &quot;base&quot;: &quot;/devops/&quot;,
+      &quot;items&quot;: [
+        {
+          &quot;text&quot;: &quot;部署与运维&quot;,
+          &quot;items&quot;: [
+            {
+              &quot;text&quot;: &quot;个人博客搭建&quot;,
+              &quot;base&quot;: &quot;/devops/blog/&quot;,
+              &quot;collapsed&quot;: false,
+              &quot;items&quot;: [
+                {
+                  &quot;text&quot;: &quot;建站指引&quot;,
+                  &quot;link&quot;: &quot;githubpage-vitepress&quot;
+                },
+                {
+                  &quot;text&quot;: &quot;markdown 语法&quot;,
+                  &quot;link&quot;: &quot;markdown&quot;
+                }
+              ]
+            },
+            {
+              &quot;text&quot;: &quot;CI/CD 持续集成/持续交付&quot;,
+              &quot;base&quot;: &quot;/devops/cicd/jenkins/&quot;,
+              &quot;collapsed&quot;: false,
+              &quot;items&quot;: [
+                {
+                  &quot;text&quot;: &quot;【手把手教你部署前端项目CI/CD】 第一篇 Docker 篇&quot;,
+                  &quot;link&quot;: &quot;docker&quot;
+                },
+                {
+                  &quot;text&quot;: &quot;【手把手教你部署前端项目CI/CD】 第二篇 Jenkins freestyle 篇&quot;,
+                  &quot;link&quot;: &quot;freestyle&quot;
+                },
+                {
+                  &quot;text&quot;: &quot;【手把手教你部署前端项目CI/CD】 第三篇 Jenkins pipeline 篇&quot;,
+                  &quot;link&quot;: &quot;pipeline&quot;
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    &quot;/algorithms/&quot;: {
+      &quot;base&quot;: &quot;/algorithms/&quot;,
+      &quot;items&quot;: [
+        {
+          &quot;text&quot;: &quot;算法与优化&quot;,
+          &quot;items&quot;: [
+            {
+              &quot;text&quot;: &quot;CI/CD&quot;,
+              &quot;base&quot;: &quot;/devops/cicd/jenkins/&quot;,
+              &quot;collapsed&quot;: false,
+              &quot;items&quot;: [
+                {
+                  &quot;text&quot;: &quot;【手把手教你部署前端项目CI/CD】 第一篇 Docker 篇&quot;,
+                  &quot;link&quot;: &quot;docker&quot;
+                },
+                {
+                  &quot;text&quot;: &quot;【手把手教你部署前端项目CI/CD】 第二篇 Jenkins freestyle 篇&quot;,
+                  &quot;link&quot;: &quot;freestyle&quot;
+                },
+                {
+                  &quot;text&quot;: &quot;【手把手教你部署前端项目CI/CD】 第三篇 Jenkins pipeline 篇&quot;,
+                  &quot;link&quot;: &quot;pipeline&quot;
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    &quot;/iot/&quot;: {
+      &quot;base&quot;: &quot;/iot/&quot;,
+      &quot;items&quot;: [
+        {
+          &quot;text&quot;: &quot;物联网&quot;,
+          &quot;items&quot;: [
+            {
+              &quot;text&quot;: &quot;iot&quot;,
+              &quot;base&quot;: &quot;/iot/cicd/jenkins/&quot;,
+              &quot;collapsed&quot;: false,
+              &quot;items&quot;: [
+                {
+                  &quot;text&quot;: &quot;【手把手教你部署前端项目CI/CD】 第一篇 Docker 篇&quot;,
+                  &quot;link&quot;: &quot;docker&quot;
+                },
+                {
+                  &quot;text&quot;: &quot;【手把手教你部署前端项目CI/CD】 第二篇 Jenkins freestyle 篇&quot;,
+                  &quot;link&quot;: &quot;freestyle&quot;
+                },
+                {
+                  &quot;text&quot;: &quot;【手把手教你部署前端项目CI/CD】 第三篇 Jenkins pipeline 篇&quot;,
+                  &quot;link&quot;: &quot;pipeline&quot;
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    &quot;/thoughts/&quot;: {
+      &quot;base&quot;: &quot;/thoughts/&quot;,
+      &quot;items&quot;: [
+        {
+          &quot;text&quot;: &quot;杂谈&quot;,
+          &quot;items&quot;: [
+            {
+              &quot;text&quot;: &quot;短片&quot;,
+              &quot;base&quot;: &quot;/thoughts/shortMovie/&quot;,
+              &quot;collapsed&quot;: false,
+              &quot;items&quot;: [
+                {
+                  &quot;text&quot;: &quot;推荐&quot;,
+                  &quot;link&quot;: &quot;recommend&quot;
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  &quot;footer&quot;: {
+    &quot;message&quot;: &quot;基于 MIT 许可发布&quot;,
+    &quot;copyright&quot;: &quot;版权所有 © 2023-2025 王磊&quot;
+  },
+  &quot;docFooter&quot;: {
+    &quot;prev&quot;: &quot;上一页&quot;,
+    &quot;next&quot;: &quot;下一页&quot;
+  },
+  &quot;outline&quot;: {
+    &quot;level&quot;: [
+      2,
+      3
+    ],
+    &quot;label&quot;: &quot;本页导航&quot;
+  },
+  &quot;lastUpdated&quot;: {
+    &quot;text&quot;: &quot;更新于&quot;,
+    &quot;formatOptions&quot;: {
+      &quot;dateStyle&quot;: &quot;full&quot;,
+      &quot;timeStyle&quot;: &quot;medium&quot;
+    }
+  },
+  &quot;notFound&quot;: {
+    &quot;title&quot;: &quot;页面未找到&quot;,
+    &quot;quote&quot;: &quot;但如果你不改变方向，并且继续寻找，你可能最终会到达你所前往的地方。&quot;,
+    &quot;linkLabel&quot;: &quot;前往首页&quot;,
+    &quot;linkText&quot;: &quot;带我回首页&quot;
+  },
+  &quot;socialLinks&quot;: [
+    {
+      &quot;icon&quot;: &quot;github&quot;,
+      &quot;link&quot;: &quot;https://github.com/wanglei1900&quot;
+    },
+    {
+      &quot;icon&quot;: {
+        &quot;svg&quot;: &quot;&lt;svg width=\&quot;150\&quot; height=\&quot;55\&quot; id=\&quot;layer_1\&quot; data-name=\&quot;layer 1\&quot; xmlns=\&quot;http://www.w3.org/2000/svg\&quot; xmlns:xlink=\&quot;http://www.w3.org/1999/xlink\&quot; viewBox=\&quot;0 0 280 102.66\&quot;&gt;&lt;defs&gt;&lt;style&gt;.cls-1{fill:url(#gradient);}.cls-2{fill:#8dcefc;}.cls-3,.cls-4{fill:none;stroke-miterlimit:10;stroke-width:2px;}.cls-3{stroke:#457ab5;}.cls-4{stroke:url(#gradient_3);}.cls-5{fill:url(#gradient_2);}.cls-6{fill:#2e7acc;}.cls-7{fill:#e33e06;}.cls-8{fill:#8c8c8c;}&lt;/style&gt;&lt;radialGradient id=\&quot;gradient\&quot; cx=\&quot;49.22\&quot; cy=\&quot;-6550.95\&quot; r=\&quot;44.62\&quot; gradientTransform=\&quot;matrix(1, 0, 0, -0.07, 0, -359.49)\&quot; gradientUnits=\&quot;userSpaceOnUse\&quot;&gt;&lt;stop offset=\&quot;0\&quot; stop-color=\&quot;#8c8c8c\&quot;/&gt;&lt;stop offset=\&quot;0.13\&quot; stop-color=\&quot;#919191\&quot; stop-opacity=\&quot;0.95\&quot;/&gt;&lt;stop offset=\&quot;0.32\&quot; stop-color=\&quot;#a0a0a0\&quot; stop-opacity=\&quot;0.83\&quot;/&gt;&lt;stop offset=\&quot;0.54\&quot; stop-color=\&quot;#b8b8b8\&quot; stop-opacity=\&quot;0.61\&quot;/&gt;&lt;stop offset=\&quot;0.78\&quot; stop-color=\&quot;#dadada\&quot; stop-opacity=\&quot;0.32\&quot;/&gt;&lt;stop offset=\&quot;1\&quot; stop-color=\&quot;#fff\&quot; stop-opacity=\&quot;0\&quot;/&gt;&lt;/radialGradient&gt;&lt;radialGradient id=\&quot;gradient_3\&quot; cx=\&quot;-147.55\&quot; cy=\&quot;-262.27\&quot; r=\&quot;23.26\&quot; gradientTransform=\&quot;matrix(0.95, -0.32, -0.32, -0.95, 121.5, -275.63)\&quot; gradientUnits=\&quot;userSpaceOnUse\&quot;&gt;&lt;stop offset=\&quot;0\&quot; stop-color=\&quot;#fff\&quot;/&gt;&lt;stop offset=\&quot;0.21\&quot; stop-color=\&quot;#fff\&quot; stop-opacity=\&quot;0.99\&quot;/&gt;&lt;stop offset=\&quot;0.34\&quot; stop-color=\&quot;#fff\&quot; stop-opacity=\&quot;0.96\&quot;/&gt;&lt;stop offset=\&quot;0.46\&quot; stop-color=\&quot;#fff\&quot; stop-opacity=\&quot;0.9\&quot;/&gt;&lt;stop offset=\&quot;0.56\&quot; stop-color=\&quot;#fff\&quot; stop-opacity=\&quot;0.81\&quot;/&gt;&lt;stop offset=\&quot;0.66\&quot; stop-color=\&quot;#fff\&quot; stop-opacity=\&quot;0.71\&quot;/&gt;&lt;stop offset=\&quot;0.74\&quot; stop-color=\&quot;#fff\&quot; stop-opacity=\&quot;0.58\&quot;/&gt;&lt;stop offset=\&quot;0.83\&quot; stop-color=\&quot;#fff\&quot; stop-opacity=\&quot;0.42\&quot;/&gt;&lt;stop offset=\&quot;0.91\&quot; stop-color=\&quot;#fff\&quot; stop-opacity=\&quot;0.24\&quot;/&gt;&lt;stop offset=\&quot;0.99\&quot; stop-color=\&quot;#fff\&quot; stop-opacity=\&quot;0.04\&quot;/&gt;&lt;stop offset=\&quot;1\&quot; stop-color=\&quot;#fff\&quot; stop-opacity=\&quot;0\&quot;/&gt;&lt;/radialGradient&gt;&lt;radialGradient id=\&quot;gradient_2\&quot; cx=\&quot;61.19\&quot; cy=\&quot;57.93\&quot; r=\&quot;54.56\&quot; gradientUnits=\&quot;userSpaceOnUse\&quot;&gt;&lt;stop offset=\&quot;0\&quot; stop-color=\&quot;#7aacdf\&quot;/&gt;&lt;stop offset=\&quot;0.27\&quot; stop-color=\&quot;#70a6dd\&quot;/&gt;&lt;stop offset=\&quot;0.73\&quot; stop-color=\&quot;#5496d9\&quot;/&gt;&lt;stop offset=\&quot;1\&quot; stop-color=\&quot;#408bd6\&quot;/&gt;&lt;/radialGradient&gt;&lt;/defs&gt;&lt;title&gt;博客园logo&lt;/title&gt;&lt;g id=\&quot;layer_2\&quot; data-name=\&quot;layer 2\&quot;&gt;&lt;g id=\&quot;layer_1-2\&quot; data-name=\&quot;layer 1-2\&quot;&gt;&lt;ellipse class=\&quot;cls-1\&quot; cx=\&quot;49.22\&quot; cy=\&quot;99.44\&quot; rx=\&quot;44.62\&quot; ry=\&quot;3.22\&quot;/&gt;&lt;path class=\&quot;cls-2\&quot; d=\&quot;M49.22,1A48.22,48.22,0,1,0,97.44,49.22,48.22,48.22,0,0,0,49.22,1ZM34,77.06A10.46,10.46,0,1,1,44.43,66.6,10.46,10.46,0,0,1,34,77.06Zm25.11-4a6.5,6.5,0,0,1-6.5-6.5c0-9.81-8.51-18.1-18.58-18.1a6.5,6.5,0,0,1,0-13c17.12,0,31.58,14.24,31.58,31.1A6.5,6.5,0,0,1,59.08,73.1ZM79.72,67l-.56,0a6.5,6.5,0,0,1-6.47-6C71.35,45.29,59.57,28.5,40.4,28.5a6.5,6.5,0,0,1,0-13C64,15.5,83.48,34.63,85.65,60A6.51,6.51,0,0,1,79.72,67Z\&quot;/&gt;&lt;circle class=\&quot;cls-3\&quot; cx=\&quot;49.22\&quot; cy=\&quot;49.22\&quot; r=\&quot;48.22\&quot;/&gt;&lt;path class=\&quot;cls-4\&quot; d=\&quot;M35.2,5.89c23.88-7.78,50,5.36,57.41,29.05\&quot;/&gt;&lt;path class=\&quot;cls-5\&quot; d=\&quot;M49.22,4.6A44.62,44.62,0,1,0,93.84,49.22,44.62,44.62,0,0,0,49.22,4.6ZM34,77.06A10.46,10.46,0,1,1,44.43,66.6,10.46,10.46,0,0,1,34,77.06Zm25.11-4a6.5,6.5,0,0,1-6.5-6.5c0-9.81-8.51-18.1-18.58-18.1a6.5,6.5,0,0,1,0-13c17.12,0,31.58,14.24,31.58,31.1A6.5,6.5,0,0,1,59.08,73.1ZM79.72,67l-.56,0a6.5,6.5,0,0,1-6.47-6C71.35,45.29,59.57,28.5,40.4,28.5a6.5,6.5,0,0,1,0-13C64,15.5,83.48,34.63,85.65,60A6.51,6.51,0,0,1,79.72,67Z\&quot;/&gt;&lt;path class=\&quot;cls-6\&quot; d=\&quot;M79.72,67l-.56,0a6.5,6.5,0,0,1-6.47-6,39.24,39.24,0,0,0-4.45-15,56.64,56.64,0,0,0-37-13.58A57,57,0,0,0,5.93,38.39,44.61,44.61,0,0,0,85.62,75a51.4,51.4,0,0,0-2.86-9A6.55,6.55,0,0,1,79.72,67ZM34,77.06A10.46,10.46,0,1,1,44.43,66.6,10.46,10.46,0,0,1,34,77.06Zm25.11-4a6.5,6.5,0,0,1-6.5-6.5c0-9.81-8.51-18.1-18.58-18.1a6.5,6.5,0,0,1,0-13c17.12,0,31.58,14.24,31.58,31.1A6.5,6.5,0,0,1,59.08,73.1Z\&quot;/&gt;&lt;path class=\&quot;cls-7\&quot; d=\&quot;M115.08,24.88V10.24h4.26V24.88h6.06v4.2h-6.06v36h-4.26v-36H108.6v-4.2ZM150.84,47.8v-3H155v3h7.86v3.84H155V60.4c0,3.12-1.56,4.68-4.62,4.68h-6.6l-.9-4c2.1.18,4.14.3,6.06.3,1.2,0,1.86-.66,1.86-2V51.64h-26V47.8Zm-9-33.36V10.3H146v4.14h7a34.08,34.08,0,0,0-1.74-3.6l3.72-.6a39.19,39.19,0,0,1,1.56,4.2h5.16V18.1H146v4.14h13.6V44h-4V39.82H146V43.6h-4.14V39.82H132.3V44h-4V22.24h13.56V18.1H126.18V14.44ZM142,59.38l-2.7,2.7A56.61,56.61,0,0,0,131,54.34l2.64-2.52A58.52,58.52,0,0,1,142,59.38Zm-.12-29.58V25.6H132.3v4.2Zm0,7.08V32.8H132.3v4.08ZM146,29.8h9.6V25.6H146Zm0,7.08h9.6V32.8H146Z\&quot;/&gt;&lt;path class=\&quot;cls-7\&quot; d=\&quot;M192.06,20.68c-.9,1.38-1.8,2.7-2.76,4h22.14v3.48a32.73,32.73,0,0,1-10.62,9.06,74.75,74.75,0,0,0,22,4.74l-1,3.9a70,70,0,0,1-25.5-6.42c-7.08,3.24-16,5.76-26.82,7.62l-1.62-3.84c9.66-1.56,17.7-3.54,24.06-6.06A54.93,54.93,0,0,1,183.48,31a57.2,57.2,0,0,1-7.5,5.64l-2.76-3.36a44.52,44.52,0,0,0,14.64-13.5ZM219.78,26H215.4V18.52h-40V26H171V14.62h22a39.15,39.15,0,0,0-2.22-4.2l4.74-.72c.72,1.44,1.38,3.12,2.1,4.92h22.14Zm-6.72,39.36h-4.2V62.74h-25.8v2.58h-4.2V46.54h34.2Zm-4.2-6.48v-8.4h-25.8v8.4ZM206.28,28.3h-20.1l-.18.18a53.6,53.6,0,0,0,10.38,6.72A36,36,0,0,0,206.28,28.3Z\&quot;/&gt;&lt;path class=\&quot;cls-7\&quot; d=\&quot;M280,65.14h-4.32v-2.4H235.2v2.4h-4.32V12.82H280Zm-4.32-6.24V16.78H235.2V58.9Zm-4.2-26.34V36.4h-9.6V48.7c0,1.44.6,2.16,1.92,2.16H266a3.05,3.05,0,0,0,1.92-.54c.72-.42,1.14-2.52,1.38-6.24l3.6,1.2c-.48,4.44-1.08,7.14-1.92,8s-2.16,1.08-4.14,1.14H262.5a4.46,4.46,0,0,1-3.42-1.32,5,5,0,0,1-1.2-3.48V36.4h-5.7c-.54,4.92-1.68,8.7-3.48,11.46-2,3.12-5.22,5.52-9.42,7.32l-2-3.48a16.49,16.49,0,0,0,8.16-6.12,22.43,22.43,0,0,0,2.88-9.18H239.4V32.56Zm-3.4-10.26v3.84H242.82V22.3Z\&quot;/&gt;&lt;path class=\&quot;cls-8\&quot; d=\&quot;M123.37,79a6.18,6.18,0,0,1,5.31,2.52l-1.5,1.38a4.32,4.32,0,0,0-3.69-1.9c-3.09,0-5,2.37-5,5.58s1.92,5.61,5,5.61a4.37,4.37,0,0,0,3.69-1.89l1.5,1.38a6.18,6.18,0,0,1-5.31,2.52c-4.32,0-7.23-3.3-7.23-7.62S119.05,79,123.37,79Z\&quot;/&gt;&lt;path class=\&quot;cls-8\&quot; d=\&quot;M141.61,84.36c0-2.55-1.29-3.36-3.24-3.36a5.59,5.59,0,0,0-4.29,2.25V93.84h-2.25V79.35h2.25v2.1A7.22,7.22,0,0,1,139.24,79c3,0,4.62,1.53,4.62,4.68V93.84h-2.25Z\&quot;/&gt;&lt;path class=\&quot;cls-8\&quot; d=\&quot;M148.36,73.83h2.25v7.71A6,6,0,0,1,155.5,79c3.78,0,6.45,3,6.45,7.62s-2.67,7.59-6.45,7.59a6.11,6.11,0,0,1-4.89-2.52v2.16h-2.25Zm6.57,18.36c2.94,0,4.68-2.37,4.68-5.58S157.87,81,154.93,81a5.39,5.39,0,0,0-4.32,2.34v6.57a5.36,5.36,0,0,0,4.32,2.28Z\&quot;/&gt;&lt;path class=\&quot;cls-8\&quot; d=\&quot;M165.61,73.83h2.25v20h-2.25Z\&quot;/&gt;&lt;path class=\&quot;cls-8\&quot; d=\&quot;M171.52,86.58c0-4.2,2.76-7.59,7.17-7.59s7.17,3.39,7.17,7.59-2.76,7.62-7.17,7.62S171.52,90.78,171.52,86.58Zm12,0c0-2.94-1.71-5.58-4.8-5.58s-4.83,2.64-4.83,5.58,1.74,5.61,4.83,5.61,4.77-2.64,4.77-5.61Z\&quot;/&gt;&lt;path class=\&quot;cls-8\&quot; d=\&quot;M190.63,95.88a5.53,5.53,0,0,0,4.71,2c2.4,0,4.65-1.17,4.65-4.35V91.44A6.06,6.06,0,0,1,195.13,94c-3.78,0-6.45-2.82-6.45-7.5s2.64-7.5,6.45-7.5A6,6,0,0,1,200,81.54V79.35h2.25V93.42c0,4.8-3.36,6.3-6.9,6.3a7.39,7.39,0,0,1-5.85-2.16ZM200,83.34A5.34,5.34,0,0,0,195.67,81c-2.91,0-4.65,2.31-4.65,5.52S192.76,92,195.67,92A5.36,5.36,0,0,0,200,89.67Z\&quot;/&gt;&lt;path class=\&quot;cls-8\&quot; d=\&quot;M206.65,90.3a6.54,6.54,0,0,0,4.77,2.07c2.22,0,3.42-1,3.42-2.4,0-1.59-1.77-2.1-3.72-2.58-2.46-.57-5.25-1.23-5.25-4.23,0-2.25,1.95-4.17,5.4-4.17a7.36,7.36,0,0,1,5.37,2.1l-1,1.56a5.62,5.62,0,0,0-4.32-1.83c-2,0-3.21.9-3.21,2.19s1.65,1.86,3.54,2.31c2.52.57,5.43,1.29,5.43,4.5,0,2.43-2,4.38-5.7,4.38a7.71,7.71,0,0,1-5.85-2.28Z\&quot;/&gt;&lt;path class=\&quot;cls-8\&quot; d=\&quot;M221.89,90.84a1.65,1.65,0,1,1-1.65,1.65h0A1.66,1.66,0,0,1,221.89,90.84Z\&quot;/&gt;&lt;path class=\&quot;cls-8\&quot; d=\&quot;M233.77,79a6.18,6.18,0,0,1,5.31,2.52l-1.5,1.38a4.32,4.32,0,0,0-3.69-1.9c-3.09,0-5,2.37-5,5.58s1.92,5.61,5,5.61a4.37,4.37,0,0,0,3.69-1.89l1.5,1.38a6.18,6.18,0,0,1-5.31,2.52c-4.32,0-7.23-3.3-7.23-7.62S229.45,79,233.77,79Z\&quot;/&gt;&lt;path class=\&quot;cls-8\&quot; d=\&quot;M241.39,86.58c0-4.2,2.76-7.59,7.17-7.59s7.17,3.39,7.17,7.59S253,94.2,248.56,94.2,241.39,90.78,241.39,86.58Zm12,0c0-2.94-1.71-5.58-4.8-5.58s-4.83,2.64-4.83,5.58,1.74,5.61,4.83,5.61,4.77-2.64,4.77-5.61Z\&quot;/&gt;&lt;path class=\&quot;cls-8\&quot; d=\&quot;M276.88,84c0-1.83-.81-3-2.67-3a5.07,5.07,0,0,0-3.84,2.22V93.84h-2.25V84c0-1.83-.78-3-2.67-3a5.09,5.09,0,0,0-3.81,2.25V93.84h-2.25V79.35h2.25v2.1A6.25,6.25,0,0,1,266.32,79a3.72,3.72,0,0,1,3.9,2.7,6.1,6.1,0,0,1,4.86-2.7c2.64,0,4.05,1.47,4.05,4.38V93.84h-2.25Z\&quot;/&gt;&lt;/g&gt;&lt;/g&gt;&lt;/svg&gt;&quot;
+      },
+      &quot;link&quot;: &quot;https://www.cnblogs.com/wanglei1900&quot;
+    },
+    {
+      &quot;icon&quot;: &quot;github&quot;,
+      &quot;link&quot;: &quot;https://vitepress.dev/zh&quot;
+    }
+  ],
+  &quot;returnToTopLabel&quot;: &quot;回到顶部&quot;,
+  &quot;sidebarMenuLabel&quot;: &quot;菜单&quot;,
+  &quot;darkModeSwitchLabel&quot;: &quot;主题&quot;,
+  &quot;lightModeSwitchTitle&quot;: &quot;切换到浅色模式&quot;,
+  &quot;darkModeSwitchTitle&quot;: &quot;切换到深色模式&quot;,
+  &quot;skipToContentLabel&quot;: &quot;跳转到内容&quot;
+}</pre><h3 id="page-data" tabindex="-1">Page Data <a class="header-anchor" href="#page-data" aria-label="Permalink to &quot;Page Data&quot;">​</a></h3><pre>{
+  &quot;title&quot;: &quot;Runtime API Examples&quot;,
+  &quot;description&quot;: &quot;&quot;,
+  &quot;frontmatter&quot;: {
+    &quot;outline&quot;: &quot;deep&quot;
+  },
+  &quot;headers&quot;: [],
+  &quot;relativePath&quot;: &quot;api-examples.md&quot;,
+  &quot;filePath&quot;: &quot;api-examples.md&quot;,
+  &quot;lastUpdated&quot;: 1750670848000
+}</pre><h3 id="page-frontmatter" tabindex="-1">Page Frontmatter <a class="header-anchor" href="#page-frontmatter" aria-label="Permalink to &quot;Page Frontmatter&quot;">​</a></h3><pre>{
+  &quot;outline&quot;: &quot;deep&quot;
+}</pre><h2 id="more" tabindex="-1">More <a class="header-anchor" href="#more" aria-label="Permalink to &quot;More&quot;">​</a></h2><p>Check out the documentation for the <a href="https://vitepress.dev/reference/runtime-api#usedata" target="_blank" rel="noreferrer">full list of runtime APIs</a>.</p></div></div></main><footer class="VPDocFooter" data-v-165a4414 data-v-6e0368bf><!--[--><!--]--><div class="edit-info" data-v-6e0368bf><!----><div class="last-updated" data-v-6e0368bf><p class="VPLastUpdated" data-v-6e0368bf data-v-f109f35b>更新于: <time datetime="2025-06-23T09:27:28.000Z" data-v-f109f35b></time></p></div></div><!----></footer><!--[--><!--]--></div></div></div><!--[--><!--]--></div></div><footer class="VPFooter" data-v-e6a7cc9a data-v-d124946e><div class="container" data-v-d124946e><p class="message" data-v-d124946e>基于 MIT 许可发布</p><p class="copyright" data-v-d124946e>版权所有 © 2023-2025 王磊</p></div></footer><!--[--><div class="busuanzi"> 本站访客数 <span id="busuanzi_value_site_uv"></span> 人次 本站总访问量 <span id="busuanzi_value_site_pv"></span> 次 </div><!--]--></div></div>
+    <script>window.__VP_HASH_MAP__=JSON.parse("{\"algorithms_index.md\":\"BwLlKeb3\",\"api-examples.md\":\"BEGTfcC4\",\"backend_index.md\":\"DMlg8WtO\",\"data_index.md\":\"D9wFvPtY\",\"data_sql_bug_view-missing-field.md\":\"D86uAfDX\",\"data_sql_optimization_index-optimization.md\":\"pL3nGv0F\",\"data_sql_sqlite_base.md\":\"DRdGYz-I\",\"devops_blog_githubpage-vitepress.md\":\"CpHj3KVb\",\"devops_blog_markdown.md\":\"CSR1-m-0\",\"devops_cicd_jenkins_docker.md\":\"CSOBRD8_\",\"devops_cicd_jenkins_freestyle.md\":\"BWvvkZ_b\",\"devops_cicd_jenkins_pipeline.md\":\"UfrBm94S\",\"devops_index.md\":\"D4ifJx-B\",\"frontend_css_init.md\":\"COhpAfGP\",\"frontend_index.md\":\"D-0flG5e\",\"frontend_javascript_base_ajax-fetch.md\":\"CD3A4dIV\",\"frontend_javascript_base_api.md\":\"C4rOpjLp\",\"frontend_javascript_base_array.md\":\"CEWvJYQC\",\"frontend_javascript_base_bom.md\":\"C9VepPrK\",\"frontend_javascript_base_client-storage.md\":\"Dur1mDlK\",\"frontend_javascript_base_control-flow-statements.md\":\"DOAZLM0x\",\"frontend_javascript_base_function.md\":\"BOA45498\",\"frontend_javascript_base_iterable-generate.md\":\"KmgleX4m\",\"frontend_javascript_base_json.md\":\"yXPx_j0B\",\"frontend_javascript_base_map-set.md\":\"DMMGR8tq\",\"frontend_javascript_base_math.md\":\"C62Iopm2\",\"frontend_javascript_base_module.md\":\"BAarbUK4\",\"frontend_javascript_base_object.md\":\"BFoZKVyh\",\"frontend_javascript_base_operator.md\":\"DRyJoa33\",\"frontend_javascript_base_promise.md\":\"OqdNegC4\",\"frontend_javascript_base_string.md\":\"Bg9HHJgA\",\"frontend_javascript_base_variable-scope-memory.md\":\"BtqFKpbP\",\"frontend_web_download_a-download.md\":\"Ct9FSIUq\",\"frontend_web_init.md\":\"DE-0yxrr\",\"frontend_web_upload_base.md\":\"B9j-RDCx\",\"frontend_web_upload_contenttype-mime.md\":\"XaQF0zLZ\",\"frontend_web_upload_input-file.md\":\"DbP32oIp\",\"frontend_web_upload_vue3-sample.md\":\"mWAOwFH4\",\"frontend_web_upload_webworker.md\":\"DV4_8KDd\",\"frontend_web_video_video-cache.md\":\"B_ODdqSx\",\"frontend_web_web-worker_base.md\":\"BHrbIB3B\",\"index.md\":\"260S_YyG\",\"iot_index.md\":\"DTGZsg_U\",\"markdown-examples.md\":\"CAWe4vt_\",\"thoughts_index.md\":\"gJY03j8F\",\"thoughts_shortmovie_recommend.md\":\"BNcQEnFf\"}");window.__VP_SITE_DATA__=JSON.parse("{\"lang\":\"zh-Hans\",\"dir\":\"ltr\",\"title\":\"wanglei1900 Blog\",\"description\":\"Blog\",\"base\":\"/\",\"head\":[],\"router\":{\"prefetchLinks\":true},\"appearance\":true,\"themeConfig\":{\"logo\":\"/favicon.ico\",\"nav\":[{\"text\":\"Home\",\"link\":\"/\"},{\"text\":\"前端工程化\",\"link\":\"/frontend/\",\"activeMatch\":\"/frontend/\"},{\"text\":\"服务端与架构\",\"link\":\"/backend/\",\"activeMatch\":\"/backend/\"},{\"text\":\"数据层开发\",\"link\":\"/data/\",\"activeMatch\":\"/data/\"},{\"text\":\"部署与运维\",\"link\":\"/devops/\",\"activeMatch\":\"/devops/\"},{\"text\":\"算法与优化\",\"link\":\"/algorithms/\",\"activeMatch\":\"/algorithms/\"},{\"text\":\"物联网\",\"link\":\"/iot/\",\"activeMatch\":\"/iot/\"},{\"text\":\"杂谈\",\"link\":\"/thoughts/\",\"activeMatch\":\"/thoughts/\"}],\"search\":{\"provider\":\"local\",\"options\":{\"placeholder\":\"搜索文档\",\"translations\":{\"button\":{\"buttonText\":\"搜索文档\",\"buttonAriaLabel\":\"搜索文档\"},\"modal\":{\"searchBox\":{\"resetButtonTitle\":\"清除查询条件\",\"resetButtonAriaLabel\":\"清除查询条件\",\"cancelButtonText\":\"取消\",\"cancelButtonAriaLabel\":\"取消\"},\"startScreen\":{\"recentSearchesTitle\":\"搜索历史\",\"noRecentSearchesText\":\"没有搜索历史\",\"saveRecentSearchButtonTitle\":\"保存至搜索历史\",\"removeRecentSearchButtonTitle\":\"从搜索历史中移除\",\"favoriteSearchesTitle\":\"收藏\",\"removeFavoriteSearchButtonTitle\":\"从收藏中移除\"},\"errorScreen\":{\"titleText\":\"无法获取结果\",\"helpText\":\"你可能需要检查你的网络连接\"},\"footer\":{\"selectText\":\"选择\",\"navigateText\":\"切换\",\"closeText\":\"关闭\",\"searchByText\":\"搜索提供者\"},\"noResultsScreen\":{\"noResultsText\":\"无法找到相关结果\",\"suggestedQueryText\":\"你可以尝试查询\",\"reportMissingResultsText\":\"你认为该查询应该有结果？\",\"reportMissingResultsLinkText\":\"点击反馈\"}}}}},\"sidebar\":{\"/frontend/\":{\"base\":\"/frontend/\",\"items\":[{\"text\":\"前端工程化\",\"items\":[{\"text\":\"web\",\"collapsed\":true,\"items\":[{\"text\":\"上传\",\"base\":\"/frontend/web/upload/\",\"collapsed\":true,\"items\":[{\"text\":\"input上传相关必备知识点\",\"link\":\"input-file\"},{\"text\":\"大文件（分片）上传知识点\",\"link\":\"base\"},{\"text\":\"文件常见传输数据格式 Content-Type 与 MIME\",\"link\":\"contenttype-mime\"},{\"text\":\"【vue3+ts+elementplus】 大文件分片上传，断点续传，秒传 示例\",\"link\":\"vue3-sample\"}]},{\"text\":\"下载\",\"base\":\"/frontend/web/download/\",\"collapsed\":true,\"items\":[{\"text\":\"a标签下载\",\"link\":\"a-download\"}]},{\"text\":\"视频\",\"base\":\"/frontend/web/video/\",\"collapsed\":true,\"items\":[{\"text\":\"video 标签 缓存优化策略\",\"link\":\"video-cache\"}]},{\"text\":\"音频\",\"base\":\"/frontend/web/audio/\",\"collapsed\":true,\"items\":[]},{\"text\":\"Web Worker\",\"base\":\"/frontend/web/web-worker/\",\"collapsed\":true,\"items\":[{\"text\":\"介绍\",\"link\":\"base\"}]}]},{\"text\":\"css\",\"base\":\"/frontend/javascript/css/\",\"collapsed\":true,\"items\":[{\"text\":\"init\",\"link\":\"init\"},{\"text\":\"css-b\",\"link\":\"css-b\"},{\"text\":\"css-c\",\"link\":\"css-c\"}]},{\"text\":\"javascript\",\"collapsed\":true,\"items\":[{\"text\":\"基础\",\"base\":\"/frontend/javascript/base/\",\"collapsed\":true,\"items\":[{\"text\":\"流程语句\",\"link\":\"control-flow-statements\"},{\"text\":\"操作符\",\"link\":\"operator\"},{\"text\":\"变量、作用域与内存\",\"link\":\"variable-scope-memory\"},{\"text\":\"数组Array\",\"link\":\"array\"},{\"text\":\"迭代器与生成器\",\"link\":\"iterable-generate\"},{\"text\":\"函数Function\",\"link\":\"function\"},{\"text\":\"字符串String\",\"link\":\"string\"},{\"text\":\"对象Object\",\"link\":\"object\"},{\"text\":\"Math\",\"link\":\"math\"},{\"text\":\"集合和映射\",\"link\":\"map-set\"},{\"text\":\"JSON\",\"link\":\"json\"},{\"text\":\"BOM\",\"link\":\"bom\"},{\"text\":\"期约与异步函数\",\"link\":\"promise\"},{\"text\":\"客户端存储\",\"link\":\"client-storage\"},{\"text\":\"模块\",\"link\":\"module\"},{\"text\":\"JavaScript Api\",\"link\":\"api\"},{\"text\":\"网络请求与远程资源\",\"link\":\"ajax-fetch\"}]}]},{\"text\":\"浏览器\",\"collapsed\":true,\"items\":[{\"text\":\"javascript\",\"link\":\"/frontend/web\"},{\"text\":\"typescript\",\"link\":\"/frontend/web\"},{\"text\":\"css\",\"link\":\"/frontend/web\"}]},{\"text\":\"框架\",\"collapsed\":true,\"items\":[{\"text\":\"react\",\"base\":\"/frontend/framework/react/\",\"collapsed\":true,\"items\":[{\"text\":\"react源码\",\"link\":\"source-code\"},{\"text\":\"react源码\",\"link\":\"source-code\"}]},{\"text\":\"vue\",\"base\":\"/frontend/framework/vue/\",\"collapsed\":true,\"items\":[{\"text\":\"vue源码\",\"link\":\"source-code\"},{\"text\":\"vue源码\",\"link\":\"source-code\"}]}]},{\"text\":\"工程架构\",\"collapsed\":true,\"items\":[{\"text\":\"性能优化\",\"base\":\"/frontend/engineering/\",\"collapsed\":true,\"items\":[{\"text\":\"工程架构1\",\"link\":\"source-code\"},{\"text\":\"工程架构2\",\"link\":\"source-code\"}]}]},{\"text\":\"移动端\",\"collapsed\":true,\"items\":[{\"text\":\"移动端\",\"base\":\"/frontend/app/\",\"collapsed\":true,\"items\":[{\"text\":\"移动端1\",\"link\":\"source-code\"},{\"text\":\"移动端2\",\"link\":\"source-code\"}]}]}]}]},\"/backend/\":{\"base\":\"/backend/\",\"items\":[{\"text\":\"服务端与架构\",\"items\":[{\"text\":\"编程语言\",\"collapsed\":false,\"items\":[{\"text\":\"sqlite\",\"base\":\"/backend/sql/sqlite/\",\"collapsed\":true,\"items\":[{\"text\":\"sqlite介绍\",\"link\":\"base\"}]},{\"text\":\"sql 查询优化\",\"base\":\"/backend/sql/optimization/\",\"collapsed\":true,\"items\":[{\"text\":\"索引优化\",\"link\":\"index-optimization\"}]}]}]}]},\"/data/\":{\"base\":\"/data/\",\"items\":[{\"text\":\"数据层开发\",\"items\":[{\"text\":\"sql\",\"collapsed\":false,\"items\":[{\"text\":\"sqlite\",\"base\":\"/data/sql/sqlite/\",\"collapsed\":true,\"items\":[{\"text\":\"sqlite介绍\",\"link\":\"base\"}]},{\"text\":\"sql 查询优化\",\"base\":\"/data/sql/optimization/\",\"collapsed\":true,\"items\":[{\"text\":\"索引优化\",\"link\":\"index-optimization\"}]},{\"text\":\"问题\",\"base\":\"/data/sql/bug/\",\"collapsed\":true,\"items\":[{\"text\":\"sql 视图查询 返回字段丢失\",\"link\":\"view-missing-field\"}]}]}]}]},\"/devops/\":{\"base\":\"/devops/\",\"items\":[{\"text\":\"部署与运维\",\"items\":[{\"text\":\"个人博客搭建\",\"base\":\"/devops/blog/\",\"collapsed\":false,\"items\":[{\"text\":\"建站指引\",\"link\":\"githubpage-vitepress\"},{\"text\":\"markdown 语法\",\"link\":\"markdown\"}]},{\"text\":\"CI/CD 持续集成/持续交付\",\"base\":\"/devops/cicd/jenkins/\",\"collapsed\":false,\"items\":[{\"text\":\"【手把手教你部署前端项目CI/CD】 第一篇 Docker 篇\",\"link\":\"docker\"},{\"text\":\"【手把手教你部署前端项目CI/CD】 第二篇 Jenkins freestyle 篇\",\"link\":\"freestyle\"},{\"text\":\"【手把手教你部署前端项目CI/CD】 第三篇 Jenkins pipeline 篇\",\"link\":\"pipeline\"}]}]}]},\"/algorithms/\":{\"base\":\"/algorithms/\",\"items\":[{\"text\":\"算法与优化\",\"items\":[{\"text\":\"CI/CD\",\"base\":\"/devops/cicd/jenkins/\",\"collapsed\":false,\"items\":[{\"text\":\"【手把手教你部署前端项目CI/CD】 第一篇 Docker 篇\",\"link\":\"docker\"},{\"text\":\"【手把手教你部署前端项目CI/CD】 第二篇 Jenkins freestyle 篇\",\"link\":\"freestyle\"},{\"text\":\"【手把手教你部署前端项目CI/CD】 第三篇 Jenkins pipeline 篇\",\"link\":\"pipeline\"}]}]}]},\"/iot/\":{\"base\":\"/iot/\",\"items\":[{\"text\":\"物联网\",\"items\":[{\"text\":\"iot\",\"base\":\"/iot/cicd/jenkins/\",\"collapsed\":false,\"items\":[{\"text\":\"【手把手教你部署前端项目CI/CD】 第一篇 Docker 篇\",\"link\":\"docker\"},{\"text\":\"【手把手教你部署前端项目CI/CD】 第二篇 Jenkins freestyle 篇\",\"link\":\"freestyle\"},{\"text\":\"【手把手教你部署前端项目CI/CD】 第三篇 Jenkins pipeline 篇\",\"link\":\"pipeline\"}]}]}]},\"/thoughts/\":{\"base\":\"/thoughts/\",\"items\":[{\"text\":\"杂谈\",\"items\":[{\"text\":\"短片\",\"base\":\"/thoughts/shortMovie/\",\"collapsed\":false,\"items\":[{\"text\":\"推荐\",\"link\":\"recommend\"}]}]}]}},\"footer\":{\"message\":\"基于 MIT 许可发布\",\"copyright\":\"版权所有 © 2023-2025 王磊\"},\"docFooter\":{\"prev\":\"上一页\",\"next\":\"下一页\"},\"outline\":{\"level\":[2,3],\"label\":\"本页导航\"},\"lastUpdated\":{\"text\":\"更新于\",\"formatOptions\":{\"dateStyle\":\"full\",\"timeStyle\":\"medium\"}},\"notFound\":{\"title\":\"页面未找到\",\"quote\":\"但如果你不改变方向，并且继续寻找，你可能最终会到达你所前往的地方。\",\"linkLabel\":\"前往首页\",\"linkText\":\"带我回首页\"},\"socialLinks\":[{\"icon\":\"github\",\"link\":\"https://github.com/wanglei1900\"},{\"icon\":{\"svg\":\"<svg width=\\\"150\\\" height=\\\"55\\\" id=\\\"layer_1\\\" data-name=\\\"layer 1\\\" xmlns=\\\"http://www.w3.org/2000/svg\\\" xmlns:xlink=\\\"http://www.w3.org/1999/xlink\\\" viewBox=\\\"0 0 280 102.66\\\"><defs><style>.cls-1{fill:url(#gradient);}.cls-2{fill:#8dcefc;}.cls-3,.cls-4{fill:none;stroke-miterlimit:10;stroke-width:2px;}.cls-3{stroke:#457ab5;}.cls-4{stroke:url(#gradient_3);}.cls-5{fill:url(#gradient_2);}.cls-6{fill:#2e7acc;}.cls-7{fill:#e33e06;}.cls-8{fill:#8c8c8c;}</style><radialGradient id=\\\"gradient\\\" cx=\\\"49.22\\\" cy=\\\"-6550.95\\\" r=\\\"44.62\\\" gradientTransform=\\\"matrix(1, 0, 0, -0.07, 0, -359.49)\\\" gradientUnits=\\\"userSpaceOnUse\\\"><stop offset=\\\"0\\\" stop-color=\\\"#8c8c8c\\\"/><stop offset=\\\"0.13\\\" stop-color=\\\"#919191\\\" stop-opacity=\\\"0.95\\\"/><stop offset=\\\"0.32\\\" stop-color=\\\"#a0a0a0\\\" stop-opacity=\\\"0.83\\\"/><stop offset=\\\"0.54\\\" stop-color=\\\"#b8b8b8\\\" stop-opacity=\\\"0.61\\\"/><stop offset=\\\"0.78\\\" stop-color=\\\"#dadada\\\" stop-opacity=\\\"0.32\\\"/><stop offset=\\\"1\\\" stop-color=\\\"#fff\\\" stop-opacity=\\\"0\\\"/></radialGradient><radialGradient id=\\\"gradient_3\\\" cx=\\\"-147.55\\\" cy=\\\"-262.27\\\" r=\\\"23.26\\\" gradientTransform=\\\"matrix(0.95, -0.32, -0.32, -0.95, 121.5, -275.63)\\\" gradientUnits=\\\"userSpaceOnUse\\\"><stop offset=\\\"0\\\" stop-color=\\\"#fff\\\"/><stop offset=\\\"0.21\\\" stop-color=\\\"#fff\\\" stop-opacity=\\\"0.99\\\"/><stop offset=\\\"0.34\\\" stop-color=\\\"#fff\\\" stop-opacity=\\\"0.96\\\"/><stop offset=\\\"0.46\\\" stop-color=\\\"#fff\\\" stop-opacity=\\\"0.9\\\"/><stop offset=\\\"0.56\\\" stop-color=\\\"#fff\\\" stop-opacity=\\\"0.81\\\"/><stop offset=\\\"0.66\\\" stop-color=\\\"#fff\\\" stop-opacity=\\\"0.71\\\"/><stop offset=\\\"0.74\\\" stop-color=\\\"#fff\\\" stop-opacity=\\\"0.58\\\"/><stop offset=\\\"0.83\\\" stop-color=\\\"#fff\\\" stop-opacity=\\\"0.42\\\"/><stop offset=\\\"0.91\\\" stop-color=\\\"#fff\\\" stop-opacity=\\\"0.24\\\"/><stop offset=\\\"0.99\\\" stop-color=\\\"#fff\\\" stop-opacity=\\\"0.04\\\"/><stop offset=\\\"1\\\" stop-color=\\\"#fff\\\" stop-opacity=\\\"0\\\"/></radialGradient><radialGradient id=\\\"gradient_2\\\" cx=\\\"61.19\\\" cy=\\\"57.93\\\" r=\\\"54.56\\\" gradientUnits=\\\"userSpaceOnUse\\\"><stop offset=\\\"0\\\" stop-color=\\\"#7aacdf\\\"/><stop offset=\\\"0.27\\\" stop-color=\\\"#70a6dd\\\"/><stop offset=\\\"0.73\\\" stop-color=\\\"#5496d9\\\"/><stop offset=\\\"1\\\" stop-color=\\\"#408bd6\\\"/></radialGradient></defs><title>博客园logo</title><g id=\\\"layer_2\\\" data-name=\\\"layer 2\\\"><g id=\\\"layer_1-2\\\" data-name=\\\"layer 1-2\\\"><ellipse class=\\\"cls-1\\\" cx=\\\"49.22\\\" cy=\\\"99.44\\\" rx=\\\"44.62\\\" ry=\\\"3.22\\\"/><path class=\\\"cls-2\\\" d=\\\"M49.22,1A48.22,48.22,0,1,0,97.44,49.22,48.22,48.22,0,0,0,49.22,1ZM34,77.06A10.46,10.46,0,1,1,44.43,66.6,10.46,10.46,0,0,1,34,77.06Zm25.11-4a6.5,6.5,0,0,1-6.5-6.5c0-9.81-8.51-18.1-18.58-18.1a6.5,6.5,0,0,1,0-13c17.12,0,31.58,14.24,31.58,31.1A6.5,6.5,0,0,1,59.08,73.1ZM79.72,67l-.56,0a6.5,6.5,0,0,1-6.47-6C71.35,45.29,59.57,28.5,40.4,28.5a6.5,6.5,0,0,1,0-13C64,15.5,83.48,34.63,85.65,60A6.51,6.51,0,0,1,79.72,67Z\\\"/><circle class=\\\"cls-3\\\" cx=\\\"49.22\\\" cy=\\\"49.22\\\" r=\\\"48.22\\\"/><path class=\\\"cls-4\\\" d=\\\"M35.2,5.89c23.88-7.78,50,5.36,57.41,29.05\\\"/><path class=\\\"cls-5\\\" d=\\\"M49.22,4.6A44.62,44.62,0,1,0,93.84,49.22,44.62,44.62,0,0,0,49.22,4.6ZM34,77.06A10.46,10.46,0,1,1,44.43,66.6,10.46,10.46,0,0,1,34,77.06Zm25.11-4a6.5,6.5,0,0,1-6.5-6.5c0-9.81-8.51-18.1-18.58-18.1a6.5,6.5,0,0,1,0-13c17.12,0,31.58,14.24,31.58,31.1A6.5,6.5,0,0,1,59.08,73.1ZM79.72,67l-.56,0a6.5,6.5,0,0,1-6.47-6C71.35,45.29,59.57,28.5,40.4,28.5a6.5,6.5,0,0,1,0-13C64,15.5,83.48,34.63,85.65,60A6.51,6.51,0,0,1,79.72,67Z\\\"/><path class=\\\"cls-6\\\" d=\\\"M79.72,67l-.56,0a6.5,6.5,0,0,1-6.47-6,39.24,39.24,0,0,0-4.45-15,56.64,56.64,0,0,0-37-13.58A57,57,0,0,0,5.93,38.39,44.61,44.61,0,0,0,85.62,75a51.4,51.4,0,0,0-2.86-9A6.55,6.55,0,0,1,79.72,67ZM34,77.06A10.46,10.46,0,1,1,44.43,66.6,10.46,10.46,0,0,1,34,77.06Zm25.11-4a6.5,6.5,0,0,1-6.5-6.5c0-9.81-8.51-18.1-18.58-18.1a6.5,6.5,0,0,1,0-13c17.12,0,31.58,14.24,31.58,31.1A6.5,6.5,0,0,1,59.08,73.1Z\\\"/><path class=\\\"cls-7\\\" d=\\\"M115.08,24.88V10.24h4.26V24.88h6.06v4.2h-6.06v36h-4.26v-36H108.6v-4.2ZM150.84,47.8v-3H155v3h7.86v3.84H155V60.4c0,3.12-1.56,4.68-4.62,4.68h-6.6l-.9-4c2.1.18,4.14.3,6.06.3,1.2,0,1.86-.66,1.86-2V51.64h-26V47.8Zm-9-33.36V10.3H146v4.14h7a34.08,34.08,0,0,0-1.74-3.6l3.72-.6a39.19,39.19,0,0,1,1.56,4.2h5.16V18.1H146v4.14h13.6V44h-4V39.82H146V43.6h-4.14V39.82H132.3V44h-4V22.24h13.56V18.1H126.18V14.44ZM142,59.38l-2.7,2.7A56.61,56.61,0,0,0,131,54.34l2.64-2.52A58.52,58.52,0,0,1,142,59.38Zm-.12-29.58V25.6H132.3v4.2Zm0,7.08V32.8H132.3v4.08ZM146,29.8h9.6V25.6H146Zm0,7.08h9.6V32.8H146Z\\\"/><path class=\\\"cls-7\\\" d=\\\"M192.06,20.68c-.9,1.38-1.8,2.7-2.76,4h22.14v3.48a32.73,32.73,0,0,1-10.62,9.06,74.75,74.75,0,0,0,22,4.74l-1,3.9a70,70,0,0,1-25.5-6.42c-7.08,3.24-16,5.76-26.82,7.62l-1.62-3.84c9.66-1.56,17.7-3.54,24.06-6.06A54.93,54.93,0,0,1,183.48,31a57.2,57.2,0,0,1-7.5,5.64l-2.76-3.36a44.52,44.52,0,0,0,14.64-13.5ZM219.78,26H215.4V18.52h-40V26H171V14.62h22a39.15,39.15,0,0,0-2.22-4.2l4.74-.72c.72,1.44,1.38,3.12,2.1,4.92h22.14Zm-6.72,39.36h-4.2V62.74h-25.8v2.58h-4.2V46.54h34.2Zm-4.2-6.48v-8.4h-25.8v8.4ZM206.28,28.3h-20.1l-.18.18a53.6,53.6,0,0,0,10.38,6.72A36,36,0,0,0,206.28,28.3Z\\\"/><path class=\\\"cls-7\\\" d=\\\"M280,65.14h-4.32v-2.4H235.2v2.4h-4.32V12.82H280Zm-4.32-6.24V16.78H235.2V58.9Zm-4.2-26.34V36.4h-9.6V48.7c0,1.44.6,2.16,1.92,2.16H266a3.05,3.05,0,0,0,1.92-.54c.72-.42,1.14-2.52,1.38-6.24l3.6,1.2c-.48,4.44-1.08,7.14-1.92,8s-2.16,1.08-4.14,1.14H262.5a4.46,4.46,0,0,1-3.42-1.32,5,5,0,0,1-1.2-3.48V36.4h-5.7c-.54,4.92-1.68,8.7-3.48,11.46-2,3.12-5.22,5.52-9.42,7.32l-2-3.48a16.49,16.49,0,0,0,8.16-6.12,22.43,22.43,0,0,0,2.88-9.18H239.4V32.56Zm-3.4-10.26v3.84H242.82V22.3Z\\\"/><path class=\\\"cls-8\\\" d=\\\"M123.37,79a6.18,6.18,0,0,1,5.31,2.52l-1.5,1.38a4.32,4.32,0,0,0-3.69-1.9c-3.09,0-5,2.37-5,5.58s1.92,5.61,5,5.61a4.37,4.37,0,0,0,3.69-1.89l1.5,1.38a6.18,6.18,0,0,1-5.31,2.52c-4.32,0-7.23-3.3-7.23-7.62S119.05,79,123.37,79Z\\\"/><path class=\\\"cls-8\\\" d=\\\"M141.61,84.36c0-2.55-1.29-3.36-3.24-3.36a5.59,5.59,0,0,0-4.29,2.25V93.84h-2.25V79.35h2.25v2.1A7.22,7.22,0,0,1,139.24,79c3,0,4.62,1.53,4.62,4.68V93.84h-2.25Z\\\"/><path class=\\\"cls-8\\\" d=\\\"M148.36,73.83h2.25v7.71A6,6,0,0,1,155.5,79c3.78,0,6.45,3,6.45,7.62s-2.67,7.59-6.45,7.59a6.11,6.11,0,0,1-4.89-2.52v2.16h-2.25Zm6.57,18.36c2.94,0,4.68-2.37,4.68-5.58S157.87,81,154.93,81a5.39,5.39,0,0,0-4.32,2.34v6.57a5.36,5.36,0,0,0,4.32,2.28Z\\\"/><path class=\\\"cls-8\\\" d=\\\"M165.61,73.83h2.25v20h-2.25Z\\\"/><path class=\\\"cls-8\\\" d=\\\"M171.52,86.58c0-4.2,2.76-7.59,7.17-7.59s7.17,3.39,7.17,7.59-2.76,7.62-7.17,7.62S171.52,90.78,171.52,86.58Zm12,0c0-2.94-1.71-5.58-4.8-5.58s-4.83,2.64-4.83,5.58,1.74,5.61,4.83,5.61,4.77-2.64,4.77-5.61Z\\\"/><path class=\\\"cls-8\\\" d=\\\"M190.63,95.88a5.53,5.53,0,0,0,4.71,2c2.4,0,4.65-1.17,4.65-4.35V91.44A6.06,6.06,0,0,1,195.13,94c-3.78,0-6.45-2.82-6.45-7.5s2.64-7.5,6.45-7.5A6,6,0,0,1,200,81.54V79.35h2.25V93.42c0,4.8-3.36,6.3-6.9,6.3a7.39,7.39,0,0,1-5.85-2.16ZM200,83.34A5.34,5.34,0,0,0,195.67,81c-2.91,0-4.65,2.31-4.65,5.52S192.76,92,195.67,92A5.36,5.36,0,0,0,200,89.67Z\\\"/><path class=\\\"cls-8\\\" d=\\\"M206.65,90.3a6.54,6.54,0,0,0,4.77,2.07c2.22,0,3.42-1,3.42-2.4,0-1.59-1.77-2.1-3.72-2.58-2.46-.57-5.25-1.23-5.25-4.23,0-2.25,1.95-4.17,5.4-4.17a7.36,7.36,0,0,1,5.37,2.1l-1,1.56a5.62,5.62,0,0,0-4.32-1.83c-2,0-3.21.9-3.21,2.19s1.65,1.86,3.54,2.31c2.52.57,5.43,1.29,5.43,4.5,0,2.43-2,4.38-5.7,4.38a7.71,7.71,0,0,1-5.85-2.28Z\\\"/><path class=\\\"cls-8\\\" d=\\\"M221.89,90.84a1.65,1.65,0,1,1-1.65,1.65h0A1.66,1.66,0,0,1,221.89,90.84Z\\\"/><path class=\\\"cls-8\\\" d=\\\"M233.77,79a6.18,6.18,0,0,1,5.31,2.52l-1.5,1.38a4.32,4.32,0,0,0-3.69-1.9c-3.09,0-5,2.37-5,5.58s1.92,5.61,5,5.61a4.37,4.37,0,0,0,3.69-1.89l1.5,1.38a6.18,6.18,0,0,1-5.31,2.52c-4.32,0-7.23-3.3-7.23-7.62S229.45,79,233.77,79Z\\\"/><path class=\\\"cls-8\\\" d=\\\"M241.39,86.58c0-4.2,2.76-7.59,7.17-7.59s7.17,3.39,7.17,7.59S253,94.2,248.56,94.2,241.39,90.78,241.39,86.58Zm12,0c0-2.94-1.71-5.58-4.8-5.58s-4.83,2.64-4.83,5.58,1.74,5.61,4.83,5.61,4.77-2.64,4.77-5.61Z\\\"/><path class=\\\"cls-8\\\" d=\\\"M276.88,84c0-1.83-.81-3-2.67-3a5.07,5.07,0,0,0-3.84,2.22V93.84h-2.25V84c0-1.83-.78-3-2.67-3a5.09,5.09,0,0,0-3.81,2.25V93.84h-2.25V79.35h2.25v2.1A6.25,6.25,0,0,1,266.32,79a3.72,3.72,0,0,1,3.9,2.7,6.1,6.1,0,0,1,4.86-2.7c2.64,0,4.05,1.47,4.05,4.38V93.84h-2.25Z\\\"/></g></g></svg>\"},\"link\":\"https://www.cnblogs.com/wanglei1900\"},{\"icon\":\"github\",\"link\":\"https://vitepress.dev/zh\"}],\"returnToTopLabel\":\"回到顶部\",\"sidebarMenuLabel\":\"菜单\",\"darkModeSwitchLabel\":\"主题\",\"lightModeSwitchTitle\":\"切换到浅色模式\",\"darkModeSwitchTitle\":\"切换到深色模式\",\"skipToContentLabel\":\"跳转到内容\"},\"locales\":{},\"scrollOffset\":134,\"cleanUrls\":true}");</script>
+    
+  </body>
+</html>
