@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as r}from"./app.DkoUFz-u.js";const m=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"devops/security/network/vpn.md","filePath":"devops/security/network/vpn.md"}'),o={name:"devops/security/network/vpn.md"};function n(s,a,c,p,d,i){return t(),r("div")}const v=e(o,[["render",n]]);export{m as __pageData,v as default};

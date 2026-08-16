@@ -1,0 +1,1 @@
+import{_ as a,o as e,c as t}from"./app.DkoUFz-u.js";const d=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"algorithms/search/basic/jump.md","filePath":"algorithms/search/basic/jump.md"}'),s={name:"algorithms/search/basic/jump.md"};function r(c,o,i,m,n,p){return e(),t("div")}const h=a(s,[["render",r]]);export{d as __pageData,h as default};

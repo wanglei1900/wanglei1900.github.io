@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as o}from"./app.DkoUFz-u.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"devops/tools/cli/linux.md","filePath":"devops/tools/cli/linux.md"}'),s={name:"devops/tools/cli/linux.md"};function a(n,c,r,i,l,p){return t(),o("div")}const m=e(s,[["render",a]]);export{_ as __pageData,m as default};

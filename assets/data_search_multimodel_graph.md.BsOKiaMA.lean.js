@@ -1,0 +1,1 @@
+import{_ as a,o as e,c as t}from"./app.DkoUFz-u.js";const l=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"data/search/multimodel/graph.md","filePath":"data/search/multimodel/graph.md"}'),r={name:"data/search/multimodel/graph.md"};function o(s,c,d,m,n,p){return e(),t("div")}const h=a(r,[["render",o]]);export{l as __pageData,h as default};

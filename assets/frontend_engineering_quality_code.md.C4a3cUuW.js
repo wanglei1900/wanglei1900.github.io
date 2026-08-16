@@ -1,0 +1,408 @@
+import{_ as a,o as n,c as i,a as p}from"./app.DkoUFz-u.js";const r=JSON.parse('{"title":"代码规范","description":"","frontmatter":{},"headers":[],"relativePath":"frontend/engineering/quality/code.md","filePath":"frontend/engineering/quality/code.md"}'),_={name:"frontend/engineering/quality/code.md"};function l(t,s,h,c,e,o){return n(),i("div",null,[...s[0]||(s[0]=[p(`<h1 id="代码规范" tabindex="-1">代码规范 <a class="header-anchor" href="#代码规范" aria-label="Permalink to &quot;代码规范&quot;">​</a></h1><h2 id="_1-editorconfig" tabindex="-1">1. EditorConfig <a class="header-anchor" href="#_1-editorconfig" aria-label="Permalink to &quot;1. EditorConfig&quot;">​</a></h2><blockquote><p>EditorConfig 用于定义项目中的编辑器配置。可以确保团队成员在不同的编辑器中保持一致的代码风格和格式。</p></blockquote><p><a href="https://editorconfig.org" target="_blank" rel="noreferrer">🚀EditorConfig 官网</a></p><h3 id="_1-1-前置" tabindex="-1">1.1 前置 <a class="header-anchor" href="#_1-1-前置" aria-label="Permalink to &quot;1.1 前置&quot;">​</a></h3><p>editorConfig 是定义在项目根目录下名为.editorconfig 的自定义文件。该文件用来定义项目的编码规范，编辑器的行为会与.editorconfig 文件中定义的一致，并且其优先级比编辑器自身的设置要高，这在多人合作开发项目时十分有用而且必要</p><p>有些编辑器默认支持 editorConfig，如 webstorm；而有些编辑器则需要安装 editorConfig 插件，如 ATOM、Sublime、VSCode（EditorConfig for VSCode）等。</p><p>EditorConfig 的配置文件是从上往下读取的并且最近的 EditorConfig 配置文件会被最先读取. 匹配 EditorConfig 配置文件中的配置项会按照读取顺序被应用, 所以最近的配置文件中的配置项拥有优先权</p><h3 id="_1-2-配置" tabindex="-1">1.2 配置 <a class="header-anchor" href="#_1-2-配置" aria-label="Permalink to &quot;1.2 配置&quot;">​</a></h3><p>项目根目录下配置文件.editorconfig</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_wvjl67"># @see: http://editorconfig.org</span></span>
+<span class="line"><span class="__shiki_wvjl67"></span></span>
+<span class="line"><span class="__shiki_wvjl67"># 设置为true表示该配置文件是根配置文件，EditorConfig将停止在父目录中查找其他配置文件</span></span>
+<span class="line"><span class="__shiki_wvjl67">root = true</span></span>
+<span class="line"><span class="__shiki_wvjl67"></span></span>
+<span class="line"><span class="__shiki_wvjl67">[*] # 表示所有文件适用</span></span>
+<span class="line"><span class="__shiki_wvjl67">charset = utf-8 # 设置文件字符集为 utf-8</span></span>
+<span class="line"><span class="__shiki_wvjl67">end_of_line = lf # 控制换行类型(换行lf | 回车cr | 回车换行crlf)</span></span>
+<span class="line"><span class="__shiki_wvjl67">insert_final_newline = true # 始终在文件末尾插入一个新行</span></span>
+<span class="line"><span class="__shiki_wvjl67">indent_style = tab # 缩进风格（tab | space）</span></span>
+<span class="line"><span class="__shiki_wvjl67">indent_size = 2 # 缩进大小（字节）</span></span>
+<span class="line"><span class="__shiki_wvjl67">max_line_length = 130 # 最大行长度</span></span>
+<span class="line"><span class="__shiki_wvjl67"></span></span>
+<span class="line"><span class="__shiki_wvjl67">[*.md] # 表示仅 md 文件适用以下规则</span></span>
+<span class="line"><span class="__shiki_wvjl67">max_line_length = off # 关闭最大行长度限制</span></span>
+<span class="line"><span class="__shiki_wvjl67">trim_trailing_whitespace = false # 关闭删除行末尾空格</span></span></code></pre></div><p>不同系统平台下编辑可能导致警告或者错误，比如 在 Windows 下编写的 shell 脚本，直接放到 linux/unix 下执行会出错，因为行结束符不一样。</p><ul><li>Dos 和 Windows 采用回车+换行（cr+lf）来表示换行</li><li>UNIX 和 Linux 采用换行符（lf）来表示换行</li><li>MAC OS 采用回车符（cr）来表示换行</li></ul><br><h2 id="_2-eslint" tabindex="-1">2. ESLint <a class="header-anchor" href="#_2-eslint" aria-label="Permalink to &quot;2. ESLint&quot;">​</a></h2><p><a href="https://zh-hans.eslint.org" target="_blank" rel="noreferrer">🚀ESLint 官网</a></p><blockquote><p>ESLint 是一个可配置的 JavaScript 代码检查工具。可以帮助您发现和修复代码中的潜在问题，如语法错误、潜在的运行时错误、不符合最佳实践的代码等。ESLint 的目标是帮助开发者编写更高质量、更一致的 JavaScript 代码。</p></blockquote><table tabindex="0"><thead><tr><th>依赖</th><th>作用描述</th></tr></thead><tbody><tr><td>eslint</td><td>ESLint 核心库</td></tr><tr><td>eslint-config-prettier</td><td>关掉所有和 Prettier 冲突的 ESLint 的配置</td></tr><tr><td>eslint-plugin-prettier</td><td>将 Prettier 的 rules 以插件的形式加入到 ESLint 里面</td></tr><tr><td>eslint-plugin-vue</td><td>为 Vue 使用 ESlint 的插件</td></tr><tr><td>@typescript-eslint/eslint-plugin ESLint</td><td>插件，包含了各类定义好的检测 TypeScript 代码的规范</td></tr><tr><td>@typescript-eslint/parser</td><td>ESLint 的解析器，用于解析 TypeScript，从而检查和规范 TypeScript 代码</td></tr></tbody></table><h3 id="_2-1-忽略" tabindex="-1">2.1 忽略 <a class="header-anchor" href="#_2-1-忽略" aria-label="Permalink to &quot;2.1 忽略&quot;">​</a></h3><p>项目根目录下配置忽略检查文件.eslintignore</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_wvjl67">*.sh</span></span>
+<span class="line"><span class="__shiki_wvjl67">node_modules</span></span>
+<span class="line"><span class="__shiki_wvjl67">*.md</span></span>
+<span class="line"><span class="__shiki_wvjl67">*.woff</span></span>
+<span class="line"><span class="__shiki_wvjl67">*.ttf</span></span>
+<span class="line"><span class="__shiki_wvjl67">.vscode</span></span>
+<span class="line"><span class="__shiki_wvjl67">.idea</span></span>
+<span class="line"><span class="__shiki_wvjl67">dist</span></span>
+<span class="line"><span class="__shiki_wvjl67">/public</span></span>
+<span class="line"><span class="__shiki_wvjl67">/docs</span></span>
+<span class="line"><span class="__shiki_wvjl67">.husky</span></span>
+<span class="line"><span class="__shiki_wvjl67">.local</span></span>
+<span class="line"><span class="__shiki_wvjl67">/bin</span></span>
+<span class="line"><span class="__shiki_wvjl67">/src/mock/*</span></span>
+<span class="line"><span class="__shiki_wvjl67">stats.html</span></span></code></pre></div><h3 id="_2-2-配置项" tabindex="-1">2.2 配置项 <a class="header-anchor" href="#_2-2-配置项" aria-label="Permalink to &quot;2.2 配置项&quot;">​</a></h3><p>项目根目录下配置文件.eslintrc.cjs</p><div class="language-js vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">js</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_21nrsd">// @see: https://zh-hans.eslint.org</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_dzsirb">module</span><span class="__shiki_140thh">.</span><span class="__shiki_dzsirb">exports</span><span class="__shiki_1itgoe"> =</span><span class="__shiki_140thh"> {</span></span>
+<span class="line"><span class="__shiki_21nrsd">  // 设置为true表示该配置文件是根配置文件，ESLint将停止在父目录中查找其他配置文件。</span></span>
+<span class="line"><span class="__shiki_140thh">  root: </span><span class="__shiki_dzsirb">true</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  // 指定脚本运行的环境，可以是浏览器、Node.js或ES6等。这些环境会提供一组预定义的全局变量。</span></span>
+<span class="line"><span class="__shiki_140thh">  env: {</span></span>
+<span class="line"><span class="__shiki_140thh">    browser: </span><span class="__shiki_dzsirb">true</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_140thh">    node: </span><span class="__shiki_dzsirb">true</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_140thh">    es6: </span><span class="__shiki_dzsirb">true</span></span>
+<span class="line"><span class="__shiki_140thh">  },</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 配置一些特定的设置，例如React的版本 */</span></span>
+<span class="line"><span class="__shiki_140thh">  settings: {</span></span>
+<span class="line"><span class="__shiki_140thh">    react: {</span></span>
+<span class="line"><span class="__shiki_140thh">      version: </span><span class="__shiki_mdbnqw">&quot;detect&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    }</span></span>
+<span class="line"><span class="__shiki_140thh">  },</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 指定用于解析代码的解析器，这里使用的是@typescript-eslint/parser，它可以解析TypeScript代码。 */</span></span>
+<span class="line"><span class="__shiki_140thh">  parser: </span><span class="__shiki_mdbnqw">&quot;@typescript-eslint/parser&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 配置解析器的选项，例如指定ECMAScript版本、源代码类型和JSX的pragma。 */</span></span>
+<span class="line"><span class="__shiki_140thh">  parserOptions: {</span></span>
+<span class="line"><span class="__shiki_140thh">    ecmaVersion: </span><span class="__shiki_mdbnqw">&quot;latest&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_140thh">    sourceType: </span><span class="__shiki_mdbnqw">&quot;module&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_140thh">    jsxPragma: </span><span class="__shiki_mdbnqw">&quot;React&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_140thh">    ecmaFeatures: {</span></span>
+<span class="line"><span class="__shiki_140thh">      jsx: </span><span class="__shiki_dzsirb">true</span></span>
+<span class="line"><span class="__shiki_140thh">    }</span></span>
+<span class="line"><span class="__shiki_140thh">  },</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /*  指定要使用的插件，这里使用了React、TypeScript和Prettier插件。 */</span></span>
+<span class="line"><span class="__shiki_140thh">  plugins: [</span><span class="__shiki_mdbnqw">&quot;react&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;@typescript-eslint&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;prettier&quot;</span><span class="__shiki_140thh">],</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /*  扩展现有的规则集，这里使用了一些推荐的规则集 */</span></span>
+<span class="line"><span class="__shiki_140thh">  extends: [</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;eslint:recommended&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;plugin:react/jsx-runtime&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;plugin:react-hooks/recommended&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;plugin:prettier/recommended&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;plugin:@typescript-eslint/recommended&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">  ],</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 配置具体的规则 */</span></span>
+<span class="line"><span class="__shiki_140thh">  rules: {</span></span>
+<span class="line"><span class="__shiki_21nrsd">    // eslint (http://eslint.cn/docs/rules)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;no-var&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;error&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_21nrsd">// 设置为&quot;error&quot;，要求使用let或const代替var关键字。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;no-multiple-empty-lines&quot;</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;error&quot;</span><span class="__shiki_140thh">, { max: </span><span class="__shiki_dzsirb">1</span><span class="__shiki_140thh"> }], </span><span class="__shiki_21nrsd">// 禁止出现多个空行。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;no-use-before-define&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;off&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_21nrsd">// 允许在定义之前使用函数、类或变量。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;prefer-const&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;off&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_21nrsd">// 设置为&quot;off&quot;，该规则旨在标记使用let声明但从未重新赋值的变量，建议使用const代替。</span></span>
+<span class="line"><span class="__shiki_21nrsd">    // typeScript (https://typescript-eslint.io/rules)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;@typescript-eslint/no-unused-vars&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;error&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_21nrsd">// 设置为&quot;error&quot;，禁止未使用的变量。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;@typescript-eslint/prefer-ts-expect-error&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;error&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_21nrsd">// 设置为&quot;error&quot;，禁止使用@ts-ignore注释。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;@typescript-eslint/ban-ts-comment&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;error&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_21nrsd">//  设置为&quot;error&quot;，禁止使用@ts-&lt;directive&gt;注释或在指令后添加描述。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;@typescript-eslint/no-inferrable-types&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;off&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_21nrsd">// 设置为&quot;off&quot;，允许使用可以轻松推断的显式类型，以避免不必要的冗余。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;@typescript-eslint/no-namespace&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;off&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_21nrsd">// 设置为&quot;off&quot;，允许使用自定义的TypeScript模块和命名空间。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;@typescript-eslint/no-explicit-any&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;off&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_21nrsd">// 设置为&quot;off&quot;，允许使用any类型。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;@typescript-eslint/ban-types&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;off&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_21nrsd">// 设置为&quot;off&quot;，允许禁止特定类型。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;@typescript-eslint/no-var-requires&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;off&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_21nrsd">// 设置为&quot;off&quot;，允许在导入语句中使用require语句。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;@typescript-eslint/no-empty-function&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;off&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_21nrsd">// 设置为&quot;off&quot;，允许空函数。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;@typescript-eslint/no-non-null-assertion&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;off&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_21nrsd">// 设置为&quot;off&quot;，允许使用非空断言后缀操作符!。</span></span>
+<span class="line"><span class="__shiki_21nrsd">    // react (https://github.com/jsx-eslint/eslint-plugin-react)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;react-hooks/rules-of-hooks&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;error&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_21nrsd">// 设置为&quot;error&quot;，确保在组件或自定义钩子中调用Hooks。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;react-hooks/exhaustive-deps&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;off&quot;</span><span class="__shiki_21nrsd"> // 设置为&quot;off&quot;，不需要对useEffect和useCallback的依赖项进行详尽检查。</span></span>
+<span class="line"><span class="__shiki_140thh">  }</span></span>
+<span class="line"><span class="__shiki_140thh">};</span></span></code></pre></div><br><h2 id="_3-prettier" tabindex="-1">3. Prettier <a class="header-anchor" href="#_3-prettier" aria-label="Permalink to &quot;3. Prettier&quot;">​</a></h2><blockquote><p>Prettier 是一个代码格式化工具，专注于调整代码的格式，如缩进、换行、引号等。以确保代码的一致性和可读性。与 ESLint 不同，Prettier 主要关注代码的格式化而不是语法问题。</p></blockquote><p><a href="https://www.prettier.cn" target="_blank" rel="noreferrer">🚀Prettier 官网</a></p><h3 id="_3-1-忽略" tabindex="-1">3.1 忽略 <a class="header-anchor" href="#_3-1-忽略" aria-label="Permalink to &quot;3.1 忽略&quot;">​</a></h3><p>项目根目录下配置忽略检查文件.prettierignore</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_wvjl67">/dist/*</span></span>
+<span class="line"><span class="__shiki_wvjl67">.local</span></span>
+<span class="line"><span class="__shiki_wvjl67">/node_modules/**</span></span>
+<span class="line"><span class="__shiki_wvjl67"></span></span>
+<span class="line"><span class="__shiki_wvjl67">**/*.svg</span></span>
+<span class="line"><span class="__shiki_wvjl67">**/*.sh</span></span>
+<span class="line"><span class="__shiki_wvjl67"></span></span>
+<span class="line"><span class="__shiki_wvjl67">/public/*</span></span>
+<span class="line"><span class="__shiki_wvjl67">stats.html</span></span></code></pre></div><h3 id="_3-2-配置项" tabindex="-1">3.2 配置项 <a class="header-anchor" href="#_3-2-配置项" aria-label="Permalink to &quot;3.2 配置项&quot;">​</a></h3><p>项目根目录下配置文件.prettierrc.cjs</p><div class="language-js vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">js</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_21nrsd">// @see: https://www.prettier.cn</span></span>
+<span class="line"><span class="__shiki_dzsirb">module</span><span class="__shiki_140thh">.</span><span class="__shiki_dzsirb">exports</span><span class="__shiki_1itgoe"> =</span><span class="__shiki_140thh"> {</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 指定最大行长度 */</span></span>
+<span class="line"><span class="__shiki_140thh">  printWidth: </span><span class="__shiki_dzsirb">130</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 指定缩进的空格数或制表符数 */</span></span>
+<span class="line"><span class="__shiki_140thh">  tabWidth: </span><span class="__shiki_dzsirb">2</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* tabs缩进 (true: tabs | false: spaces) */</span></span>
+<span class="line"><span class="__shiki_140thh">  useTabs: </span><span class="__shiki_dzsirb">false</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 语句末尾使用分号 (true: yes | false: no) */</span></span>
+<span class="line"><span class="__shiki_140thh">  semi: </span><span class="__shiki_dzsirb">true</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 字符串中使用双引号 (true: 单引号 | false: 双引号) */</span></span>
+<span class="line"><span class="__shiki_140thh">  singleQuote: </span><span class="__shiki_dzsirb">false</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 对象字面量中的属性名称周围使用引号 (as-needed: 需要 | consistent: 保持一致性 | preserve：保留原样) */</span></span>
+<span class="line"><span class="__shiki_140thh">  quoteProps: </span><span class="__shiki_mdbnqw">&quot;as-needed&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* JSX中使用双引号 (true: 单引号, false: 双引号)  */</span></span>
+<span class="line"><span class="__shiki_140thh">  jsxSingleQuote: </span><span class="__shiki_dzsirb">false</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 多行对象和数组的末尾添加尾逗号(none:不添加尾随逗号 | es5: ES5 语法支持的情况下，添加尾随逗号 | all:所有可能的地方都添加尾随逗号（包括函数参数） ) */</span></span>
+<span class="line"><span class="__shiki_140thh">  trailingComma: </span><span class="__shiki_mdbnqw">&quot;none&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 对象字面量和数组中的大括号之间添加空格,eg.&quot;{ foo: bar }&quot; (true: yes | false: no) */</span></span>
+<span class="line"><span class="__shiki_140thh">  bracketSpacing: </span><span class="__shiki_dzsirb">true</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 将JSX元素的 尖括号 &gt; 放在最后一行的末尾而不是新的一行  (true: 行末尾 | false: 另起一行) */</span></span>
+<span class="line"><span class="__shiki_140thh">  bracketSameLine: </span><span class="__shiki_dzsirb">false</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 箭头函数的单个参数省时略参数括号 (avoid: 省略 | always: 不省略括号) */</span></span>
+<span class="line"><span class="__shiki_140thh">  arrowParens: </span><span class="__shiki_mdbnqw">&quot;avoid&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 在文件开头包含@prettier  (true: yes | false: no) */</span></span>
+<span class="line"><span class="__shiki_140thh">  requirePragma: </span><span class="__shiki_dzsirb">false</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 文件顶部插入特殊的@format标记  (true: yes | false: no)  */</span></span>
+<span class="line"><span class="__shiki_140thh">  insertPragma: </span><span class="__shiki_dzsirb">false</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 保持文本的换行 (preserve: 不换行 | always: 始终换行 | never: 永不换行 | minimal: 最小化换行 ) */</span></span>
+<span class="line"><span class="__shiki_140thh">  proseWrap: </span><span class="__shiki_mdbnqw">&quot;preserve&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 控制在 HTML 中处理空格敏感度的行为 (css:据 CSS 语法规则决定 HTML 标签之间的空格格式 | strict: HTML 标签之间保持严格的空格处理 | ignore: 忽略 HTML 标签之间的空格处理) */</span></span>
+<span class="line"><span class="__shiki_140thh">  htmlWhitespaceSensitivity: </span><span class="__shiki_mdbnqw">&quot;css&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 定义换行符的类型 (auto:自动选择适当的换行符类型 | lf:强制使用 LF（\\n）作为行末换行符 | crlf:强制使用 CRLF（\\r\\n）作为行末换行符 | cr:强制使用 CR（\\r）作为行末换行符 ) */</span></span>
+<span class="line"><span class="__shiki_140thh">  endOfLine: </span><span class="__shiki_mdbnqw">&quot;auto&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 格式化的代码的起始 */</span></span>
+<span class="line"><span class="__shiki_140thh">  rangeStart: </span><span class="__shiki_dzsirb">0</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_140thh">  rangeEnd: </span><span class="__shiki_dzsirb">Infinity</span></span>
+<span class="line"><span class="__shiki_140thh">};</span></span></code></pre></div><br><h2 id="_4-stylelint" tabindex="-1">4. Stylelint <a class="header-anchor" href="#_4-stylelint" aria-label="Permalink to &quot;4. Stylelint&quot;">​</a></h2><blockquote><p>Stylelint 是一个静态分析 CSS 代码、查找问题、强制执行代码风格规则的工具。</p></blockquote><p><a href="https://stylelint.nodejs.cn" target="_blank" rel="noreferrer">🚀Stylelint 官网</a></p><table tabindex="0"><thead><tr><th>依赖</th><th>作用描述</th></tr></thead><tbody><tr><td>stylelint stylelint</td><td>核心库</td></tr><tr><td>stylelint-config-html</td><td>Stylelint 的可共享 HTML（和类似 HTML）配置，捆绑 postcss-html 并对其进行配置</td></tr><tr><td>stylelint-config-recommended-scss</td><td>扩展 stylelint-config-recommended 共享配置，并为 SCSS 配置其规则</td></tr><tr><td>stylelint-config-recommended-vue</td><td>扩展 stylelint-config-recommended 共享配置，并为 Vue 配置其规则</td></tr><tr><td>stylelint-config-standard</td><td>打开额外的规则来执行在规范和一些 CSS 样式指南中发现的通用约定，包括：惯用 CSS 原则，谷歌的 CSS 样式指南，Airbnb 的样式指南，和 @mdo 的代码指南。</td></tr><tr><td>stylelint-config-standard-scss</td><td>扩展 stylelint-config-standard 共享配置，并为 SCSS 配置其规则</td></tr><tr><td>postcss postcss-html 的依赖包</td><td></td></tr><tr><td>postcss-html</td><td>用于解析 HTML（和类似 HTML）的 PostCSS 语法</td></tr><tr><td>stylelint-config-recess-order</td><td>属性的排序（插件包）</td></tr><tr><td>stylelint-config-prettier</td><td>关闭所有不必要的或可能与 Prettier 冲突的规则</td></tr></tbody></table><h3 id="_4-1-忽略" tabindex="-1">4.1 忽略 <a class="header-anchor" href="#_4-1-忽略" aria-label="Permalink to &quot;4.1 忽略&quot;">​</a></h3><p>项目根目录下配置忽略检查文件.stylelintignore</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_wvjl67">/dist/*</span></span>
+<span class="line"><span class="__shiki_wvjl67">/public/*</span></span>
+<span class="line"><span class="__shiki_wvjl67">public/*</span></span>
+<span class="line"><span class="__shiki_wvjl67">stats.html</span></span></code></pre></div><p>项目根目录下配置文件.stylelintrc.cjs</p><h3 id="_4-2-配置项" tabindex="-1">4.2 配置项 <a class="header-anchor" href="#_4-2-配置项" aria-label="Permalink to &quot;4.2 配置项&quot;">​</a></h3><div class="language-js vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">js</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_21nrsd">// @see: https://stylelint.nodejs.cn</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_dzsirb">module</span><span class="__shiki_140thh">.</span><span class="__shiki_dzsirb">exports</span><span class="__shiki_1itgoe"> =</span><span class="__shiki_140thh"> {</span></span>
+<span class="line"><span class="__shiki_21nrsd">  // 指定此配置文件为根配置文件，不向上查找其他配置文件。</span></span>
+<span class="line"><span class="__shiki_140thh">  root: </span><span class="__shiki_dzsirb">true</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  // extends：通过扩展配置，继承了两个规则集：</span></span>
+<span class="line"><span class="__shiki_140thh">  extends: [</span></span>
+<span class="line"><span class="__shiki_21nrsd">    // 使用了 stylelint 的官方标准规则集，包含一些常见的代码风格规则。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;stylelint-config-standard&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">    // 使用了 stylelint 的属性排序插件规则集，用于强制执行 CSS 属性的书写顺序。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;stylelint-config-recess-order&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">  ],</span></span>
+<span class="line"><span class="__shiki_21nrsd">  // overrides：针对特定文件类型进行配置覆盖的部分。</span></span>
+<span class="line"><span class="__shiki_140thh">  overrides: [</span></span>
+<span class="line"><span class="__shiki_21nrsd">    // &quot;**/*.html&quot;：对所有的 .html 文件进行配置。</span></span>
+<span class="line"><span class="__shiki_140thh">    {</span></span>
+<span class="line"><span class="__shiki_140thh">      files: [</span><span class="__shiki_mdbnqw">&quot;**/*.html&quot;</span><span class="__shiki_140thh">],</span></span>
+<span class="line"><span class="__shiki_140thh">      customSyntax: </span><span class="__shiki_mdbnqw">&quot;postcss-html&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    },</span></span>
+<span class="line"><span class="__shiki_21nrsd">    // &quot;**/*.less&quot;：对所有的 .less 文件进行配置。</span></span>
+<span class="line"><span class="__shiki_140thh">    {</span></span>
+<span class="line"><span class="__shiki_140thh">      files: [</span><span class="__shiki_mdbnqw">&quot;**/*.less&quot;</span><span class="__shiki_140thh">],</span></span>
+<span class="line"><span class="__shiki_140thh">      customSyntax: </span><span class="__shiki_mdbnqw">&quot;postcss-less&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    }</span></span>
+<span class="line"><span class="__shiki_140thh">  ],</span></span>
+<span class="line"><span class="__shiki_140thh">  rules: {</span></span>
+<span class="line"><span class="__shiki_21nrsd">    /* URL 的引号规则  (always: 始终 | never: 从不 | consistent: 一致) */</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;function-url-quotes&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;always&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">    /* 16 进制颜色值的写法 (short: &quot;#f00&quot; | long: &quot;#ff0000&quot; ) */</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;color-hex-length&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;long&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">    /* 规则前是否要求空行  (always: 有空行 | never: 无空行 | always-multi-line: 多行规则有空行 | never-multi-line: 多行规则无空行 ) */</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;rule-empty-line-before&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;never&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">    /* 是否缺少通用字体系列关键字  (true: 开启 | null: 关闭 ) */</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;font-family-no-missing-generic-family-keyword&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">null</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">    /* 不允许空的样式源的规则  (true: 开启 | null: 关闭 ) */</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;no-empty-source&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">null</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">    /* 选择器类名的格式规则  (regex|string) */</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;selector-class-pattern&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">null</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">    /* 不允许使用特定厂商的前缀，例如 -webkit- (true: 开启 | null: 关闭 ) */</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;value-no-vendor-prefix&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">null</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">    /* 不允许具有较低优先级的选择器出现在较高优先级的选择器之后的规则 (true: 开启 | null: 关闭 )  */</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;no-descending-specificity&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">null</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">    /* 允许自定义 CSS 变量名称的规则 (regex|string) */</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;custom-property-pattern&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">null</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">    /* 媒体特性区间表示法的规则 (context|prefix) */</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;media-feature-range-notation&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">null</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">    /* 伪类选择器的规则，允许忽略指定的伪类 */</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;selector-pseudo-class-no-unknown&quot;</span><span class="__shiki_140thh">: [</span></span>
+<span class="line"><span class="__shiki_dzsirb">      true</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_140thh">      {</span></span>
+<span class="line"><span class="__shiki_140thh">        ignorePseudoClasses: [</span><span class="__shiki_mdbnqw">&quot;global&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_140thh">      }</span></span>
+<span class="line"><span class="__shiki_140thh">    ]</span></span>
+<span class="line"><span class="__shiki_140thh">  },</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 指定要忽略的文件的模式 */</span></span>
+<span class="line"><span class="__shiki_140thh">  ignoreFiles: [</span><span class="__shiki_mdbnqw">&quot;**/.js&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;/*.jsx&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;/.tsx&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;**/.ts&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_140thh">};</span></span></code></pre></div><br><h2 id="_5-团队协作风格统一" tabindex="-1">5. 团队协作风格统一 <a class="header-anchor" href="#_5-团队协作风格统一" aria-label="Permalink to &quot;5. 团队协作风格统一&quot;">​</a></h2><p>根目下.vscode 文件 存储的是编译器相关。</p><h3 id="_5-1-vscode-extensions-json" tabindex="-1">5.1 .vscode/extensions.json <a class="header-anchor" href="#_5-1-vscode-extensions-json" aria-label="Permalink to &quot;5.1 .vscode/extensions.json&quot;">​</a></h3><blockquote><p>项目根目录下.vscode 文件下 extensions.json 为项目下推荐安装插件</p></blockquote><p>如果，你的.vscode 下的 extensions.json，编译器会自动安装相应的扩展 ID，团队协作必备。 vscode 主侧栏的 扩展里输入@recommended，可以查看当前当前扩展推荐，命名规则为&quot;作者名字.插件名字&quot;。 如果想往里添加新的扩展推荐，可以去插件库主页小齿轮处复制扩展 ID。</p><div class="language-JSON vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">JSON</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_140thh">{</span></span>
+<span class="line"><span class="__shiki_dzsirb">  &quot;recommendations&quot;</span><span class="__shiki_140thh">: [</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;dsznajder.es7-react-js-snippets&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;dbaeumer.vscode-eslint&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;stylelint.vscode-stylelint&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;esbenp.prettier-vscode&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;editorconfig.editorconfig&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;streetsidesoftware.code-spell-checker&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;mikestead.dotenv&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">  ]</span></span>
+<span class="line"><span class="__shiki_140thh">}</span></span></code></pre></div><h3 id="_5-2-vscode-settings-json" tabindex="-1">5.2 .vscode/settings.json <a class="header-anchor" href="#_5-2-vscode-settings-json" aria-label="Permalink to &quot;5.2 .vscode/settings.json&quot;">​</a></h3><blockquote><p>项目根目录下.vscode 文件下 setting.json 为 vscode 编辑器和插件的配置。</p></blockquote><div class="language-JSON vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">JSON</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_140thh">{</span></span>
+<span class="line"><span class="__shiki_21nrsd">  // 在保存文件时自动进行代码格式化。</span></span>
+<span class="line"><span class="__shiki_dzsirb">  &quot;editor.formatOnSave&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">true</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  // 在保存文件时，针对样式文件使用 stylelint 进行自动修复。</span></span>
+<span class="line"><span class="__shiki_dzsirb">  &quot;editor.codeActionsOnSave&quot;</span><span class="__shiki_140thh">: {</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;source.fixAll.stylelint&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">true</span></span>
+<span class="line"><span class="__shiki_140thh">  },</span></span>
+<span class="line"><span class="__shiki_21nrsd">  // 启用 stylelint 插件以进行样式代码的静态检查</span></span>
+<span class="line"><span class="__shiki_dzsirb">  &quot;stylelint.enable&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">true</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  // 指定需要被 stylelint 验证的文件类型</span></span>
+<span class="line"><span class="__shiki_dzsirb">  &quot;stylelint.validate&quot;</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;css&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;less&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;postcss&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;scss&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;sass&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;html&quot;</span><span class="__shiki_140thh">],</span></span>
+<span class="line"><span class="__shiki_21nrsd">  // 设置文件的行尾格式为换行符 \\n</span></span>
+<span class="line"><span class="__shiki_dzsirb">  &quot;files.eol&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;</span><span class="__shiki_dzsirb">\\n</span><span class="__shiki_mdbnqw">&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">  // 对于不同的文件类型，配置了默认的格式化，使用 prettier 作为默认的代码格式化工具。</span></span>
+<span class="line"><span class="__shiki_dzsirb">  &quot;[typescript]&quot;</span><span class="__shiki_140thh">: {</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;editor.defaultFormatter&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;esbenp.prettier-vscode&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">  },</span></span>
+<span class="line"><span class="__shiki_dzsirb">  &quot;[json]&quot;</span><span class="__shiki_140thh">: {</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;editor.defaultFormatter&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;esbenp.prettier-vscode&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">  },</span></span>
+<span class="line"><span class="__shiki_dzsirb">  &quot;[jsonc]&quot;</span><span class="__shiki_140thh">: {</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;editor.defaultFormatter&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;esbenp.prettier-vscode&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">  },</span></span>
+<span class="line"><span class="__shiki_dzsirb">  &quot;[javascript]&quot;</span><span class="__shiki_140thh">: {</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;editor.defaultFormatter&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;esbenp.prettier-vscode&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">  },</span></span>
+<span class="line"><span class="__shiki_dzsirb">  &quot;[typescriptreact]&quot;</span><span class="__shiki_140thh">: {</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;editor.defaultFormatter&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;esbenp.prettier-vscode&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">  },</span></span>
+<span class="line"><span class="__shiki_dzsirb">  &quot;[scss]&quot;</span><span class="__shiki_140thh">: {</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;editor.defaultFormatter&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;esbenp.prettier-vscode&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">  },</span></span>
+<span class="line"><span class="__shiki_dzsirb">  &quot;[html]&quot;</span><span class="__shiki_140thh">: {</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;editor.defaultFormatter&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;esbenp.prettier-vscode&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">  },</span></span>
+<span class="line"><span class="__shiki_dzsirb">  &quot;[markdown]&quot;</span><span class="__shiki_140thh">: {</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;editor.defaultFormatter&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;esbenp.prettier-vscode&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">  },</span></span>
+<span class="line"><span class="__shiki_dzsirb">  &quot;[less]&quot;</span><span class="__shiki_140thh">: {</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;editor.defaultFormatter&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;esbenp.prettier-vscode&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">  },</span></span>
+<span class="line"><span class="__shiki_21nrsd">  // 拼写检查</span></span>
+<span class="line"><span class="__shiki_dzsirb">  &quot;cSpell.words&quot;</span><span class="__shiki_140thh">: [</span></span>
+<span class="line"><span class="__shiki_mdbnqw">		&quot;&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">  ]</span></span>
+<span class="line"><span class="__shiki_140thh">}</span></span></code></pre></div><br><h2 id="_6-规范化提交的方案" tabindex="-1">6. 规范化提交的方案 <a class="header-anchor" href="#_6-规范化提交的方案" aria-label="Permalink to &quot;6. 规范化提交的方案&quot;">​</a></h2><p>前瞻</p><table tabindex="0"><thead><tr><th>依赖</th><th>作用描述</th></tr></thead><tbody><tr><td>husky</td><td>操作 git 钩子的工具</td></tr><tr><td>lint-staged</td><td>在提交之前进行 eslint 校验，并使用 prettier 格式化本地暂存区的代码</td></tr><tr><td>@commitlint/cli</td><td>校验 git commit 信息是否符合规范，保证团队的一致性</td></tr><tr><td>@commitlint/config-conventional</td><td>Angular 的提交规范</td></tr><tr><td>commitizen</td><td>基于 Node.js 的 git commit 命令行工具，生成标准化的 commit message(原生通常不用)</td></tr><tr><td>cz-git, czg</td><td>相较于 commitizen，是一款工程性更强，轻量级，高度自定义，标准输出格式的 commitizen 适配器</td></tr></tbody></table><h3 id="_6-1-commitizen" tabindex="-1">6.1 Commitizen <a class="header-anchor" href="#_6-1-commitizen" aria-label="Permalink to &quot;6.1 Commitizen&quot;">​</a></h3><blockquote><p>Commitizen 采用了一个交互式的命令行界面，引导你逐步填写必要的数据，从而生成符合规范的 Git 提交信息。</p></blockquote><ol><li>安装开发依赖并配置启动脚本（Czg 为中文开发者适配）</li></ol><ul><li><p>cz-git 是一款工程性更强，轻量级，高度自定义，标准输出格式的 commitizen 适配器</p></li><li><p>czg 是轻量级，简单快速，零配置的交互式命令行工具，用于生成标准化的 git commit message，搭配 cz-git 使用</p></li><li><p>@commitlint/cli 用于 commit message 的检查，并且能通过 npm 安装包的形式分享 commit rules</p></li><li><p>@commitlint/config-conventional 是通用的 commit rules，你也可以在它的基础上自定义 rules</p></li></ul><div class="language-JSON vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">JSON</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_mdbnqw">&quot;scripts&quot;</span><span class="__shiki_140thh">: {</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;dev&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;vite&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;commit&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;git pull &amp;&amp; git add -A &amp;&amp; czg &amp;&amp; git push&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">  },</span></span>
+<span class="line"><span class="__shiki_mdbnqw">  &quot;devDependencies&quot;</span><span class="__shiki_140thh">: {</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;@commitlint/cli&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;^17.6.6&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;@commitlint/config-conventional&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;^17.6.6&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;cz-git&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;^1.6.1&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;czg&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;^1.6.1&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_140thh">  },</span></span>
+<span class="line"><span class="__shiki_mdbnqw">  &quot;config&quot;</span><span class="__shiki_140thh">: {</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;commitizen&quot;</span><span class="__shiki_140thh">: {</span></span>
+<span class="line"><span class="__shiki_dzsirb">      &quot;path&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;node_modules/cz-git&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    }</span></span>
+<span class="line"><span class="__shiki_140thh">  }</span></span></code></pre></div><ol start="2"><li>配置 commitlint 配置项 项目根目录下配置文件 commitlint.config.cjs</li></ol><div class="language-js vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">js</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_21nrsd">// 文件用于配置 commitlint 工具，它用于规范化 Git 提交消息格式。</span></span>
+<span class="line"><span class="__shiki_21nrsd">// @see: https://cz-git.qbenben.com/zh/guide</span></span>
+<span class="line"><span class="__shiki_1itgoe">const</span><span class="__shiki_dzsirb"> fs</span><span class="__shiki_1itgoe"> =</span><span class="__shiki_1t8gfj"> require</span><span class="__shiki_140thh">(</span><span class="__shiki_mdbnqw">&quot;fs&quot;</span><span class="__shiki_140thh">);</span></span>
+<span class="line"><span class="__shiki_1itgoe">const</span><span class="__shiki_dzsirb"> path</span><span class="__shiki_1itgoe"> =</span><span class="__shiki_1t8gfj"> require</span><span class="__shiki_140thh">(</span><span class="__shiki_mdbnqw">&quot;path&quot;</span><span class="__shiki_140thh">);</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_1itgoe">const</span><span class="__shiki_dzsirb"> scopes</span><span class="__shiki_1itgoe"> =</span><span class="__shiki_140thh"> fs</span></span>
+<span class="line"><span class="__shiki_140thh">  .</span><span class="__shiki_1t8gfj">readdirSync</span><span class="__shiki_140thh">(path.</span><span class="__shiki_1t8gfj">resolve</span><span class="__shiki_140thh">(__dirname, </span><span class="__shiki_mdbnqw">&quot;src&quot;</span><span class="__shiki_140thh">), { withFileTypes: </span><span class="__shiki_dzsirb">true</span><span class="__shiki_140thh"> })</span></span>
+<span class="line"><span class="__shiki_140thh">  .</span><span class="__shiki_1t8gfj">filter</span><span class="__shiki_140thh">(</span><span class="__shiki_1jdh33">dirent</span><span class="__shiki_1itgoe"> =&gt;</span><span class="__shiki_140thh"> dirent.</span><span class="__shiki_1t8gfj">isDirectory</span><span class="__shiki_140thh">())</span></span>
+<span class="line"><span class="__shiki_140thh">  .</span><span class="__shiki_1t8gfj">map</span><span class="__shiki_140thh">(</span><span class="__shiki_1jdh33">dirent</span><span class="__shiki_1itgoe"> =&gt;</span><span class="__shiki_140thh"> dirent.name.</span><span class="__shiki_1t8gfj">replace</span><span class="__shiki_140thh">(</span><span class="__shiki_mdbnqw">/</span><span class="__shiki_21q97f">s</span><span class="__shiki_1itgoe">$</span><span class="__shiki_mdbnqw">/</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;&quot;</span><span class="__shiki_140thh">));</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd">/** </span><span class="__shiki_1itgoe">@type</span><span class="__shiki_1t8gfj"> {import(&#39;cz-git&#39;).UserConfig}</span><span class="__shiki_21nrsd"> */</span></span>
+<span class="line"><span class="__shiki_dzsirb">module</span><span class="__shiki_140thh">.</span><span class="__shiki_dzsirb">exports</span><span class="__shiki_1itgoe"> =</span><span class="__shiki_140thh"> {</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 一个函数数组，用于定义需要忽略的提交消息的过滤规则（如果提交消息包含 “init” 字符串，则会被忽略） */</span></span>
+<span class="line"><span class="__shiki_140thh">  ignores: [</span><span class="__shiki_1jdh33">commit</span><span class="__shiki_1itgoe"> =&gt;</span><span class="__shiki_140thh"> commit.</span><span class="__shiki_1t8gfj">includes</span><span class="__shiki_140thh">(</span><span class="__shiki_mdbnqw">&quot;init&quot;</span><span class="__shiki_140thh">)],</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 一个字符串数组，用于指定对应的 commitlint 配置扩展文件（使用了 “@commitlint/config-conventional” 扩展，它是一个常用的提交消息规范） */</span></span>
+<span class="line"><span class="__shiki_140thh">  extends: [</span><span class="__shiki_mdbnqw">&quot;@commitlint/config-conventional&quot;</span><span class="__shiki_140thh">],</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 一组规则用于校验提交消息的格式 */</span></span>
+<span class="line"><span class="__shiki_140thh">  rules: {</span></span>
+<span class="line"><span class="__shiki_21nrsd">    // @see: https://commitlint.js.org/#/reference-rules</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;body-leading-blank&quot;</span><span class="__shiki_140thh">: [</span><span class="__shiki_dzsirb">2</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;always&quot;</span><span class="__shiki_140thh">], </span><span class="__shiki_21nrsd">// 规定提交消息的正文部分之前是否需要空行，配置为 [2, &quot;always&quot;] 表示必须要有空行。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;footer-leading-blank&quot;</span><span class="__shiki_140thh">: [</span><span class="__shiki_dzsirb">1</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;always&quot;</span><span class="__shiki_140thh">], </span><span class="__shiki_21nrsd">// 规定提交消息的尾部部分之前是否需要空行，配置为 [1, &quot;always&quot;] 表示应该有空行。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;header-max-length&quot;</span><span class="__shiki_140thh">: [</span><span class="__shiki_dzsirb">2</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;always&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_dzsirb">108</span><span class="__shiki_140thh">], </span><span class="__shiki_21nrsd">// 规定提交消息头部的最大长度，配置为 [2, &quot;always&quot;, 108] 表示最大长度为 108。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;subject-empty&quot;</span><span class="__shiki_140thh">: [</span><span class="__shiki_dzsirb">2</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;never&quot;</span><span class="__shiki_140thh">], </span><span class="__shiki_21nrsd">// 规定提交消息的主题部分是否允许为空，配置为 [2, &quot;never&quot;] 表示主题不能为空。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;type-empty&quot;</span><span class="__shiki_140thh">: [</span><span class="__shiki_dzsirb">2</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;never&quot;</span><span class="__shiki_140thh">], </span><span class="__shiki_21nrsd">//  规定提交消息的类型部分是否允许为空，配置为 [2, &quot;never&quot;] 表示类型不能为空。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;subject-case&quot;</span><span class="__shiki_140thh">: [</span><span class="__shiki_dzsirb">0</span><span class="__shiki_140thh">], </span><span class="__shiki_21nrsd">// 规定提交消息的主题部分的大小写，配置为 [0] 表示不强制大小写。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">    &quot;type-enum&quot;</span><span class="__shiki_140thh">: [</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // 规定提交消息的类型部分的取值范围，配置为 [2, &quot;always&quot;, [类型列表]]，其中类型列表包含了规定的若干提交类型。</span></span>
+<span class="line"><span class="__shiki_dzsirb">      2</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      &quot;always&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_140thh">      [</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        &quot;feat&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        &quot;fix&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        &quot;docs&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        &quot;style&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        &quot;refactor&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        &quot;perf&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        &quot;test&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        &quot;build&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        &quot;ci&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        &quot;chore&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        &quot;revert&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        &quot;wip&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        &quot;workflow&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        &quot;types&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        &quot;release&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">      ]</span></span>
+<span class="line"><span class="__shiki_140thh">    ]</span></span>
+<span class="line"><span class="__shiki_140thh">  },</span></span>
+<span class="line"><span class="__shiki_21nrsd">  /* 提交过程中向用户提问时使用的各种提示信息 */</span></span>
+<span class="line"><span class="__shiki_140thh">  prompt: {</span></span>
+<span class="line"><span class="__shiki_140thh">    messages: {</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // type: 提示选择提交的类型。</span></span>
+<span class="line"><span class="__shiki_140thh">      type: </span><span class="__shiki_mdbnqw">&quot;Select the type of change that you&#39;re committing:&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // scope: 提示输入本次改动的作用域。</span></span>
+<span class="line"><span class="__shiki_140thh">      scope: </span><span class="__shiki_mdbnqw">&quot;Denote the SCOPE of this change (optional):&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // customScope: 提示输入自定义的作用域。</span></span>
+<span class="line"><span class="__shiki_140thh">      customScope: </span><span class="__shiki_mdbnqw">&quot;Denote the SCOPE of this change:&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // subject: 提示写一个简短的、动词性的描述本次改动的主题。</span></span>
+<span class="line"><span class="__shiki_140thh">      subject: </span><span class="__shiki_mdbnqw">&quot;Write a SHORT, IMPERATIVE tense description of the change:</span><span class="__shiki_dzsirb">\\n</span><span class="__shiki_mdbnqw">&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // body: 提示提供更详细的改动描述，可以使用 “|” 符号进行换行。</span></span>
+<span class="line"><span class="__shiki_140thh">      body: </span><span class="__shiki_mdbnqw">&#39;Provide a LONGER description of the change (optional). Use &quot;|&quot; to break new line:</span><span class="__shiki_dzsirb">\\n</span><span class="__shiki_mdbnqw">&#39;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // breaking: 提示列出任何重大改动。</span></span>
+<span class="line"><span class="__shiki_140thh">      breaking: </span><span class="__shiki_mdbnqw">&#39;List any BREAKING CHANGES (optional). Use &quot;|&quot; to break new line:</span><span class="__shiki_dzsirb">\\n</span><span class="__shiki_mdbnqw">&#39;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // footerPrefixsSelect: 提示选择本次改动涉及的问题类型。</span></span>
+<span class="line"><span class="__shiki_140thh">      footerPrefixsSelect: </span><span class="__shiki_mdbnqw">&quot;Select the ISSUES type of changeList by this change (optional):&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // customFooterPrefixs: 提示输入自定义的问题前缀。</span></span>
+<span class="line"><span class="__shiki_140thh">      customFooterPrefixs: </span><span class="__shiki_mdbnqw">&quot;Input ISSUES prefix:&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // footer: 提示列出本次改动涉及的问题列表。</span></span>
+<span class="line"><span class="__shiki_140thh">      footer: </span><span class="__shiki_mdbnqw">&quot;List any ISSUES by this change. E.g.: #31, #34:</span><span class="__shiki_dzsirb">\\n</span><span class="__shiki_mdbnqw">&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // confirmCommit: 提示确认是否要提交以上的改动。</span></span>
+<span class="line"><span class="__shiki_140thh">      confirmCommit: </span><span class="__shiki_mdbnqw">&quot;Are you sure you want to proceed with the commit above?&quot;</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // 中文版</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // type: &quot;选择你要提交的类型 :&quot;,</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // scope: &quot;选择一个提交范围（可选）:&quot;,</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // customScope: &quot;请输入自定义的提交范围 :&quot;,</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // subject: &quot;填写简短精炼的变更描述 :\\n&quot;,</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // body: &#39;填写更加详细的变更描述（可选）。使用 &quot;|&quot; 换行 :\\n&#39;,</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // breaking: &#39;列举非兼容性重大的变更（可选）。使用 &quot;|&quot; 换行 :\\n&#39;,</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // footerPrefixsSelect: &quot;选择关联issue前缀（可选）:&quot;,</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // customFooterPrefixs: &quot;输入自定义issue前缀 :&quot;,</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // footer: &quot;列举关联issue (可选) 例如: #31, #I3244 :\\n&quot;,</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // confirmCommit: &quot;是否提交或修改commit ?&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    },</span></span>
+<span class="line"><span class="__shiki_140thh">    types: [</span></span>
+<span class="line"><span class="__shiki_140thh">      { value: </span><span class="__shiki_mdbnqw">&quot;feat&quot;</span><span class="__shiki_140thh">, name: </span><span class="__shiki_mdbnqw">&quot;feat:     🚀  A new feature&quot;</span><span class="__shiki_140thh">, emoji: </span><span class="__shiki_mdbnqw">&quot;🚀&quot;</span><span class="__shiki_140thh"> },</span></span>
+<span class="line"><span class="__shiki_140thh">      { value: </span><span class="__shiki_mdbnqw">&quot;fix&quot;</span><span class="__shiki_140thh">, name: </span><span class="__shiki_mdbnqw">&quot;fix:      🧩  A bug fix&quot;</span><span class="__shiki_140thh">, emoji: </span><span class="__shiki_mdbnqw">&quot;🧩&quot;</span><span class="__shiki_140thh"> },</span></span>
+<span class="line"><span class="__shiki_140thh">      { value: </span><span class="__shiki_mdbnqw">&quot;docs&quot;</span><span class="__shiki_140thh">, name: </span><span class="__shiki_mdbnqw">&quot;docs:     📚  Documentation only changes&quot;</span><span class="__shiki_140thh">, emoji: </span><span class="__shiki_mdbnqw">&quot;📚&quot;</span><span class="__shiki_140thh"> },</span></span>
+<span class="line"><span class="__shiki_140thh">      { value: </span><span class="__shiki_mdbnqw">&quot;style&quot;</span><span class="__shiki_140thh">, name: </span><span class="__shiki_mdbnqw">&quot;style:    🎨  Changes that do not affect the meaning of the code&quot;</span><span class="__shiki_140thh">, emoji: </span><span class="__shiki_mdbnqw">&quot;🎨&quot;</span><span class="__shiki_140thh"> },</span></span>
+<span class="line"><span class="__shiki_140thh">      { value: </span><span class="__shiki_mdbnqw">&quot;refactor&quot;</span><span class="__shiki_140thh">, name: </span><span class="__shiki_mdbnqw">&quot;refactor: ♻️   A code change that neither fixes a bug nor adds a feature&quot;</span><span class="__shiki_140thh">, emoji: </span><span class="__shiki_mdbnqw">&quot;♻️&quot;</span><span class="__shiki_140thh"> },</span></span>
+<span class="line"><span class="__shiki_140thh">      { value: </span><span class="__shiki_mdbnqw">&quot;perf&quot;</span><span class="__shiki_140thh">, name: </span><span class="__shiki_mdbnqw">&quot;perf:     ⚡️  A code change that improves performance&quot;</span><span class="__shiki_140thh">, emoji: </span><span class="__shiki_mdbnqw">&quot;⚡️&quot;</span><span class="__shiki_140thh"> },</span></span>
+<span class="line"><span class="__shiki_140thh">      { value: </span><span class="__shiki_mdbnqw">&quot;test&quot;</span><span class="__shiki_140thh">, name: </span><span class="__shiki_mdbnqw">&quot;test:     ✅  Adding missing tests or correcting existing tests&quot;</span><span class="__shiki_140thh">, emoji: </span><span class="__shiki_mdbnqw">&quot;✅&quot;</span><span class="__shiki_140thh"> },</span></span>
+<span class="line"><span class="__shiki_140thh">      { value: </span><span class="__shiki_mdbnqw">&quot;build&quot;</span><span class="__shiki_140thh">, name: </span><span class="__shiki_mdbnqw">&quot;build:    📦️   Changes that affect the build system or external dependencies&quot;</span><span class="__shiki_140thh">, emoji: </span><span class="__shiki_mdbnqw">&quot;📦️&quot;</span><span class="__shiki_140thh"> },</span></span>
+<span class="line"><span class="__shiki_140thh">      { value: </span><span class="__shiki_mdbnqw">&quot;ci&quot;</span><span class="__shiki_140thh">, name: </span><span class="__shiki_mdbnqw">&quot;ci:       🎡  Changes to our CI configuration files and scripts&quot;</span><span class="__shiki_140thh">, emoji: </span><span class="__shiki_mdbnqw">&quot;🎡&quot;</span><span class="__shiki_140thh"> },</span></span>
+<span class="line"><span class="__shiki_140thh">      { value: </span><span class="__shiki_mdbnqw">&quot;chore&quot;</span><span class="__shiki_140thh">, name: </span><span class="__shiki_mdbnqw">&quot;chore:    🔨  Other changes that don&#39;t modify src or test files&quot;</span><span class="__shiki_140thh">, emoji: </span><span class="__shiki_mdbnqw">&quot;🔨&quot;</span><span class="__shiki_140thh"> },</span></span>
+<span class="line"><span class="__shiki_140thh">      { value: </span><span class="__shiki_mdbnqw">&quot;revert&quot;</span><span class="__shiki_140thh">, name: </span><span class="__shiki_mdbnqw">&quot;revert:   ⏪️  Reverts a previous commit&quot;</span><span class="__shiki_140thh">, emoji: </span><span class="__shiki_mdbnqw">&quot;⏪️&quot;</span><span class="__shiki_140thh"> },</span></span>
+<span class="line"><span class="__shiki_140thh">      { value: </span><span class="__shiki_mdbnqw">&quot;wip&quot;</span><span class="__shiki_140thh">, name: </span><span class="__shiki_mdbnqw">&quot;wip:      🕔  work in process&quot;</span><span class="__shiki_140thh">, emoji: </span><span class="__shiki_mdbnqw">&quot;🕔&quot;</span><span class="__shiki_140thh"> },</span></span>
+<span class="line"><span class="__shiki_140thh">      { value: </span><span class="__shiki_mdbnqw">&quot;workflow&quot;</span><span class="__shiki_140thh">, name: </span><span class="__shiki_mdbnqw">&quot;workflow: 📋  workflow improvements&quot;</span><span class="__shiki_140thh">, emoji: </span><span class="__shiki_mdbnqw">&quot;📋&quot;</span><span class="__shiki_140thh"> },</span></span>
+<span class="line"><span class="__shiki_140thh">      { value: </span><span class="__shiki_mdbnqw">&quot;type&quot;</span><span class="__shiki_140thh">, name: </span><span class="__shiki_mdbnqw">&quot;type:     🔰  type definition file changes&quot;</span><span class="__shiki_140thh">, emoji: </span><span class="__shiki_mdbnqw">&quot;🔰&quot;</span><span class="__shiki_140thh"> }</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // 中文版</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // { value: &quot;feat&quot;, name: &quot;特性:   🚀  新增功能&quot;, emoji: &quot;🚀&quot; },</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // { value: &quot;fix&quot;, name: &quot;修复:   🧩  修复缺陷&quot;, emoji: &quot;🧩&quot; },</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // { value: &quot;docs&quot;, name: &quot;文档:   📚  文档变更&quot;, emoji: &quot;📚&quot; },</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // { value: &quot;style&quot;, name: &quot;格式:   🎨  代码格式（不影响功能，例如空格、分号等格式修正）&quot;, emoji: &quot;🎨&quot; },</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // { value: &quot;refactor&quot;, name: &quot;重构:   ♻️  代码重构（不包括 bug 修复、功能新增）&quot;, emoji: &quot;♻️&quot; },</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // { value: &quot;perf&quot;, name: &quot;性能:    ⚡️  性能优化&quot;, emoji: &quot;⚡️&quot; },</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // { value: &quot;test&quot;, name: &quot;测试:   ✅  添加疏漏测试或已有测试改动&quot;, emoji: &quot;✅&quot; },</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // { value: &quot;build&quot;, name: &quot;构建:   📦️  构建流程、外部依赖变更（如升级 npm 包、修改 webpack 配置等）&quot;, emoji: &quot;📦️&quot; },</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // { value: &quot;ci&quot;, name: &quot;集成:   🎡  修改 CI 配置、脚本&quot;, emoji: &quot;🎡&quot; },</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // { value: &quot;chore&quot;, name: &quot;回退:   ⏪️  回滚 commit&quot;, emoji: &quot;⏪️&quot; },</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // { value: &quot;revert&quot;, name: &quot;其他:   🔨  对构建过程或辅助工具和库的更改（不影响源文件、测试用例）&quot;, emoji: &quot;🔨&quot; },</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // { value: &quot;wip&quot;, name: &quot;开发:   🕔  正在开发中&quot;, emoji: &quot;🕔&quot; },</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // { value: &quot;workflow&quot;, name: &quot;工作流:   📋  工作流程改进&quot;, emoji: &quot;📋&quot; },</span></span>
+<span class="line"><span class="__shiki_21nrsd">      // { value: &quot;types&quot;, name: &quot;类型:   🔰  类型定义文件修改&quot;, emoji: &quot;🔰&quot; }</span></span>
+<span class="line"><span class="__shiki_140thh">    ],</span></span>
+<span class="line"><span class="__shiki_21nrsd">    // 提示信息中使用表情符号</span></span>
+<span class="line"><span class="__shiki_140thh">    useEmoji: </span><span class="__shiki_dzsirb">true</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">    // 指定文件作用域</span></span>
+<span class="line"><span class="__shiki_140thh">    scopes: [</span><span class="__shiki_1itgoe">...</span><span class="__shiki_140thh">scopes],</span></span>
+<span class="line"><span class="__shiki_21nrsd">    // 指定自定义范围在提示信息中的对齐方式</span></span>
+<span class="line"><span class="__shiki_140thh">    customScopesAlign: </span><span class="__shiki_mdbnqw">&quot;bottom&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">    // 为空范围指定一个别名</span></span>
+<span class="line"><span class="__shiki_140thh">    emptyScopesAlias: </span><span class="__shiki_mdbnqw">&quot;empty&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">    // 为自定义范围指定一个别名</span></span>
+<span class="line"><span class="__shiki_140thh">    customScopesAlias: </span><span class="__shiki_mdbnqw">&quot;custom&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_21nrsd">    // 指定了可以与哪些类型的更改关联破坏性更改</span></span>
+<span class="line"><span class="__shiki_140thh">    allowBreakingChanges: [</span><span class="__shiki_mdbnqw">&quot;feat&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;fix&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_140thh">  }</span></span>
+<span class="line"><span class="__shiki_140thh">};</span></span></code></pre></div><h3 id="_6-2-husky" tabindex="-1">6.2 husky <a class="header-anchor" href="#_6-2-husky" aria-label="Permalink to &quot;6.2 husky&quot;">​</a></h3><blockquote><p>Husky 是一个 Git Hook 工具，可以帮助我们在 Git 事件发生时自动运行脚本。Git Hook 是一种机制，它允许在 Git 执行操作时自动运行特定脚本，以执行自定义操作。</p></blockquote><p>安装开发依赖并执行<code>npm run prepare</code>，根目录下会生成.husky 文件</p><div class="language-JSON vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">JSON</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_mdbnqw">&quot;scripts&quot;</span><span class="__shiki_140thh">: {</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;prepare&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;husky install&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;commit&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;git pull &amp;&amp; git add -A &amp;&amp; czg &amp;&amp; git push&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">  },</span></span>
+<span class="line"><span class="__shiki_mdbnqw">  &quot;devDependencies&quot;</span><span class="__shiki_140thh">: {</span></span>
+<span class="line"><span class="__shiki_dzsirb">    &quot;husky&quot;</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;^8.0.3&quot;</span><span class="__shiki_140thh">,</span></span>
+<span class="line"><span class="__shiki_140thh">  },</span></span></code></pre></div><h3 id="_6-3-git-hooks" tabindex="-1">6.3 git hooks <a class="header-anchor" href="#_6-3-git-hooks" aria-label="Permalink to &quot;6.3 git hooks&quot;">​</a></h3><p>客户端钩子和服务端钩子，客户端钩子有如下</p><ul><li>pre-commit 触发该钩子时使用 lint-staged 工具对暂存区代码检查。</li><li>prepare-commit-msg 触发该钩子时使用 commitlint 工具对提交消息进行验证和编辑。</li><li>commit-msg 触发该钩子时使用 commitizen 提交通过前验证项目状态或提交信息</li><li>post-commit 触发该钩子时通知之类的事</li></ul><p>生成钩子文件</p><ol><li>创建一个 commit-msg Git hooks 钩子，并在触发该钩子时使用 commitlint 工具对提交消息进行验证和编辑。 <code>npx husky add .husky/commit-msg &#39;npx --no -- commitlint --edit &quot;$1&quot;&#39;</code></li><li>创建一个 pre-commit Git hooks 钩子，并在触发该钩子时使用 lint:lint-staged 工具对暂存区代码检查。 <code>npx husky add .husky/pre-commit &quot;npm run lint:lint-staged&quot;</code></li><li>强制跳过 Git hooks <code>git commit --no-verify -m &quot;Commit message&quot;</code></li></ol><h3 id="_6-4-lint-staged-config-cjs" tabindex="-1">6.4 lint-staged.config.cjs <a class="header-anchor" href="#_6-4-lint-staged-config-cjs" aria-label="Permalink to &quot;6.4 lint-staged.config.cjs&quot;">​</a></h3><p>配置</p><div class="language-js vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">js</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_21nrsd">// lint-staged.config.cjs 文件是用于配置 lint-staged 工具的配置文件。lint-staged 是一个在 Git 提交阶段自动运行指定脚本的工具，用于对暂存的文件进行静态代码检查和格式化。</span></span>
+<span class="line"><span class="__shiki_dzsirb">module</span><span class="__shiki_140thh">.</span><span class="__shiki_dzsirb">exports</span><span class="__shiki_1itgoe"> =</span><span class="__shiki_140thh"> {</span></span>
+<span class="line"><span class="__shiki_21nrsd">  // 对于以 .js、.jsx、.ts 或 .tsx 结尾的文件，使用 ESLint 进行代码检查并尝试自动修复问题，然后使用 Prettier 进行代码格式化。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">  &quot;*.{js,jsx,ts,tsx}&quot;</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;eslint --fix&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;prettier --write&quot;</span><span class="__shiki_140thh">],</span></span>
+<span class="line"><span class="__shiki_21nrsd">  // 对于除了 package.json 文件以外的所有 .json、.code-snippets 以及不以 .browserslist 结尾的文件，使用 Prettier 进行 JSON 文件的格式化。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">  &quot;{!(package)*.json,*.code-snippets,.!(browserslist)*rc}&quot;</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;prettier --write--parser json&quot;</span><span class="__shiki_140thh">],</span></span>
+<span class="line"><span class="__shiki_21nrsd">  // 针对 package.json 文件，使用 Prettier 进行格式化。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">  &quot;package.json&quot;</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;prettier --write&quot;</span><span class="__shiki_140thh">],</span></span>
+<span class="line"><span class="__shiki_21nrsd">  // 对于以 .scss、.less、.styl 或 .html 结尾的文件，使用 Stylelint 进行样式代码检查并尝试自动修复问题，然后使用 Prettier 进行代码格式化。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">  &quot;*.{scss,less,styl,html}&quot;</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;stylelint --fix&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;prettier --write&quot;</span><span class="__shiki_140thh">],</span></span>
+<span class="line"><span class="__shiki_21nrsd">  // 对于以 .md 结尾的 Markdown 文件，使用 Prettier 进行 Markdown 文件的格式化。</span></span>
+<span class="line"><span class="__shiki_mdbnqw">  &quot;*.md&quot;</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;prettier --write&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_140thh">};</span></span></code></pre></div>`,78)])])}const u=a(_,[["render",l]]);export{r as __pageData,u as default};

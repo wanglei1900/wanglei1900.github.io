@@ -1,0 +1,1 @@
+import{_ as e,o,c as t}from"./app.DkoUFz-u.js";const i=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"devops/cloud/azure/blob.md","filePath":"devops/cloud/azure/blob.md"}'),a={name:"devops/cloud/azure/blob.md"};function r(s,c,d,n,l,p){return o(),t("div")}const u=e(a,[["render",r]]);export{i as __pageData,u as default};

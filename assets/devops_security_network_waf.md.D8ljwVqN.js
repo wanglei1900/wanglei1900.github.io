@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as a}from"./app.DkoUFz-u.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"devops/security/network/waf.md","filePath":"devops/security/network/waf.md"}'),r={name:"devops/security/network/waf.md"};function o(s,c,n,p,d,i){return t(),a("div")}const m=e(r,[["render",o]]);export{_ as __pageData,m as default};

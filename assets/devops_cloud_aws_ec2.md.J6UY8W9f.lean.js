@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as a}from"./app.DkoUFz-u.js";const l=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"devops/cloud/aws/ec2.md","filePath":"devops/cloud/aws/ec2.md"}'),o={name:"devops/cloud/aws/ec2.md"};function c(s,r,d,n,p,_){return t(),a("div")}const m=e(o,[["render",c]]);export{l as __pageData,m as default};

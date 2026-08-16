@@ -1,0 +1,1 @@
+import{_ as a,o as e,c as t}from"./app.DkoUFz-u.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"backend/os/ipc/allocation.md","filePath":"backend/os/ipc/allocation.md"}'),o={name:"backend/os/ipc/allocation.md"};function c(n,s,r,i,l,p){return e(),t("div")}const m=a(o,[["render",c]]);export{_ as __pageData,m as default};

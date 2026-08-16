@@ -1,0 +1,1554 @@
+import{_ as n,o as a,c as p,a as _}from"./app.DkoUFz-u.js";const q=JSON.parse('{"title":"GitLab CI/CD 多阶段流水线深度指南","description":"","frontmatter":{},"headers":[],"relativePath":"devops/deployment/cicd-tools/gitlab-ci/stages.md","filePath":"devops/deployment/cicd-tools/gitlab-ci/stages.md"}'),i={name:"devops/deployment/cicd-tools/gitlab-ci/stages.md"};function l(h,s,c,e,t,k){return a(),p("div",null,[...s[0]||(s[0]=[_(`<h1 id="gitlab-ci-cd-多阶段流水线深度指南" tabindex="-1">GitLab CI/CD 多阶段流水线深度指南 <a class="header-anchor" href="#gitlab-ci-cd-多阶段流水线深度指南" aria-label="Permalink to &quot;GitLab CI/CD 多阶段流水线深度指南&quot;">​</a></h1><h2 id="一、多阶段流水线基础架构" tabindex="-1">一、多阶段流水线基础架构 <a class="header-anchor" href="#一、多阶段流水线基础架构" aria-label="Permalink to &quot;一、多阶段流水线基础架构&quot;">​</a></h2><h3 id="_1-1-流水线阶段概念" tabindex="-1">1.1 流水线阶段概念 <a class="header-anchor" href="#_1-1-流水线阶段概念" aria-label="Permalink to &quot;1.1 流水线阶段概念&quot;">​</a></h3><h4 id="阶段分类" tabindex="-1">阶段分类 <a class="header-anchor" href="#阶段分类" aria-label="Permalink to &quot;阶段分类&quot;">​</a></h4><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_21nrsd"># 完整的阶段生命周期</span></span>
+<span class="line"><span class="__shiki_17hn0y">stages</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">.pre</span><span class="__shiki_21nrsd">                    # 前置阶段：环境检查、权限验证</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">validate</span><span class="__shiki_21nrsd">               # 验证阶段：代码质量、配置检查</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">build</span><span class="__shiki_21nrsd">                  # 构建阶段：编译、打包</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">quality</span><span class="__shiki_21nrsd">                # 质量检查：安全扫描、依赖检查</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">test</span><span class="__shiki_21nrsd">                   # 测试阶段：单元测试、集成测试</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">security</span><span class="__shiki_21nrsd">               # 安全阶段：安全测试、漏洞扫描</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">performance</span><span class="__shiki_21nrsd">            # 性能阶段：性能测试、负载测试</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">staging</span><span class="__shiki_21nrsd">                # 预发布阶段：部署到预发布环境</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">production</span><span class="__shiki_21nrsd">             # 生产发布阶段</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">rollback</span><span class="__shiki_21nrsd">               # 回滚阶段（可选）</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">cleanup</span><span class="__shiki_21nrsd">                # 清理阶段：资源回收</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">.post</span><span class="__shiki_21nrsd">                  # 后置阶段：通知、报告生成</span></span></code></pre></div><h4 id="流水线可视化架构" tabindex="-1">流水线可视化架构 <a class="header-anchor" href="#流水线可视化架构" aria-label="Permalink to &quot;流水线可视化架构&quot;">​</a></h4><div class="language-mermaid vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">mermaid</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_140thh">graph TB</span></span>
+<span class="line"><span class="__shiki_140thh">    subgraph &quot;Pipeline Execution Flow&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">        A[触发事件] --&gt; B[.pre 阶段]</span></span>
+<span class="line"><span class="__shiki_140thh">        B --&gt; C[validate]</span></span>
+<span class="line"><span class="__shiki_140thh">        C --&gt; D[build]</span></span>
+<span class="line"><span class="__shiki_140thh">        D --&gt; E[quality]</span></span>
+<span class="line"><span class="__shiki_140thh">        E --&gt; F[test]</span></span>
+<span class="line"><span class="__shiki_140thh">        F --&gt; G[security]</span></span>
+<span class="line"><span class="__shiki_140thh">        G --&gt; H[performance]</span></span>
+<span class="line"><span class="__shiki_140thh">        H --&gt; I{审批}</span></span>
+<span class="line"><span class="__shiki_140thh">        I --&gt;|通过| J[staging]</span></span>
+<span class="line"><span class="__shiki_140thh">        I --&gt;|拒绝| K[结束]</span></span>
+<span class="line"><span class="__shiki_140thh">        J --&gt; L{验收测试}</span></span>
+<span class="line"><span class="__shiki_140thh">        L --&gt;|通过| M[production]</span></span>
+<span class="line"><span class="__shiki_140thh">        L --&gt;|失败| N[rollback]</span></span>
+<span class="line"><span class="__shiki_140thh">        M --&gt; O[cleanup]</span></span>
+<span class="line"><span class="__shiki_140thh">        N --&gt; O</span></span>
+<span class="line"><span class="__shiki_140thh">        O --&gt; P[.post]</span></span>
+<span class="line"><span class="__shiki_140thh">    end</span></span></code></pre></div><h2 id="二、阶段配置详解" tabindex="-1">二、阶段配置详解 <a class="header-anchor" href="#二、阶段配置详解" aria-label="Permalink to &quot;二、阶段配置详解&quot;">​</a></h2><h3 id="_2-1-预定义阶段" tabindex="-1">2.1 预定义阶段 <a class="header-anchor" href="#_2-1-预定义阶段" aria-label="Permalink to &quot;2.1 预定义阶段&quot;">​</a></h3><h4 id="pre-阶段-强制验证" tabindex="-1">.pre 阶段（强制验证） <a class="header-anchor" href="#pre-阶段-强制验证" aria-label="Permalink to &quot;.pre 阶段（强制验证）&quot;">​</a></h4><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_17hn0y">.pre_template</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.pre</span></span>
+<span class="line"><span class="__shiki_17hn0y">  when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">always</span><span class="__shiki_21nrsd">  # 始终执行，不受失败影响</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_17hn0y">pre_env_check</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  extends</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.pre_template</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 检查必需的环境变量</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      required_vars=&quot;CI_PROJECT_ID CI_COMMIT_SHA CI_REGISTRY&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      for var in $required_vars; do</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        if [ -z &quot;\${!var}&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          echo &quot;❌ 缺少必需的环境变量: $var&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          exit 1</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      done</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">echo &quot;✅ 环境检查通过&quot;</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      dotenv</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">pre-check.env</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_17hn0y">pre_permission_check</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  extends</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.pre_template</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 检查执行权限</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ &quot;$CI_COMMIT_BRANCH&quot; == &quot;main&quot; ] &amp;&amp; [ &quot;$CI_COMMIT_REF_PROTECTED&quot; != &quot;true&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;❌ 对受保护分支的提交需要保护分支权限&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        exit 1</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">echo &quot;✅ 权限检查通过&quot;</span></span>
+<span class="line"><span class="__shiki_17hn0y">  rules</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_17hn0y">if</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&#39;$CI_COMMIT_BRANCH == &quot;main&quot;&#39;</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_17hn0y">pre_resource_check</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  extends</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.pre_template</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 检查系统资源</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ $(df --output=pcent / | tail -1 | tr -d &#39;% &#39;) -gt 90 ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;⚠️ 磁盘空间不足&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        exit 1</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ $(free -m | awk &#39;/^Mem:/{print int($3/$2*100)}&#39;) -gt 85 ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;⚠️ 内存使用率过高&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        exit 1</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">echo &quot;✅ 资源检查通过&quot;</span></span></code></pre></div><h4 id="post-阶段-清理和通知" tabindex="-1">.post 阶段（清理和通知） <a class="header-anchor" href="#post-阶段-清理和通知" aria-label="Permalink to &quot;.post 阶段（清理和通知）&quot;">​</a></h4><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_17hn0y">.post_template</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.post</span></span>
+<span class="line"><span class="__shiki_17hn0y">  when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">always</span></span>
+<span class="line"><span class="__shiki_17hn0y">  allow_failure</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">true</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_17hn0y">post_cleanup</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  extends</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.post_template</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">: []  </span><span class="__shiki_21nrsd"># 不依赖任何作业，始终执行</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 清理临时文件</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      find . -name &quot;*.tmp&quot; -type f -delete</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      find . -name &quot;__pycache__&quot; -type d -exec rm -rf {} + 2&gt;/dev/null || true</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      docker system prune -f 2&gt;/dev/null || true</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">echo &quot;✅ 清理完成&quot;</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_17hn0y">post_notification</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  extends</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.post_template</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 根据流水线状态发送通知</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ &quot;$CI_PIPELINE_SOURCE&quot; == &quot;merge_request_event&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        MR_URL=&quot;\${CI_PROJECT_URL}/-/merge_requests/\${CI_MERGE_REQUEST_IID}&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        STATUS=$(curl -s --header &quot;PRIVATE-TOKEN: $GITLAB_TOKEN&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          &quot;\${CI_API_V4_URL}/projects/\${CI_PROJECT_ID}/merge_requests/\${CI_MERGE_REQUEST_IID}&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          | jq -r &#39;.merge_status&#39;)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        if [ &quot;$CI_PIPELINE_STATUS&quot; == &quot;success&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          curl -X POST -H &quot;Content-Type: application/json&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            -d &quot;{\\&quot;text\\&quot;:\\&quot;✅ MR #\${CI_MERGE_REQUEST_IID} 流水线通过: \${MR_URL}\\&quot;}&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            $SLACK_WEBHOOK_URL</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        else</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          curl -X POST -H &quot;Content-Type: application/json&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            -d &quot;{\\&quot;text\\&quot;:\\&quot;❌ MR #\${CI_MERGE_REQUEST_IID} 流水线失败: \${MR_URL}\\&quot;}&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            $SLACK_WEBHOOK_URL</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_17hn0y">post_metrics</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  extends</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.post_template</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 收集流水线指标</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      DURATION=$(( $(date +%s) - $(date -d &quot;$CI_PIPELINE_CREATED_AT&quot; +%s) ))</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;pipeline_duration_seconds $DURATION&quot; &gt;&gt; metrics.txt</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;pipeline_jobs_total $(curl -s --header &quot;PRIVATE-TOKEN: $GITLAB_TOKEN&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        &quot;\${CI_API_V4_URL}/projects/\${CI_PROJECT_ID}/pipelines/\${CI_PIPELINE_ID}/jobs&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        | jq &#39;. | length&#39;)&quot; &gt;&gt; metrics.txt</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 推送到Prometheus Pushgateway</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      cat metrics.txt | curl -X POST --data-binary @- \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        http://prometheus-pushgateway:9091/metrics/job/gitlab_ci/instance/$CI_PROJECT_NAME</span></span></code></pre></div><h3 id="_2-2-自定义阶段配置" tabindex="-1">2.2 自定义阶段配置 <a class="header-anchor" href="#_2-2-自定义阶段配置" aria-label="Permalink to &quot;2.2 自定义阶段配置&quot;">​</a></h3><h4 id="复杂的阶段依赖关系" tabindex="-1">复杂的阶段依赖关系 <a class="header-anchor" href="#复杂的阶段依赖关系" aria-label="Permalink to &quot;复杂的阶段依赖关系&quot;">​</a></h4><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_17hn0y">stages</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">init</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">prepare</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">build</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">analyze</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">test</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">package</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">deploy</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">verify</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">teardown</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 初始化阶段</span></span>
+<span class="line"><span class="__shiki_17hn0y">init_env</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">init</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">echo &quot;初始化构建环境&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">mkdir -p artifacts reports coverage</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">export BUILD_ID=&quot;\${CI_PIPELINE_ID}-\${CI_COMMIT_SHORT_SHA}&quot;</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">artifacts/</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">reports/</span></span>
+<span class="line"><span class="__shiki_17hn0y">    expire_in</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">1 week</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 并行准备阶段</span></span>
+<span class="line"><span class="__shiki_17hn0y">prepare_dependencies</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">prepare</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">echo &quot;安装依赖...&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">npm ci --cache .npm --prefer-offline</span></span>
+<span class="line"><span class="__shiki_17hn0y">  cache</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    key</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">\${CI_COMMIT_REF_SLUG}</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">node_modules/</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">.npm/</span></span>
+<span class="line"><span class="__shiki_17hn0y">    policy</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">pull-push</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">node_modules/</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_17hn0y">prepare_config</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">prepare</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">echo &quot;生成配置...&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">cp config/$CI_ENVIRONMENT_NAME.env .env</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">./scripts/generate-config.sh</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">.env</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">config/</span></span>
+<span class="line"><span class="__shiki_17hn0y">    expire_in</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">1 hour</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 构建矩阵</span></span>
+<span class="line"><span class="__shiki_17hn0y">build_matrix</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">build</span></span>
+<span class="line"><span class="__shiki_17hn0y">  parallel</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    matrix</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_17hn0y">PLATFORM</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">linux</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">windows</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">macos</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_17hn0y">        ARCH</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">amd64</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">arm64</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">echo &quot;为 $PLATFORM/$ARCH 构建...&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">GOOS=$PLATFORM GOARCH=$ARCH go build -o artifacts/app-$PLATFORM-$ARCH</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">artifacts/app-*</span></span>
+<span class="line"><span class="__shiki_17hn0y">    expire_in</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">1 week</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 分析阶段（并行执行）</span></span>
+<span class="line"><span class="__shiki_17hn0y">analyze_static</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">analyze</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">echo &quot;静态代码分析...&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">sonar-scanner -Dsonar.projectKey=$CI_PROJECT_NAME</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      codequality</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">gl-code-quality-report.json</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_17hn0y">analyze_dependencies</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">analyze</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">echo &quot;依赖安全检查...&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">npm audit --audit-level=high</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">trivy fs --severity HIGH,CRITICAL .</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      dependency_scanning</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">gl-dependency-scanning-report.json</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_17hn0y">analyze_security</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">analyze</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">echo &quot;安全扫描...&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">gosec ./...</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">bandit -r .</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      sast</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">gl-sast-report.json</span></span></code></pre></div><h2 id="三、高级流水线模式" tabindex="-1">三、高级流水线模式 <a class="header-anchor" href="#三、高级流水线模式" aria-label="Permalink to &quot;三、高级流水线模式&quot;">​</a></h2><h3 id="_3-1-条件阶段执行" tabindex="-1">3.1 条件阶段执行 <a class="header-anchor" href="#_3-1-条件阶段执行" aria-label="Permalink to &quot;3.1 条件阶段执行&quot;">​</a></h3><h4 id="基于规则的阶段控制" tabindex="-1">基于规则的阶段控制 <a class="header-anchor" href="#基于规则的阶段控制" aria-label="Permalink to &quot;基于规则的阶段控制&quot;">​</a></h4><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_21nrsd"># 条件阶段配置模板</span></span>
+<span class="line"><span class="__shiki_17hn0y">.conditional_stage</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  rules</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_21nrsd">    # 规则1：合并请求到特定分支</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_17hn0y">if</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&#39;$CI_PIPELINE_SOURCE == &quot;merge_request_event&quot;&#39;</span></span>
+<span class="line"><span class="__shiki_17hn0y">      exists</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">        - </span><span class="__shiki_mdbnqw">src/**/*.js</span></span>
+<span class="line"><span class="__shiki_17hn0y">      changes</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">        - </span><span class="__shiki_mdbnqw">package.json</span></span>
+<span class="line"><span class="__shiki_140thh">        - </span><span class="__shiki_mdbnqw">webpack.config.js</span></span>
+<span class="line"><span class="__shiki_17hn0y">      when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">always</span></span>
+<span class="line"><span class="__shiki_140thh">    </span></span>
+<span class="line"><span class="__shiki_21nrsd">    # 规则2：主分支提交</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_17hn0y">if</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&#39;$CI_COMMIT_BRANCH == &quot;main&quot; &amp;&amp; $CI_COMMIT_TAG == null&#39;</span></span>
+<span class="line"><span class="__shiki_17hn0y">      when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">on_success</span></span>
+<span class="line"><span class="__shiki_17hn0y">      variables</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">        DEPLOY_ENV</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;production&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    </span></span>
+<span class="line"><span class="__shiki_21nrsd">    # 规则3：标签发布</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_17hn0y">if</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&#39;$CI_COMMIT_TAG =~ /^v\\d+\\.\\d+\\.\\d+$/&#39;</span></span>
+<span class="line"><span class="__shiki_17hn0y">      when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">manual</span></span>
+<span class="line"><span class="__shiki_17hn0y">      variables</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">        RELEASE</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;true&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    </span></span>
+<span class="line"><span class="__shiki_21nrsd">    # 规则4：计划任务</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_17hn0y">if</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&#39;$CI_PIPELINE_SOURCE == &quot;schedule&quot;&#39;</span></span>
+<span class="line"><span class="__shiki_17hn0y">      when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">always</span></span>
+<span class="line"><span class="__shiki_17hn0y">      variables</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">        SCHEDULED</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;true&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    </span></span>
+<span class="line"><span class="__shiki_21nrsd">    # 默认规则：不执行</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_17hn0y">when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">never</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 应用条件阶段</span></span>
+<span class="line"><span class="__shiki_17hn0y">security_scan</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  extends</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.conditional_stage</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">security</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ -n &quot;$RELEASE&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;执行发布版本的安全扫描...&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        ./security-scan.sh --release</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      else</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;执行常规安全扫描...&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        ./security-scan.sh</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span></code></pre></div><h4 id="动态阶段生成" tabindex="-1">动态阶段生成 <a class="header-anchor" href="#动态阶段生成" aria-label="Permalink to &quot;动态阶段生成&quot;">​</a></h4><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_21nrsd"># 生成动态测试阶段</span></span>
+<span class="line"><span class="__shiki_17hn0y">generate_test_matrix</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">prepare</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 根据代码变化生成测试矩阵</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      CHANGED_FILES=$(git diff --name-only $CI_MERGE_REQUEST_TARGET_BRANCH_SHA...$CI_COMMIT_SHA)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 生成测试配置</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      cat &gt; test-matrix.json &lt;&lt; EOF</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      {</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        &quot;include&quot;: [</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          $(if echo &quot;$CHANGED_FILES&quot; | grep -q &quot;.*\\.py$&quot;; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            echo &#39;{&quot;type&quot;: &quot;python&quot;, &quot;command&quot;: &quot;pytest tests/python&quot;}&#39;,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          fi)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          $(if echo &quot;$CHANGED_FILES&quot; | grep -q &quot;.*\\.js$&quot;; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            echo &#39;{&quot;type&quot;: &quot;javascript&quot;, &quot;command&quot;: &quot;npm test&quot;}&#39;,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          fi)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          $(if echo &quot;$CHANGED_FILES&quot; | grep -q &quot;.*\\.go$&quot;; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            echo &#39;{&quot;type&quot;: &quot;golang&quot;, &quot;command&quot;: &quot;go test ./...&quot;}&#39;,</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          fi)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          {&quot;type&quot;: &quot;integration&quot;, &quot;command&quot;: &quot;./integration-test.sh&quot;}</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        ]</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      }</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      EOF</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 生成子流水线配置</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      cat &gt; .dynamic-tests.yml &lt;&lt; EOF</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      stages:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        - dynamic_test</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      include:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        - local: /templates/test-job.yml</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      variables:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        DYNAMIC_TESTS: &quot;true&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      $(jq -r &#39;.include[] | </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        &quot;test_\\(.type):\\n  extends: .test_template\\n  variables:\\n    TEST_TYPE: \\&quot;\\(.type)\\&quot;\\n    TEST_COMMAND: \\&quot;\\(.command)\\&quot;\\n&quot;&#39; test-matrix.json)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      EOF</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">.dynamic-tests.yml</span></span>
+<span class="line"><span class="__shiki_17hn0y">    expire_in</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">1 hour</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 触发动态测试流水线</span></span>
+<span class="line"><span class="__shiki_17hn0y">trigger_dynamic_tests</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">test</span></span>
+<span class="line"><span class="__shiki_17hn0y">  trigger</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    include</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_17hn0y">artifact</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.dynamic-tests.yml</span></span>
+<span class="line"><span class="__shiki_17hn0y">        job</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">generate_test_matrix</span></span>
+<span class="line"><span class="__shiki_17hn0y">    strategy</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">depend</span></span></code></pre></div><h3 id="_3-2-手动审批阶段" tabindex="-1">3.2 手动审批阶段 <a class="header-anchor" href="#_3-2-手动审批阶段" aria-label="Permalink to &quot;3.2 手动审批阶段&quot;">​</a></h3><h4 id="多级审批流程" tabindex="-1">多级审批流程 <a class="header-anchor" href="#多级审批流程" aria-label="Permalink to &quot;多级审批流程&quot;">​</a></h4><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_17hn0y">stages</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">build</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">test</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">approval_stage_1</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">approval_stage_2</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">deploy_staging</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">approval_stage_3</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">deploy_production</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 第一阶段审批（技术负责人）</span></span>
+<span class="line"><span class="__shiki_17hn0y">approval_tech_lead</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">approval_stage_1</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">echo &quot;等待技术负责人审批...&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">sleep 1</span><span class="__shiki_21nrsd">  # 防止作业立即完成</span></span>
+<span class="line"><span class="__shiki_17hn0y">  when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">manual</span></span>
+<span class="line"><span class="__shiki_17hn0y">  allow_failure</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">false</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;test_unit&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;test_integration&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_140thh">  </span></span>
+<span class="line"><span class="__shiki_21nrsd">  # 审批表单</span></span>
+<span class="line"><span class="__shiki_17hn0y">  environment</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    name</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">approval/tech</span></span>
+<span class="line"><span class="__shiki_17hn0y">    action</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">prepare</span></span>
+<span class="line"><span class="__shiki_140thh">  </span></span>
+<span class="line"><span class="__shiki_21nrsd">  # 审批超时</span></span>
+<span class="line"><span class="__shiki_17hn0y">  interruptible</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">true</span></span>
+<span class="line"><span class="__shiki_17hn0y">  timeout</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">2 hours</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 第二阶段审批（产品经理）</span></span>
+<span class="line"><span class="__shiki_17hn0y">approval_product_owner</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">approval_stage_2</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">echo &quot;等待产品经理审批...&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">sleep 1</span></span>
+<span class="line"><span class="__shiki_17hn0y">  when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">manual</span></span>
+<span class="line"><span class="__shiki_17hn0y">  allow_failure</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">false</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;approval_tech_lead&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_17hn0y">  environment</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    name</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">approval/product</span></span>
+<span class="line"><span class="__shiki_17hn0y">    action</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">prepare</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 部署到预发布环境</span></span>
+<span class="line"><span class="__shiki_17hn0y">deploy_staging</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">deploy_staging</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">echo &quot;部署到预发布环境...&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">./deploy.sh staging</span></span>
+<span class="line"><span class="__shiki_17hn0y">  environment</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    name</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">staging</span></span>
+<span class="line"><span class="__shiki_17hn0y">    url</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">https://staging.example.com</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;approval_product_owner&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 第三阶段审批（业务验收）</span></span>
+<span class="line"><span class="__shiki_17hn0y">approval_business</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">approval_stage_3</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">echo &quot;等待业务验收...&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">sleep 1</span></span>
+<span class="line"><span class="__shiki_17hn0y">  when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">manual</span></span>
+<span class="line"><span class="__shiki_17hn0y">  allow_failure</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">false</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;deploy_staging&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_17hn0y">  environment</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    name</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">approval/business</span></span>
+<span class="line"><span class="__shiki_17hn0y">    action</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">prepare</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 生产部署</span></span>
+<span class="line"><span class="__shiki_17hn0y">deploy_production</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">deploy_production</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">echo &quot;部署到生产环境...&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">./deploy.sh production</span></span>
+<span class="line"><span class="__shiki_17hn0y">  environment</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    name</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">production</span></span>
+<span class="line"><span class="__shiki_17hn0y">    url</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">https://example.com</span></span>
+<span class="line"><span class="__shiki_17hn0y">  when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">manual</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;approval_business&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_140thh">  </span></span>
+<span class="line"><span class="__shiki_21nrsd">  # 部署策略配置</span></span>
+<span class="line"><span class="__shiki_17hn0y">  rules</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_17hn0y">if</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&#39;$CI_COMMIT_BRANCH == &quot;main&quot;&#39;</span></span>
+<span class="line"><span class="__shiki_17hn0y">      when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">manual</span></span>
+<span class="line"><span class="__shiki_17hn0y">      allow_failure</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">false</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_17hn0y">when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">never</span></span></code></pre></div><h4 id="基于角色的审批" tabindex="-1">基于角色的审批 <a class="header-anchor" href="#基于角色的审批" aria-label="Permalink to &quot;基于角色的审批&quot;">​</a></h4><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_21nrsd"># 审批配置模板</span></span>
+<span class="line"><span class="__shiki_17hn0y">.approval_template</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">approval</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;等待 $APPROVAL_ROLE 审批...&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;变更摘要：&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;- 提交者: $GITLAB_USER_NAME&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;- 分支: $CI_COMMIT_BRANCH&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;- 提交信息: $CI_COMMIT_MESSAGE&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;- 影响文件数: $(git diff --name-only $CI_MERGE_REQUEST_TARGET_BRANCH_SHA...$CI_COMMIT_SHA | wc -l)&quot;</span></span>
+<span class="line"><span class="__shiki_17hn0y">  when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">manual</span></span>
+<span class="line"><span class="__shiki_17hn0y">  timeout</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">4 hours</span></span>
+<span class="line"><span class="__shiki_140thh">  </span></span>
+<span class="line"><span class="__shiki_21nrsd">  # 审批通知</span></span>
+<span class="line"><span class="__shiki_17hn0y">  before_script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      curl -X POST -H &quot;Content-Type: application/json&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        -d &quot;{\\&quot;text\\&quot;:\\&quot;需要 $APPROVAL_ROLE 审批: $CI_PIPELINE_URL\\&quot;}&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        $SLACK_APPROVAL_WEBHOOK</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 不同角色的审批作业</span></span>
+<span class="line"><span class="__shiki_17hn0y">approval_developer</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  extends</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.approval_template</span></span>
+<span class="line"><span class="__shiki_17hn0y">  variables</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    APPROVAL_ROLE</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;开发者&quot;</span></span>
+<span class="line"><span class="__shiki_17hn0y">  rules</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_17hn0y">if</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&#39;$CI_COMMIT_BRANCH =~ /^feature\\/.*$/&#39;</span></span>
+<span class="line"><span class="__shiki_17hn0y">      when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">manual</span></span>
+<span class="line"><span class="__shiki_17hn0y">      allow_failure</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">false</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_17hn0y">approval_qa</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  extends</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.approval_template</span></span>
+<span class="line"><span class="__shiki_17hn0y">  variables</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    APPROVAL_ROLE</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;测试工程师&quot;</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;test_automation&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_17hn0y">  rules</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_17hn0y">if</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&#39;$CI_PIPELINE_SOURCE == &quot;merge_request_event&quot;&#39;</span></span>
+<span class="line"><span class="__shiki_17hn0y">      when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">manual</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_17hn0y">approval_ops</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  extends</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.approval_template</span></span>
+<span class="line"><span class="__shiki_17hn0y">  variables</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    APPROVAL_ROLE</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;运维工程师&quot;</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;security_scan&quot;</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">&quot;performance_test&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_17hn0y">  rules</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_17hn0y">if</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&#39;$CI_COMMIT_BRANCH == &quot;main&quot; &amp;&amp; $CI_PIPELINE_SOURCE != &quot;schedule&quot;&#39;</span></span>
+<span class="line"><span class="__shiki_17hn0y">      when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">manual</span></span></code></pre></div><h3 id="_3-3-并行与串行优化" tabindex="-1">3.3 并行与串行优化 <a class="header-anchor" href="#_3-3-并行与串行优化" aria-label="Permalink to &quot;3.3 并行与串行优化&quot;">​</a></h3><h4 id="智能并行执行" tabindex="-1">智能并行执行 <a class="header-anchor" href="#智能并行执行" aria-label="Permalink to &quot;智能并行执行&quot;">​</a></h4><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_17hn0y">stages</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">analyze</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">build</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">test</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">deploy</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 分析阶段 - 完全并行</span></span>
+<span class="line"><span class="__shiki_17hn0y">analyze</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">analyze</span></span>
+<span class="line"><span class="__shiki_17hn0y">  parallel</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">4</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 根据作业索引分配任务</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      case $CI_NODE_INDEX in</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        0) ./analyze-sonarqube.sh ;;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        1) ./analyze-dependencies.sh ;;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        2) ./analyze-security.sh ;;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        3) ./analyze-performance.sh ;;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      esac</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      codequality</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">reports/code-quality-$CI_NODE_INDEX.json</span></span>
+<span class="line"><span class="__shiki_17hn0y">  cache</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    key</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">analysis-cache-$CI_NODE_INDEX</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">reports/</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 构建阶段 - 矩阵并行</span></span>
+<span class="line"><span class="__shiki_17hn0y">build_matrix</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">build</span></span>
+<span class="line"><span class="__shiki_17hn0y">  parallel</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    matrix</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_17hn0y">BUILD_TYPE</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">debug</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">release</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_17hn0y">        PLATFORM</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">linux</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">windows</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_17hn0y">echo &quot;构建 $BUILD_TYPE 版本，平台</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">$PLATFORM&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">./build.sh --type=$BUILD_TYPE --platform=$PLATFORM</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">artifacts/$PLATFORM-$BUILD_TYPE/</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 测试阶段 - 动态并行</span></span>
+<span class="line"><span class="__shiki_17hn0y">run_tests</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">test</span></span>
+<span class="line"><span class="__shiki_17hn0y">  parallel</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    matrix</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_21nrsd">      # 从文件读取测试套件</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_17hn0y">TEST_SUITE</span><span class="__shiki_140thh">: </span></span>
+<span class="line"><span class="__shiki_140thh">          - </span><span class="__shiki_mdbnqw">unit</span></span>
+<span class="line"><span class="__shiki_140thh">          - </span><span class="__shiki_mdbnqw">integration</span></span>
+<span class="line"><span class="__shiki_140thh">          - </span><span class="__shiki_mdbnqw">e2e</span></span>
+<span class="line"><span class="__shiki_140thh">          - </span><span class="__shiki_mdbnqw">performance</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_17hn0y">BROWSER</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">chrome</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">firefox</span><span class="__shiki_140thh">, </span><span class="__shiki_mdbnqw">safari</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_17hn0y">echo &quot;运行 $TEST_SUITE 测试，浏览器</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">$BROWSER&quot;</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">npm run test:$TEST_SUITE --browser=$BROWSER</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">test-results/$TEST_SUITE-$BROWSER/</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      junit</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">test-results/$TEST_SUITE-$BROWSER/junit.xml</span></span></code></pre></div><h4 id="资源感知的串行控制" tabindex="-1">资源感知的串行控制 <a class="header-anchor" href="#资源感知的串行控制" aria-label="Permalink to &quot;资源感知的串行控制&quot;">​</a></h4><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_21nrsd"># 使用 resource_group 控制资源访问</span></span>
+<span class="line"><span class="__shiki_17hn0y">deploy_staging</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">deploy</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">./deploy.sh staging</span></span>
+<span class="line"><span class="__shiki_17hn0y">  resource_group</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">staging-deployment</span></span>
+<span class="line"><span class="__shiki_21nrsd">  # 同一资源组的作业会串行执行</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_17hn0y">deploy_production</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">deploy</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">./deploy.sh production</span></span>
+<span class="line"><span class="__shiki_17hn0y">  resource_group</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">production-deployment</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 数据库迁移作业 - 串行执行</span></span>
+<span class="line"><span class="__shiki_17hn0y">migrate_database</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">deploy</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">./migrate-db.sh</span></span>
+<span class="line"><span class="__shiki_17hn0y">  resource_group</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">database-migration</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">: []</span></span>
+<span class="line"><span class="__shiki_140thh">  </span></span>
+<span class="line"><span class="__shiki_21nrsd">  # 独占锁配置</span></span>
+<span class="line"><span class="__shiki_140thh">  [</span><span class="__shiki_mdbnqw">runners.custom</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_17hn0y">    lock</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;database-lock&quot;</span></span>
+<span class="line"><span class="__shiki_17hn0y">    lock_timeout</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">300</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 蓝绿部署控制</span></span>
+<span class="line"><span class="__shiki_17hn0y">blue_green_deployment</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">deploy</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">./blue-green-deploy.sh</span></span>
+<span class="line"><span class="__shiki_17hn0y">  resource_group</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">blue-green-switch</span></span>
+<span class="line"><span class="__shiki_140thh">  </span></span>
+<span class="line"><span class="__shiki_21nrsd">  # 部署前检查</span></span>
+<span class="line"><span class="__shiki_17hn0y">  before_script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 检查是否有正在进行的部署</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ -f &quot;/tmp/deployment.lock&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;⚠️ 检测到正在进行的部署，等待释放...&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        timeout 300 bash -c &#39;while [ -f &quot;/tmp/deployment.lock&quot; ]; do sleep 5; done&#39;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      touch /tmp/deployment.lock</span></span>
+<span class="line"><span class="__shiki_mdbnqw">  </span></span>
+<span class="line"><span class="__shiki_21nrsd">  # 部署后清理</span></span>
+<span class="line"><span class="__shiki_17hn0y">  after_script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">rm -f /tmp/deployment.lock</span></span></code></pre></div><h2 id="四、父子流水线与动态流水线" tabindex="-1">四、父子流水线与动态流水线 <a class="header-anchor" href="#四、父子流水线与动态流水线" aria-label="Permalink to &quot;四、父子流水线与动态流水线&quot;">​</a></h2><h3 id="_4-1-父子流水线架构" tabindex="-1">4.1 父子流水线架构 <a class="header-anchor" href="#_4-1-父子流水线架构" aria-label="Permalink to &quot;4.1 父子流水线架构&quot;">​</a></h3><h4 id="主流水线配置" tabindex="-1">主流水线配置 <a class="header-anchor" href="#主流水线配置" aria-label="Permalink to &quot;主流水线配置&quot;">​</a></h4><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_21nrsd"># main-pipeline.yml</span></span>
+<span class="line"><span class="__shiki_17hn0y">stages</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">init</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">trigger_children</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">collect_results</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">finalize</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_17hn0y">variables</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  PIPELINE_STRATEGY</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;parallel&quot;</span><span class="__shiki_21nrsd">  # parallel, sequential, selective</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 初始化阶段</span></span>
+<span class="line"><span class="__shiki_17hn0y">init_pipeline</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">init</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 分析需要触发的子流水线</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      CHANGES=$(git diff --name-only $CI_MERGE_REQUEST_TARGET_BRANCH_SHA...$CI_COMMIT_SHA)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 生成子流水线触发配置</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      cat &gt; child-pipelines.json &lt;&lt; EOF</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      {</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        &quot;pipelines&quot;: [</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          $(if echo &quot;$CHANGES&quot; | grep -q &quot;frontend/&quot;; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            echo &#39;{&quot;name&quot;: &quot;frontend&quot;, &quot;project&quot;: &quot;group/frontend-ci&quot;, &quot;ref&quot;: &quot;main&quot;, &quot;strategy&quot;: &quot;depend&quot;},&#39;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          fi)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          $(if echo &quot;$CHANGES&quot; | grep -q &quot;backend/&quot;; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            echo &#39;{&quot;name&quot;: &quot;backend&quot;, &quot;project&quot;: &quot;group/backend-ci&quot;, &quot;ref&quot;: &quot;main&quot;, &quot;strategy&quot;: &quot;depend&quot;},&#39;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          fi)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          $(if echo &quot;$CHANGES&quot; | grep -q &quot;infrastructure/&quot;; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            echo &#39;{&quot;name&quot;: &quot;infrastructure&quot;, &quot;project&quot;: &quot;group/infra-ci&quot;, &quot;ref&quot;: &quot;main&quot;, &quot;strategy&quot;: &quot;depend&quot;},&#39;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          fi)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          {&quot;name&quot;: &quot;security&quot;, &quot;project&quot;: &quot;group/security-scan&quot;, &quot;ref&quot;: &quot;main&quot;, &quot;strategy&quot;: &quot;depend&quot;}</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        ]</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      }</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      EOF</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">child-pipelines.json</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      dotenv</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">pipeline-vars.env</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 动态触发子流水线</span></span>
+<span class="line"><span class="__shiki_17hn0y">trigger_child_pipelines</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">trigger_children</span></span>
+<span class="line"><span class="__shiki_17hn0y">  parallel</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    matrix</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_17hn0y">PIPELINE_CONFIG</span><span class="__shiki_140thh">: </span></span>
+<span class="line"><span class="__shiki_140thh">          - </span><span class="__shiki_mdbnqw">frontend</span></span>
+<span class="line"><span class="__shiki_140thh">          - </span><span class="__shiki_mdbnqw">backend</span></span>
+<span class="line"><span class="__shiki_140thh">          - </span><span class="__shiki_mdbnqw">infrastructure</span></span>
+<span class="line"><span class="__shiki_140thh">          - </span><span class="__shiki_mdbnqw">security</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 检查是否需要触发该子流水线</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      REQUIRED=$(jq -r &quot;.pipelines[] | select(.name==\\&quot;$PIPELINE_CONFIG\\&quot;) | .required // true&quot; child-pipelines.json)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ &quot;$REQUIRED&quot; = &quot;true&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;触发 $PIPELINE_CONFIG 子流水线...&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        # 生成子流水线配置</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        cat &gt; .child-$PIPELINE_CONFIG.yml &lt;&lt; &#39;EOF&#39;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        include:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          - project: &#39;$PARENT_PROJECT&#39;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            ref: &#39;$PARENT_REF&#39;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            file: &#39;/templates/$PIPELINE_TYPE.yml&#39;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        variables:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          PARENT_PIPELINE_ID: $PARENT_PIPELINE_ID</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          TRIGGERED_BY: $TRIGGERED_BY</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          PIPELINE_TYPE: $PIPELINE_CONFIG</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        stages:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          - build</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          - test</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          - deploy</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        # 根据类型添加特定作业</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        EOF</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        # 触发子流水线</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        curl --header &quot;PRIVATE-TOKEN: $GITLAB_TOKEN&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          --form &quot;ref=$CI_COMMIT_REF_NAME&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          --form &quot;variables[PARENT_PIPELINE_ID]=$CI_PIPELINE_ID&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          --form &quot;variables[TRIGGERED_BY]=$CI_PROJECT_PATH&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          --form &quot;variables[PIPELINE_TYPE]=$PIPELINE_CONFIG&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          --form &quot;config=@.child-$PIPELINE_CONFIG.yml&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          &quot;$CI_API_V4_URL/projects/$(echo group/$PIPELINE_CONFIG-ci | sed &#39;s/\\//%2F/g&#39;)/pipeline&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      else</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;跳过 $PIPELINE_CONFIG 子流水线&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">.child-*.yml</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 收集子流水线结果</span></span>
+<span class="line"><span class="__shiki_17hn0y">collect_results</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">collect_results</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 轮询子流水线状态</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      for pipeline in frontend backend infrastructure security; do</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        if [ -f &quot;.child-$pipeline.yml&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          echo &quot;等待 $pipeline 子流水线完成...&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          ./wait-for-pipeline.sh &quot;$pipeline&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      done</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 生成聚合报告</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      ./generate-aggregate-report.sh</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">aggregate-report/</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      junit</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">aggregate-report/junit.xml</span></span>
+<span class="line"><span class="__shiki_17hn0y">      coverage_report</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">        coverage_format</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">cobertura</span></span>
+<span class="line"><span class="__shiki_17hn0y">        path</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">aggregate-report/coverage.xml</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 最终处理</span></span>
+<span class="line"><span class="__shiki_17hn0y">finalize_pipeline</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">finalize</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 检查所有子流水线状态</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      ALL_SUCCESS=true</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      for pipeline in frontend backend infrastructure security; do</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        if [ -f &quot;.child-$pipeline.yml&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          STATUS=$(curl -s --header &quot;PRIVATE-TOKEN: $GITLAB_TOKEN&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            &quot;$CI_API_V4_URL/projects/$(echo group/$pipeline-ci | sed &#39;s/\\//%2F/g&#39;)/pipelines&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            | jq -r &#39;.[0].status&#39;)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          </span></span>
+<span class="line"><span class="__shiki_mdbnqw">          if [ &quot;$STATUS&quot; != &quot;success&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            echo &quot;❌ $pipeline 子流水线状态: $STATUS&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            ALL_SUCCESS=false</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      done</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ &quot;$ALL_SUCCESS&quot; = &quot;true&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;✅ 所有子流水线执行成功&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        exit 0</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      else</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;❌ 部分子流水线失败&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        exit 1</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">collect_results</span></span></code></pre></div><h4 id="子流水线模板" tabindex="-1">子流水线模板 <a class="header-anchor" href="#子流水线模板" aria-label="Permalink to &quot;子流水线模板&quot;">​</a></h4><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_21nrsd"># templates/frontend.yml</span></span>
+<span class="line"><span class="__shiki_17hn0y">variables</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  NODE_VERSION</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;16&quot;</span></span>
+<span class="line"><span class="__shiki_17hn0y">  BUILD_ENV</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;production&quot;</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 前端构建模板</span></span>
+<span class="line"><span class="__shiki_17hn0y">.frontend_template</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  image</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">node:$NODE_VERSION</span></span>
+<span class="line"><span class="__shiki_17hn0y">  cache</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    key</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">frontend-$CI_COMMIT_REF_SLUG</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">node_modules/</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">.next/cache/</span></span>
+<span class="line"><span class="__shiki_17hn0y">    policy</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">pull-push</span></span>
+<span class="line"><span class="__shiki_17hn0y">  before_script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">npm ci --cache .npm --prefer-offline</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 构建阶段</span></span>
+<span class="line"><span class="__shiki_17hn0y">build_frontend</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  extends</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.frontend_template</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">build</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">npm run build</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">npm run export</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">out/</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">.next/</span></span>
+<span class="line"><span class="__shiki_17hn0y">    expire_in</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">1 week</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 测试阶段</span></span>
+<span class="line"><span class="__shiki_17hn0y">test_frontend</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  extends</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.frontend_template</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">test</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">npm run test:unit -- --coverage</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">npm run test:e2e -- --headless</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">coverage/</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">test-results/</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      junit</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">test-results/junit.xml</span></span>
+<span class="line"><span class="__shiki_17hn0y">      coverage_report</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">        coverage_format</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">cobertura</span></span>
+<span class="line"><span class="__shiki_17hn0y">        path</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">coverage/cobertura-coverage.xml</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 部署阶段</span></span>
+<span class="line"><span class="__shiki_17hn0y">deploy_frontend</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  extends</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.frontend_template</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">deploy</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ &quot;$PIPELINE_TYPE&quot; = &quot;frontend&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;部署前端应用到 $DEPLOY_ENV&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        ./deploy-frontend.sh $DEPLOY_ENV</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_17hn0y">  environment</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    name</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">$DEPLOY_ENV</span></span>
+<span class="line"><span class="__shiki_17hn0y">    url</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">https://$DEPLOY_ENV.example.com</span></span>
+<span class="line"><span class="__shiki_17hn0y">  when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">manual</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;test_frontend&quot;</span><span class="__shiki_140thh">]</span></span></code></pre></div><h3 id="_4-2-动态流水线生成" tabindex="-1">4.2 动态流水线生成 <a class="header-anchor" href="#_4-2-动态流水线生成" aria-label="Permalink to &quot;4.2 动态流水线生成&quot;">​</a></h3><h4 id="基于代码变化的动态流水线" tabindex="-1">基于代码变化的动态流水线 <a class="header-anchor" href="#基于代码变化的动态流水线" aria-label="Permalink to &quot;基于代码变化的动态流水线&quot;">​</a></h4><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_21nrsd"># dynamic-pipeline-generator.yml</span></span>
+<span class="line"><span class="__shiki_17hn0y">stages</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">analyze</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">generate</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">execute</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_17hn0y">analyze_changes</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">analyze</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 分析代码变化</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      git fetch origin $CI_MERGE_REQUEST_TARGET_BRANCH_NAME</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      CHANGED_FILES=$(git diff --name-only origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME...HEAD)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 分类变化类型</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;CHANGED_PYTHON=$(echo &quot;$CHANGED_FILES&quot; | grep -c &#39;\\.py$&#39;)&quot; &gt;&gt; changed.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;CHANGED_JS=$(echo &quot;$CHANGED_FILES&quot; | grep -c &#39;\\.js$\\|\\.ts$\\|\\.jsx$\\|\\.tsx$&#39;)&quot; &gt;&gt; changed.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;CHANGED_DOCKER=$(echo &quot;$CHANGED_FILES&quot; | grep -c &#39;Dockerfile\\|\\.dockerfile&#39;)&quot; &gt;&gt; changed.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;CHANGED_INFRA=$(echo &quot;$CHANGED_FILES&quot; | grep -c &#39;\\.tf$\\|\\.yml$\\|\\.yaml$&#39;)&quot; &gt;&gt; changed.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 检测破坏性变更</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if git diff --name-only origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME...HEAD | \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">         xargs -I {} git diff --no-color origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME...HEAD -- {} | \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">         grep -q &quot;^--- a/.*\\.py$&quot;; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;BREAKING_CHANGES=true&quot; &gt;&gt; changed.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      dotenv</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">changed.env</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_17hn0y">generate_dynamic_pipeline</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">generate</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 读取分析结果</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      source changed.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 生成动态流水线配置</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      cat &gt; dynamic-pipeline.yml &lt;&lt; &#39;EOF&#39;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      stages:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        - security</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        - test</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        - build</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        - deploy</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      variables:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        GENERATED_PIPELINE: &quot;true&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 安全扫描（始终执行）</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      security_scan:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        stage: security</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        script:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          - ./security-scan.sh</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        artifacts:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          reports:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            sast: gl-sast-report.json</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      EOF</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 根据变化添加测试作业</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ &quot;$CHANGED_PYTHON&quot; -gt 0 ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        cat &gt;&gt; dynamic-pipeline.yml &lt;&lt; &#39;EOF&#39;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      test_python:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        stage: test</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        image: python:3.9</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        script:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          - pip install -r requirements.txt</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          - pytest tests/ --junitxml=test-results/pytest.xml</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        artifacts:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          reports:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            junit: test-results/pytest.xml</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        EOF</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ &quot;$CHANGED_JS&quot; -gt 0 ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        cat &gt;&gt; dynamic-pipeline.yml &lt;&lt; &#39;EOF&#39;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      test_javascript:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        stage: test</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        image: node:16</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        script:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          - npm ci</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          - npm test -- --coverage</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        artifacts:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          reports:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            junit: test-results/jest.xml</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            coverage_report:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">              coverage_format: cobertura</span></span>
+<span class="line"><span class="__shiki_mdbnqw">              path: coverage/cobertura-coverage.xml</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        EOF</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 如果有破坏性变更，需要额外审批</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ &quot;$BREAKING_CHANGES&quot; = &quot;true&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        cat &gt;&gt; dynamic-pipeline.yml &lt;&lt; &#39;EOF&#39;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      breaking_change_approval:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        stage: security</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        script:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          - echo &quot;⚠️ 检测到破坏性变更，需要架构师审批&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          - sleep 1</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        when: manual</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        allow_failure: false</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        EOF</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 添加构建作业</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      cat &gt;&gt; dynamic-pipeline.yml &lt;&lt; &#39;EOF&#39;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      build_application:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        stage: build</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        needs: [&quot;security_scan&quot;]</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        script:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          - ./build.sh</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        artifacts:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          paths:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            - dist/</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            - build/</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      deploy_preview:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        stage: deploy</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        script:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          - ./deploy-preview.sh</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        environment:</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          name: preview/$CI_COMMIT_REF_NAME</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          url: https://preview-$CI_COMMIT_REF_NAME.example.com</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        when: manual</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        needs: [&quot;build_application&quot;]</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      EOF</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;生成的动态流水线：&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      cat dynamic-pipeline.yml</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">dynamic-pipeline.yml</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;analyze_changes&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 执行动态生成的流水线</span></span>
+<span class="line"><span class="__shiki_17hn0y">execute_dynamic_pipeline</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">execute</span></span>
+<span class="line"><span class="__shiki_17hn0y">  trigger</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    include</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_17hn0y">artifact</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">dynamic-pipeline.yml</span></span>
+<span class="line"><span class="__shiki_17hn0y">        job</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">generate_dynamic_pipeline</span></span>
+<span class="line"><span class="__shiki_17hn0y">    strategy</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">depend</span></span></code></pre></div><h2 id="五、复杂部署策略" tabindex="-1">五、复杂部署策略 <a class="header-anchor" href="#五、复杂部署策略" aria-label="Permalink to &quot;五、复杂部署策略&quot;">​</a></h2><h3 id="_5-1-渐进式部署阶段" tabindex="-1">5.1 渐进式部署阶段 <a class="header-anchor" href="#_5-1-渐进式部署阶段" aria-label="Permalink to &quot;5.1 渐进式部署阶段&quot;">​</a></h3><h4 id="蓝绿部署流水线" tabindex="-1">蓝绿部署流水线 <a class="header-anchor" href="#蓝绿部署流水线" aria-label="Permalink to &quot;蓝绿部署流水线&quot;">​</a></h4><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_17hn0y">stages</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">build</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">test</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">deploy_blue</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">smoke_test</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">traffic_shift</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">monitoring</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">cleanup_green</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_17hn0y">variables</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  BLUE_ENVIRONMENT</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;blue&quot;</span></span>
+<span class="line"><span class="__shiki_17hn0y">  GREEN_ENVIRONMENT</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;green&quot;</span></span>
+<span class="line"><span class="__shiki_17hn0y">  CURRENT_COLOR</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;$BLUE_ENVIRONMENT&quot;</span><span class="__shiki_21nrsd">  # 从数据库或配置读取</span></span>
+<span class="line"><span class="__shiki_17hn0y">  NEW_COLOR</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;$GREEN_ENVIRONMENT&quot;</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 构建新版本</span></span>
+<span class="line"><span class="__shiki_17hn0y">build_new_version</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">build</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA .</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_mdbnqw">docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      dotenv</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">build.env</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 部署到非活动环境</span></span>
+<span class="line"><span class="__shiki_17hn0y">deploy_to_inactive</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">deploy_blue</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 确定当前活动颜色</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ &quot;$CURRENT_COLOR&quot; = &quot;blue&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        DEPLOY_COLOR=&quot;green&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        SERVICE_SUFFIX=&quot;-green&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      else</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        DEPLOY_COLOR=&quot;blue&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        SERVICE_SUFFIX=&quot;-blue&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;部署到 $DEPLOY_COLOR 环境&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 部署新版本</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      kubectl apply -f k8s/deployment-$DEPLOY_COLOR.yaml</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      kubectl set image deployment/app$SERVICE_SUFFIX \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        app=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 等待就绪</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      kubectl rollout status deployment/app$SERVICE_SUFFIX \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        --timeout=300s</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;NEW_COLOR=$DEPLOY_COLOR&quot; &gt;&gt; deploy.env</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      dotenv</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">deploy.env</span></span>
+<span class="line"><span class="__shiki_17hn0y">  environment</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    name</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">$NEW_COLOR</span></span>
+<span class="line"><span class="__shiki_17hn0y">    url</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">https://$NEW_COLOR.example.com</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 烟雾测试</span></span>
+<span class="line"><span class="__shiki_17hn0y">smoke_test_new_deployment</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">smoke_test</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      source deploy.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;对 $NEW_COLOR 环境进行烟雾测试&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 基本的健康检查</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      for i in {1..30}; do</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        if curl -f http://app-$NEW_COLOR.example.com/health; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          echo &quot;✅ 应用健康检查通过&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          break</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        sleep 2</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      done</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 关键功能测试</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      ./smoke-test.sh --environment=$NEW_COLOR</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;SMOKE_TEST_PASSED=true&quot; &gt;&gt; smoke.env</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      dotenv</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">smoke.env</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;deploy_to_inactive&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 渐进式流量切换</span></span>
+<span class="line"><span class="__shiki_17hn0y">gradual_traffic_shift</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">traffic_shift</span></span>
+<span class="line"><span class="__shiki_17hn0y">  parallel</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    matrix</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_17hn0y">PERCENTAGE</span><span class="__shiki_140thh">: [</span><span class="__shiki_dzsirb">10</span><span class="__shiki_140thh">, </span><span class="__shiki_dzsirb">25</span><span class="__shiki_140thh">, </span><span class="__shiki_dzsirb">50</span><span class="__shiki_140thh">, </span><span class="__shiki_dzsirb">75</span><span class="__shiki_140thh">, </span><span class="__shiki_dzsirb">90</span><span class="__shiki_140thh">, </span><span class="__shiki_dzsirb">100</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      source deploy.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      source smoke.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ &quot;$SMOKE_TEST_PASSED&quot; != &quot;true&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;烟雾测试未通过，中止流量切换&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        exit 1</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;将 $PERCENTAGE% 流量切换到 $NEW_COLOR 环境&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 更新负载均衡器配置</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      ./update-load-balancer.sh \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        --new-color=$NEW_COLOR \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        --percentage=$PERCENTAGE</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 等待稳定期</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      sleep 60</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 监控错误率</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      ERROR_RATE=$(./check-error-rate.sh --color=$NEW_COLOR)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ $(echo &quot;$ERROR_RATE &gt; 0.01&quot; | bc) -eq 1 ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;❌ 错误率过高: $ERROR_RATE&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        # 回滚流量</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        ./rollback-traffic.sh --color=$CURRENT_COLOR</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        exit 1</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;TRAFFIC_\${PERCENTAGE}_PASSED=true&quot; &gt;&gt; traffic.env</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      dotenv</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">traffic.env</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;smoke_test_new_deployment&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 监控阶段</span></span>
+<span class="line"><span class="__shiki_17hn0y">monitor_new_deployment</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">monitoring</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;监控新部署...&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 监控关键指标</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      ./monitor-deployment.sh --duration=300</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 性能基准测试</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      ./run-performance-benchmark.sh</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 检查业务指标</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      ./check-business-metrics.sh</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;MONITORING_PASSED=true&quot; &gt;&gt; monitor.env</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      dotenv</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">monitor.env</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;gradual_traffic_shift&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_17hn0y">  when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">manual</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 清理旧环境</span></span>
+<span class="line"><span class="__shiki_17hn0y">cleanup_old_deployment</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">cleanup_green</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;清理旧部署 $CURRENT_COLOR&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 逐步缩容旧版本</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      kubectl scale deployment/app-$CURRENT_COLOR --replicas=0</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 保留旧版本一段时间以便快速回滚</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      sleep 3600  # 1小时</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 删除旧部署</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      kubectl delete deployment/app-$CURRENT_COLOR</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 更新当前颜色记录</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      ./update-current-color.sh --new-color=$NEW_COLOR</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;monitor_new_deployment&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_17hn0y">  when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">manual</span></span></code></pre></div><h3 id="_5-2-金丝雀发布阶段" tabindex="-1">5.2 金丝雀发布阶段 <a class="header-anchor" href="#_5-2-金丝雀发布阶段" aria-label="Permalink to &quot;5.2 金丝雀发布阶段&quot;">​</a></h3><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_17hn0y">stages</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">build</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">deploy_canary</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">monitor_canary</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">analyze_metrics</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">deploy_full</span></span>
+<span class="line"><span class="__shiki_140thh">  - </span><span class="__shiki_mdbnqw">cleanup</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_17hn0y">variables</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  CANARY_PERCENTAGE</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;10&quot;</span></span>
+<span class="line"><span class="__shiki_17hn0y">  CANARY_DURATION</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;900&quot;</span><span class="__shiki_21nrsd">  # 15分钟</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 部署金丝雀版本</span></span>
+<span class="line"><span class="__shiki_17hn0y">deploy_canary</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">deploy_canary</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 创建金丝雀部署</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      kubectl apply -f k8s/canary-deployment.yaml</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 配置金丝雀流量</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      ./configure-canary-traffic.sh \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        --percentage=$CANARY_PERCENTAGE \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        --version=$CI_COMMIT_SHORT_SHA</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;CANARY_DEPLOYED=true&quot; &gt;&gt; canary.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;CANARY_START_TIME=$(date +%s)&quot; &gt;&gt; canary.env</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      dotenv</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">canary.env</span></span>
+<span class="line"><span class="__shiki_17hn0y">  environment</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    name</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">canary/$CI_COMMIT_SHORT_SHA</span></span>
+<span class="line"><span class="__shiki_17hn0y">    url</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">https://canary.example.com</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 监控金丝雀</span></span>
+<span class="line"><span class="__shiki_17hn0y">monitor_canary</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">monitor_canary</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      source canary.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      START_TIME=$CANARY_START_TIME</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      CURRENT_TIME=$(date +%s)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      ELAPSED=$((CURRENT_TIME - START_TIME))</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;监控金丝雀发布 ($ELAPSED/$CANARY_DURATION 秒)&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 实时监控循环</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      while [ $ELAPSED -lt $CANARY_DURATION ]; do</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        # 收集指标</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        ERROR_RATE=$(./get-error-rate.sh --type=canary)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        LATENCY=$(./get-latency.sh --type=canary)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        THROUGHPUT=$(./get-throughput.sh --type=canary)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        # 检查阈值</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        if [ $(echo &quot;$ERROR_RATE &gt; 0.05&quot; | bc) -eq 1 ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          echo &quot;❌ 错误率超标: $ERROR_RATE&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          echo &quot;CANARY_FAILED=true&quot; &gt;&gt; monitor.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          exit 1</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        if [ $(echo &quot;$LATENCY &gt; 1000&quot; | bc) -eq 1 ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          echo &quot;⚠️ 延迟过高: $LATENCY ms&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          echo &quot;LATENCY_WARNING=true&quot; &gt;&gt; monitor.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        # 记录指标</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;$(date),$ERROR_RATE,$LATENCY,$THROUGHPUT&quot; &gt;&gt; canary-metrics.csv</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        sleep 30</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        ELAPSED=$(( $(date +%s) - START_TIME ))</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      done</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;✅ 金丝雀监控完成&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;CANARY_PASSED=true&quot; &gt;&gt; monitor.env</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">canary-metrics.csv</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      dotenv</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">monitor.env</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;deploy_canary&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 分析指标</span></span>
+<span class="line"><span class="__shiki_17hn0y">analyze_canary_metrics</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">analyze_metrics</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      source monitor.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ &quot;$CANARY_FAILED&quot; = &quot;true&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;金丝雀发布失败，执行回滚&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        ./rollback-canary.sh</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        exit 1</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;分析金丝雀指标...&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 与基线比较</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      BASELINE_ERROR=$(./get-baseline-metric.sh --metric=error_rate)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      CANARY_ERROR=$(tail -1 canary-metrics.csv | cut -d&#39;,&#39; -f2)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ $(echo &quot;$CANARY_ERROR &gt; $BASELINE_ERROR * 1.5&quot; | bc) -eq 1 ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;⚠️ 错误率显著高于基线&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;METRICS_WARNING=true&quot; &gt;&gt; analysis.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # A/B 测试结果</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ -f &quot;ab-test-results.json&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        CONVERSION_DIFF=$(jq &#39;.conversion_difference&#39; ab-test-results.json)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        if [ $(echo &quot;$CONVERSION_DIFF &lt; -0.01&quot; | bc) -eq 1 ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          echo &quot;❌ 转化率下降超过 1%&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          echo &quot;ROLLBACK_RECOMMENDED=true&quot; &gt;&gt; analysis.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;ANALYSIS_COMPLETE=true&quot; &gt;&gt; analysis.env</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      dotenv</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">analysis.env</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;monitor_canary&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_17hn0y">  when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">manual</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 全量部署</span></span>
+<span class="line"><span class="__shiki_17hn0y">deploy_full</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">deploy_full</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      source analysis.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ &quot;$ROLLBACK_RECOMMENDED&quot; = &quot;true&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;指标分析建议回滚&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        exit 1</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;执行全量部署...&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 逐步扩大金丝雀流量</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      for percentage in 25 50 75 100; do</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;将流量扩展到 $percentage%&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        ./update-traffic-split.sh --canary=$percentage</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        # 每次扩展后监控</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        sleep 300</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        ./check-stability.sh</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        if [ $? -ne 0 ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          echo &quot;扩展失败，保持在 $((percentage - 25))%&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          exit 1</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      done</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 更新主部署</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      kubectl set image deployment/app \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        app=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      kubectl rollout status deployment/app --timeout=300s</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;FULL_DEPLOYMENT_COMPLETE=true&quot; &gt;&gt; full-deploy.env</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      dotenv</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">full-deploy.env</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;analyze_canary_metrics&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_17hn0y">  when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">manual</span></span>
+<span class="line"><span class="__shiki_17hn0y">  environment</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    name</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">production</span></span>
+<span class="line"><span class="__shiki_17hn0y">    url</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">https://example.com</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 清理金丝雀</span></span>
+<span class="line"><span class="__shiki_17hn0y">cleanup_canary</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">cleanup</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;清理金丝雀资源...&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 删除金丝雀部署</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      kubectl delete deployment/app-canary</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 恢复流量配置</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      ./restore-traffic-config.sh</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 清理临时文件</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      rm -f canary-metrics.csv</span></span>
+<span class="line"><span class="__shiki_17hn0y">  needs</span><span class="__shiki_140thh">: [</span><span class="__shiki_mdbnqw">&quot;deploy_full&quot;</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_17hn0y">  when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">always</span></span></code></pre></div><h2 id="六、性能优化与最佳实践" tabindex="-1">六、性能优化与最佳实践 <a class="header-anchor" href="#六、性能优化与最佳实践" aria-label="Permalink to &quot;六、性能优化与最佳实践&quot;">​</a></h2><h3 id="_6-1-流水线性能优化" tabindex="-1">6.1 流水线性能优化 <a class="header-anchor" href="#_6-1-流水线性能优化" aria-label="Permalink to &quot;6.1 流水线性能优化&quot;">​</a></h3><h4 id="并行化策略" tabindex="-1">并行化策略 <a class="header-anchor" href="#并行化策略" aria-label="Permalink to &quot;并行化策略&quot;">​</a></h4><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_21nrsd"># 智能并行化配置</span></span>
+<span class="line"><span class="__shiki_17hn0y">optimize_parallelization</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.pre</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 分析可并行化的作业</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      TOTAL_JOBS=$(yq eval &#39;. | length&#39; .gitlab-ci.yml 2&gt;/dev/null || echo &quot;0&quot;)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      PARALLEL_JOBS=0</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 识别独立作业</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      for job in $(yq eval &#39;keys | .[]&#39; .gitlab-ci.yml); do</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        NEEDS=$(yq eval &quot;.$job.needs | .[]&quot; .gitlab-ci.yml 2&gt;/dev/null || echo &quot;&quot;)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        if [ -z &quot;$NEEDS&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          PARALLEL_JOBS=$((PARALLEL_JOBS + 1))</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          echo &quot;$job 可以并行执行&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      done</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;PARALLEL_JOBS=$PARALLEL_JOBS&quot; &gt;&gt; optimization.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;TOTAL_JOBS=$TOTAL_JOBS&quot; &gt;&gt; optimization.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 根据资源计算最优并行度</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      CPU_CORES=$(nproc)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      OPTIMAL_PARALLELISM=$((CPU_CORES * 2))</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ $PARALLEL_JOBS -gt $OPTIMAL_PARALLELISM ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;建议分批执行，每批 $OPTIMAL_PARALLELISM 个作业&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      dotenv</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">optimization.env</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 分批执行配置</span></span>
+<span class="line"><span class="__shiki_17hn0y">batch_execution</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">test</span></span>
+<span class="line"><span class="__shiki_17hn0y">  parallel</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    matrix</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_17hn0y">BATCH</span><span class="__shiki_140thh">: [</span><span class="__shiki_dzsirb">1</span><span class="__shiki_140thh">, </span><span class="__shiki_dzsirb">2</span><span class="__shiki_140thh">, </span><span class="__shiki_dzsirb">3</span><span class="__shiki_140thh">, </span><span class="__shiki_dzsirb">4</span><span class="__shiki_140thh">]</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 根据批次分配测试</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      TOTAL_TESTS=$(find tests/ -name &quot;*.spec.js&quot; | wc -l)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      TESTS_PER_BATCH=$((TOTAL_TESTS / 4))</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      START=$(( (BATCH - 1) * TESTS_PER_BATCH + 1 ))</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      END=$(( BATCH * TESTS_PER_BATCH ))</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 执行分配的测试</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      TEST_FILES=$(find tests/ -name &quot;*.spec.js&quot; | sed -n &quot;\${START},\${END}p&quot;)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      npm test -- $TEST_FILES</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">test-results/batch-$BATCH/</span></span></code></pre></div><h4 id="缓存优化策略" tabindex="-1">缓存优化策略 <a class="header-anchor" href="#缓存优化策略" aria-label="Permalink to &quot;缓存优化策略&quot;">​</a></h4><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_21nrsd"># 分层缓存配置</span></span>
+<span class="line"><span class="__shiki_17hn0y">cache_strategy</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.pre</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 创建分层缓存目录</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      mkdir -p .cache/l1 .cache/l2 .cache/l3</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # L1: 内存缓存（最快）</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ -d /dev/shm ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        ln -sf /dev/shm/gitlab-cache .cache/l1</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # L2: SSD缓存</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      mkdir -p /opt/cache/gitlab/$CI_PROJECT_ID</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      ln -sf /opt/cache/gitlab/$CI_PROJECT_ID .cache/l2</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # L3: 对象存储缓存（最慢但持久）</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;配置S3缓存后端...&quot;</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">.cache/</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 智能缓存使用</span></span>
+<span class="line"><span class="__shiki_17hn0y">smart_cache_usage</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  variables</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    CACHE_STRATEGY</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">&quot;aggressive&quot;</span><span class="__shiki_21nrsd">  # conservative, moderate, aggressive</span></span>
+<span class="line"><span class="__shiki_140thh">  </span></span>
+<span class="line"><span class="__shiki_17hn0y">  cache</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    key</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      files</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">        - </span><span class="__shiki_mdbnqw">package-lock.json</span></span>
+<span class="line"><span class="__shiki_140thh">        - </span><span class="__shiki_mdbnqw">pom.xml</span></span>
+<span class="line"><span class="__shiki_140thh">        - </span><span class="__shiki_mdbnqw">requirements.txt</span></span>
+<span class="line"><span class="__shiki_17hn0y">      prefix</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">\${CI_COMMIT_REF_SLUG}</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">.cache/</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">node_modules/</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">~/.m2/repository/</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">~/.cache/pip/</span></span>
+<span class="line"><span class="__shiki_17hn0y">    policy</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">\${CACHE_STRATEGY}</span></span>
+<span class="line"><span class="__shiki_140thh">    </span></span>
+<span class="line"><span class="__shiki_21nrsd">    # 缓存失效策略</span></span>
+<span class="line"><span class="__shiki_17hn0y">    when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">\${CACHE_STRATEGY}</span></span>
+<span class="line"><span class="__shiki_17hn0y">    fallback_keys</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">\${CI_COMMIT_REF_SLUG}</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">\${CI_DEFAULT_BRANCH}</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">global</span></span></code></pre></div><h3 id="_6-2-错误处理与重试" tabindex="-1">6.2 错误处理与重试 <a class="header-anchor" href="#_6-2-错误处理与重试" aria-label="Permalink to &quot;6.2 错误处理与重试&quot;">​</a></h3><h4 id="弹性流水线设计" tabindex="-1">弹性流水线设计 <a class="header-anchor" href="#弹性流水线设计" aria-label="Permalink to &quot;弹性流水线设计&quot;">​</a></h4><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_21nrsd"># 错误处理模板</span></span>
+<span class="line"><span class="__shiki_17hn0y">.error_handling_template</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  retry</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    max</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">3</span></span>
+<span class="line"><span class="__shiki_17hn0y">    when</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">runner_system_failure</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">stuck_or_timeout_failure</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">api_failure</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">runner_unavailable</span></span>
+<span class="line"><span class="__shiki_17hn0y">    exit_codes</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_dzsirb">137</span><span class="__shiki_21nrsd">  # OOM</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_dzsirb">143</span><span class="__shiki_21nrsd">  # SIGTERM</span></span>
+<span class="line"><span class="__shiki_17hn0y">  timeout</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">30 minutes</span></span>
+<span class="line"><span class="__shiki_17hn0y">  interruptible</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">true</span></span>
+<span class="line"><span class="__shiki_17hn0y">  allow_failure</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">\${ALLOW_FAILURE}</span></span>
+<span class="line"><span class="__shiki_140thh">  </span></span>
+<span class="line"><span class="__shiki_21nrsd">  # 重试策略</span></span>
+<span class="line"><span class="__shiki_17hn0y">  retry_config</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    exponential_backoff</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">true</span></span>
+<span class="line"><span class="__shiki_17hn0y">    max_interval</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">600</span><span class="__shiki_21nrsd">  # 10分钟</span></span>
+<span class="line"><span class="__shiki_17hn0y">    base_interval</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">30</span><span class="__shiki_21nrsd">  # 30秒</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 优雅降级</span></span>
+<span class="line"><span class="__shiki_17hn0y">deploy_with_fallback</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">deploy</span></span>
+<span class="line"><span class="__shiki_17hn0y">  extends</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.error_handling_template</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 主部署策略</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if ./deploy-primary.sh; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;主部署成功&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        exit 0</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 主部署失败，尝试备选方案</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;主部署失败，尝试备选方案...&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if ./deploy-fallback.sh; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;备选部署成功&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        exit 0</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 最终回退</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;所有部署策略失败，回滚到上一个版本&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      ./rollback-to-stable.sh</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      exit 1</span></span>
+<span class="line"><span class="__shiki_17hn0y">  variables</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    ALLOW_FAILURE</span><span class="__shiki_140thh">: </span><span class="__shiki_dzsirb">false</span></span>
+<span class="line"></span>
+<span class="line"><span class="__shiki_21nrsd"># 断路器模式</span></span>
+<span class="line"><span class="__shiki_17hn0y">circuit_breaker</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">deploy</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 检查断路器状态</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ -f &quot;/tmp/circuit-open&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;断路器已打开，跳过部署&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        exit 0</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 尝试部署</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if ./deploy.sh; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;部署成功，重置失败计数&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        rm -f /tmp/failure-count</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      else</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        # 记录失败</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        FAILURE_COUNT=$(( $(cat /tmp/failure-count 2&gt;/dev/null || echo &quot;0&quot;) + 1 ))</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo $FAILURE_COUNT &gt; /tmp/failure-count</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        if [ $FAILURE_COUNT -ge 3 ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          echo &quot;连续失败3次，打开断路器&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          touch /tmp/circuit-open</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          </span></span>
+<span class="line"><span class="__shiki_mdbnqw">          # 30分钟后自动恢复</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          (</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            sleep 1800</span></span>
+<span class="line"><span class="__shiki_mdbnqw">            rm -f /tmp/circuit-open /tmp/failure-count</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          ) &amp;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        exit 1</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span></code></pre></div><h2 id="七、监控与报告" tabindex="-1">七、监控与报告 <a class="header-anchor" href="#七、监控与报告" aria-label="Permalink to &quot;七、监控与报告&quot;">​</a></h2><h3 id="_7-1-流水线指标收集" tabindex="-1">7.1 流水线指标收集 <a class="header-anchor" href="#_7-1-流水线指标收集" aria-label="Permalink to &quot;7.1 流水线指标收集&quot;">​</a></h3><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_21nrsd"># 指标收集阶段</span></span>
+<span class="line"><span class="__shiki_17hn0y">collect_metrics</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">.post</span></span>
+<span class="line"><span class="__shiki_17hn0y">  when</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">always</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 收集流水线执行时间</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      PIPELINE_START=$(date -d &quot;$CI_PIPELINE_CREATED_AT&quot; +%s)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      PIPELINE_END=$(date +%s)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      DURATION=$((PIPELINE_END - PIPELINE_START))</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 收集作业统计</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      JOBS_TOTAL=0</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      JOBS_SUCCESS=0</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      JOBS_FAILED=0</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      for status in created waiting_for_resource preparing pending running success failed canceled skipped manual; do</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        COUNT=$(curl -s --header &quot;PRIVATE-TOKEN: $GITLAB_TOKEN&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          &quot;$CI_API_V4_URL/projects/$CI_PROJECT_ID/pipelines/$CI_PIPELINE_ID/jobs?scope[]=$status&quot; \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          | jq &#39;. | length&#39;)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        </span></span>
+<span class="line"><span class="__shiki_mdbnqw">        case $status in</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          success) JOBS_SUCCESS=$COUNT ;;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">          failed) JOBS_FAILED=$COUNT ;;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        esac</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        JOBS_TOTAL=$((JOBS_TOTAL + COUNT))</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      done</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 生成指标</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      cat &gt; pipeline-metrics.prom &lt;&lt; EOF</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # HELP gitlab_pipeline_duration_seconds Pipeline execution duration</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # TYPE gitlab_pipeline_duration_seconds gauge</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      gitlab_pipeline_duration_seconds{project=&quot;$CI_PROJECT_NAME&quot;, ref=&quot;$CI_COMMIT_REF_NAME&quot;} $DURATION</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # HELP gitlab_pipeline_jobs_total Total jobs in pipeline</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # TYPE gitlab_pipeline_jobs_total gauge</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      gitlab_pipeline_jobs_total{project=&quot;$CI_PROJECT_NAME&quot;, ref=&quot;$CI_COMMIT_REF_NAME&quot;} $JOBS_TOTAL</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # HELP gitlab_pipeline_jobs_success Successful jobs count</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # TYPE gitlab_pipeline_jobs_success gauge</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      gitlab_pipeline_jobs_success{project=&quot;$CI_PROJECT_NAME&quot;, ref=&quot;$CI_COMMIT_REF_NAME&quot;} $JOBS_SUCCESS</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # HELP gitlab_pipeline_jobs_failed Failed jobs count</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # TYPE gitlab_pipeline_jobs_failed gauge</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      gitlab_pipeline_jobs_failed{project=&quot;$CI_PROJECT_NAME&quot;, ref=&quot;$CI_COMMIT_REF_NAME&quot;} $JOBS_FAILED</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # HELP gitlab_pipeline_success Whether pipeline succeeded</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # TYPE gitlab_pipeline_success gauge</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      gitlab_pipeline_success{project=&quot;$CI_PROJECT_NAME&quot;, ref=&quot;$CI_COMMIT_REF_NAME&quot;} $([ &quot;$CI_PIPELINE_STATUS&quot; = &quot;success&quot; ] &amp;&amp; echo 1 || echo 0)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      EOF</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 推送到监控系统</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      curl -X POST --data-binary @pipeline-metrics.prom \\</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        http://prometheus-pushgateway:9091/metrics/job/gitlab_pipeline/instance/$CI_PROJECT_NAME</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">pipeline-metrics.prom</span></span></code></pre></div><h3 id="_7-2-质量门禁报告" tabindex="-1">7.2 质量门禁报告 <a class="header-anchor" href="#_7-2-质量门禁报告" aria-label="Permalink to &quot;7.2 质量门禁报告&quot;">​</a></h3><div class="language-yaml vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span class="__shiki_21nrsd"># 质量门禁检查</span></span>
+<span class="line"><span class="__shiki_17hn0y">quality_gates</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">  stage</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">quality</span></span>
+<span class="line"><span class="__shiki_17hn0y">  script</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">    - </span><span class="__shiki_1itgoe">|</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 收集质量指标</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      QUALITY_PASSED=true</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      QUALITY_REPORT=&quot;## 质量门禁报告\\n\\n&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 1. 测试覆盖率检查</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      COVERAGE=$(cat coverage/coverage-summary.json | jq &#39;.total.lines.pct&#39;)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ $(echo &quot;$COVERAGE &lt; 80&quot; | bc) -eq 1 ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        QUALITY_PASSED=false</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        QUALITY_REPORT+=&quot;❌ **测试覆盖率不足**: $COVERAGE% (要求: ≥80%)\\n&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      else</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        QUALITY_REPORT+=&quot;✅ **测试覆盖率**: $COVERAGE%\\n&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 2. 代码质量检查</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      BUGS=$(cat sonar-report.json | jq &#39;.bugs&#39;)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      VULNERABILITIES=$(cat sonar-report.json | jq &#39;.vulnerabilities&#39;)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      CODE_SMELLS=$(cat sonar-report.json | jq &#39;.code_smells&#39;)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ $BUGS -gt 0 ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        QUALITY_REPORT+=&quot;⚠️ **Bugs**: $BUGS\\n&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ $VULNERABILITIES -gt 0 ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        QUALITY_PASSED=false</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        QUALITY_REPORT+=&quot;❌ **安全漏洞**: $VULNERABILITIES\\n&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ $CODE_SMELLS -gt 50 ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        QUALITY_REPORT+=&quot;⚠️ **代码异味过多**: $CODE_SMELLS\\n&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 3. 性能指标</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      PERFORMANCE_SCORE=$(cat lighthouse-report.json | jq &#39;.categories.performance.score * 100&#39;)</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ $(echo &quot;$PERFORMANCE_SCORE &lt; 90&quot; | bc) -eq 1 ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        QUALITY_REPORT+=&quot;⚠️ **性能评分低**: $PERFORMANCE_SCORE\\n&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 4. 依赖安全</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if grep -q &quot;HIGH\\|CRITICAL&quot; trivy-report.json; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        QUALITY_PASSED=false</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        QUALITY_REPORT+=&quot;❌ **发现高危依赖漏洞**\\n&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      # 生成报告</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;$QUALITY_REPORT&quot; &gt; quality-report.md</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      echo &quot;QUALITY_PASSED=$QUALITY_PASSED&quot; &gt;&gt; quality.env</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      </span></span>
+<span class="line"><span class="__shiki_mdbnqw">      if [ &quot;$QUALITY_PASSED&quot; = &quot;false&quot; ]; then</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        echo &quot;质量门禁未通过&quot;</span></span>
+<span class="line"><span class="__shiki_mdbnqw">        exit 1</span></span>
+<span class="line"><span class="__shiki_mdbnqw">      fi</span></span>
+<span class="line"><span class="__shiki_17hn0y">  artifacts</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">    paths</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_140thh">      - </span><span class="__shiki_mdbnqw">quality-report.md</span></span>
+<span class="line"><span class="__shiki_17hn0y">    reports</span><span class="__shiki_140thh">:</span></span>
+<span class="line"><span class="__shiki_17hn0y">      dotenv</span><span class="__shiki_140thh">: </span><span class="__shiki_mdbnqw">quality.env</span></span></code></pre></div><h2 id="八、最佳实践总结" tabindex="-1">八、最佳实践总结 <a class="header-anchor" href="#八、最佳实践总结" aria-label="Permalink to &quot;八、最佳实践总结&quot;">​</a></h2><h3 id="_8-1-阶段设计原则" tabindex="-1">8.1 阶段设计原则 <a class="header-anchor" href="#_8-1-阶段设计原则" aria-label="Permalink to &quot;8.1 阶段设计原则&quot;">​</a></h3><ol><li><strong>单一职责原则</strong>：每个阶段专注于一个特定目标</li><li><strong>最小依赖原则</strong>：尽量减少阶段间的依赖关系</li><li><strong>失败快速原则</strong>：将关键检查放在流水线前端</li><li><strong>资源优化原则</strong>：合理使用并行和缓存</li><li><strong>可观测性原则</strong>：每个阶段都应有明确的输出和指标</li></ol><h3 id="_8-2-性能优化清单" tabindex="-1">8.2 性能优化清单 <a class="header-anchor" href="#_8-2-性能优化清单" aria-label="Permalink to &quot;8.2 性能优化清单&quot;">​</a></h3><ul><li>[ ] 使用并行矩阵加速测试执行</li><li>[ ] 配置分层缓存策略</li><li>[ ] 实现增量构建和部署</li><li>[ ] 使用资源组控制并发</li><li>[ ] 优化镜像拉取策略</li><li>[ ] 实现作业超时和重试机制</li><li>[ ] 配置智能调度策略</li></ul><h3 id="_8-3-安全合规要求" tabindex="-1">8.3 安全合规要求 <a class="header-anchor" href="#_8-3-安全合规要求" aria-label="Permalink to &quot;8.3 安全合规要求&quot;">​</a></h3><ul><li>[ ] 实施最小权限原则</li><li>[ ] 配置敏感信息保护</li><li>[ ] 实现审计日志记录</li><li>[ ] 进行安全扫描和合规检查</li><li>[ ] 实施访问控制和审批流程</li><li>[ ] 定期更新依赖和基础镜像</li></ul><p>这份详细的多阶段流水线指南涵盖了从基础架构到高级部署策略的各个方面。通过合理设计流水线阶段，可以实现更高效、可靠和安全的CI/CD流程。</p>`,69)])])}const o=n(i,[["render",l]]);export{q as __pageData,o as default};

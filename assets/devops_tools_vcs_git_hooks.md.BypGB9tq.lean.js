@@ -1,0 +1,1 @@
+import{_ as o,o as t,c as e}from"./app.DkoUFz-u.js";const l=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"devops/tools/vcs/git/hooks.md","filePath":"devops/tools/vcs/git/hooks.md"}'),s={name:"devops/tools/vcs/git/hooks.md"};function a(c,r,n,p,d,i){return t(),e("div")}const m=o(s,[["render",a]]);export{l as __pageData,m as default};

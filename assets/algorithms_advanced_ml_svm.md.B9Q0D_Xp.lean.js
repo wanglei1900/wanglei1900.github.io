@@ -1,0 +1,1 @@
+import{_ as a,o as e,c as t}from"./app.DkoUFz-u.js";const p=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"algorithms/advanced/ml/svm.md","filePath":"algorithms/advanced/ml/svm.md"}'),s={name:"algorithms/advanced/ml/svm.md"};function r(o,m,c,n,d,i){return e(),t("div")}const _=a(s,[["render",r]]);export{p as __pageData,_ as default};

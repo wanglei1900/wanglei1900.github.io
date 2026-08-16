@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as o}from"./app.DkoUFz-u.js";const m=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"devops/security/network/ddos.md","filePath":"devops/security/network/ddos.md"}'),s={name:"devops/security/network/ddos.md"};function r(d,a,c,n,p,i){return t(),o("div")}const f=e(s,[["render",r]]);export{m as __pageData,f as default};

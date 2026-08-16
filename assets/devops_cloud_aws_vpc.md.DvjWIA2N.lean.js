@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as a}from"./app.DkoUFz-u.js";const l=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"devops/cloud/aws/vpc.md","filePath":"devops/cloud/aws/vpc.md"}'),o={name:"devops/cloud/aws/vpc.md"};function c(s,p,r,d,n,_){return t(),a("div")}const m=e(o,[["render",c]]);export{l as __pageData,m as default};

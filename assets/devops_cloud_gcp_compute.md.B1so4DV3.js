@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as o}from"./app.DkoUFz-u.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"devops/cloud/gcp/compute.md","filePath":"devops/cloud/gcp/compute.md"}'),c={name:"devops/cloud/gcp/compute.md"};function p(a,s,r,d,n,m){return t(),o("div")}const i=e(c,[["render",p]]);export{_ as __pageData,i as default};

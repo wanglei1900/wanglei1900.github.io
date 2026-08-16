@@ -1,0 +1,1 @@
+import{_ as e,o as a,c as t}from"./app.DkoUFz-u.js";const l=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"devops/cloud/azure/ad.md","filePath":"devops/cloud/azure/ad.md"}'),o={name:"devops/cloud/azure/ad.md"};function r(d,s,c,n,p,_){return a(),t("div")}const u=e(o,[["render",r]]);export{l as __pageData,u as default};

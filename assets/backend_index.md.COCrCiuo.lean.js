@@ -1,0 +1,1 @@
+import{_ as d,o,c as r,a as e}from"./app.DkoUFz-u.js";const p=JSON.parse('{"title":"欢迎来到服务端与架构","description":"","frontmatter":{},"headers":[],"relativePath":"backend/index.md","filePath":"backend/index.md"}'),n={name:"backend/index.md"};function s(a,t,i,c,g,l){return o(),r("div",null,[...t[0]||(t[0]=[e("",31)])])}const u=d(n,[["render",s]]);export{p as __pageData,u as default};

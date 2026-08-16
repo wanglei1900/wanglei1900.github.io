@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as o}from"./app.DkoUFz-u.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"devops/tools/cli/kubectl.md","filePath":"devops/tools/cli/kubectl.md"}'),c={name:"devops/tools/cli/kubectl.md"};function s(a,r,l,n,p,d){return t(),o("div")}const m=e(c,[["render",s]]);export{_ as __pageData,m as default};

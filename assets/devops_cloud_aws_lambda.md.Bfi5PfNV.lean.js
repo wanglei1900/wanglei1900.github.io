@@ -1,0 +1,1 @@
+import{_ as a,o as e,c as t}from"./app.DkoUFz-u.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"devops/cloud/aws/lambda.md","filePath":"devops/cloud/aws/lambda.md"}'),o={name:"devops/cloud/aws/lambda.md"};function s(d,c,r,n,l,p){return e(),t("div")}const i=a(o,[["render",s]]);export{_ as __pageData,i as default};

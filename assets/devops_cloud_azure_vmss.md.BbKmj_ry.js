@@ -1,0 +1,1 @@
+import{_ as e,o as s,c as t}from"./app.DkoUFz-u.js";const i=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"devops/cloud/azure/vmss.md","filePath":"devops/cloud/azure/vmss.md"}'),a={name:"devops/cloud/azure/vmss.md"};function o(r,c,d,n,p,m){return s(),t("div")}const l=e(a,[["render",o]]);export{i as __pageData,l as default};

@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as o}from"./app.DkoUFz-u.js";const f=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"devops/cloud/azure/functions.md","filePath":"devops/cloud/azure/functions.md"}'),a={name:"devops/cloud/azure/functions.md"};function n(s,c,r,d,i,p){return t(),o("div")}const _=e(a,[["render",n]]);export{f as __pageData,_ as default};

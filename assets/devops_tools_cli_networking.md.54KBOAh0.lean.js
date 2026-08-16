@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as o}from"./app.DkoUFz-u.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"devops/tools/cli/networking.md","filePath":"devops/tools/cli/networking.md"}'),n={name:"devops/tools/cli/networking.md"};function r(s,a,c,i,p,d){return t(),o("div")}const m=e(n,[["render",r]]);export{_ as __pageData,m as default};

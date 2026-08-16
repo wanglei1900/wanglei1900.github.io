@@ -1,0 +1,1 @@
+import{_ as e,o as c,c as t}from"./app.DkoUFz-u.js";const l=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"devops/cloud/gcp/vpc.md","filePath":"devops/cloud/gcp/vpc.md"}'),o={name:"devops/cloud/gcp/vpc.md"};function p(a,s,r,d,n,_){return c(),t("div")}const m=e(o,[["render",p]]);export{l as __pageData,m as default};

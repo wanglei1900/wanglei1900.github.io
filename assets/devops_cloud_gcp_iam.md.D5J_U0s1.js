@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as a}from"./app.DkoUFz-u.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"devops/cloud/gcp/iam.md","filePath":"devops/cloud/gcp/iam.md"}'),o={name:"devops/cloud/gcp/iam.md"};function c(s,r,p,d,n,i){return t(),a("div")}const l=e(o,[["render",c]]);export{_ as __pageData,l as default};
